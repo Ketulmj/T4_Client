@@ -7,7 +7,6 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import ToastProvider from '../../components/Toaster';
 import { useUser } from '../../contexts/user.context';
-import './glow.css';
 import ResetPass from './ResetPass';
 
 const Login = () => {
@@ -102,15 +101,6 @@ const Login = () => {
         };
     }, [mousePosition]);
 
-    const handleMouseMove = (e) => {
-        const canvas = canvasRef.current;
-        const rect = canvas.getBoundingClientRect();
-        setMousePosition({
-            x: e.clientX - rect.left,
-            y: e.clientY - rect.top
-        });
-    };
-
     const showPassword = (e) => {
         e.preventDefault();
         passwordRef.current.type = passwordRef.current.type === "password" ? "text" : "password";
@@ -149,7 +139,7 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         if (!validateForm()) {
             return;
         }
@@ -212,7 +202,7 @@ const Login = () => {
                             <Clock className="w-8 h-8 text-[#4D7CFF]" />
                             <span className="ml-2 text-xl font-bold text-white neon-glow">TimeFourthe</span>
                         </div>
-                        
+
                         <h1 className="text-white text-4xl font-bold mb-2 drop-shadow-lg">
                             Access the future
                         </h1>
@@ -244,14 +234,14 @@ const Login = () => {
                                         className="w-full px-4 py-3 rounded-xl bg-white/5 border border-[#4D7CFF]/20 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4D7CFF] focus:border-transparent shadow-md transition-all duration-200"
                                     />
                                     {passwordType === "password" ? (
-                                        <Lock 
-                                            className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-[#4D7CFF]/50 cursor-pointer hover:text-[#4D7CFF] transition-colors" 
-                                            onClick={showPassword} 
+                                        <Lock
+                                            className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-[#4D7CFF]/50 cursor-pointer hover:text-[#4D7CFF] transition-colors"
+                                            onClick={showPassword}
                                         />
                                     ) : (
-                                        <Unlock 
-                                            className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-[#4D7CFF]/50 cursor-pointer hover:text-[#4D7CFF] transition-colors" 
-                                            onClick={showPassword} 
+                                        <Unlock
+                                            className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-[#4D7CFF]/50 cursor-pointer hover:text-[#4D7CFF] transition-colors"
+                                            onClick={showPassword}
                                         />
                                     )}
                                 </div>
@@ -261,7 +251,7 @@ const Login = () => {
                                 type="submit"
                                 disabled={isLoading}
                                 whileHover={{ scale: isLoading ? 1 : 1.02 }}
-                                className={`w-full bg-[#4D7CFF] hover:bg-[#3D6AE8] text-white py-3 rounded-xl transition-all duration-200 flex items-center justify-center group cursor-pointer font-medium cyber-border hover-glow ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
+                                className={`w-full bg-[#4D7CFF] hover:bg-[#3D6AE8] text-white py-3 rounded-xl transition-all duration-200 flex items-center justify-center group cursor-pointer font-medium ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
                             >
                                 {isLoading ? (
                                     <div className="flex items-center">
@@ -277,7 +267,7 @@ const Login = () => {
                             </motion.button>
 
                             <div className="text-center mt-4">
-                                <div 
+                                <div
                                     className="text-[#4D7CFF]/80 hover:text-[#4D7CFF] transition-colors text-sm cursor-pointer"
                                     onClick={() => setShowForgotPassword(true)}
                                 >
@@ -302,7 +292,6 @@ const Login = () => {
                 <div className="hidden lg:block w-1/2 relative">
                     <canvas
                         ref={canvasRef}
-                        onMouseMove={handleMouseMove}
                         className="absolute inset-0 w-full h-full"
                     />
                     <div className="absolute inset-0 bg-gradient-to-r from-[#0A0A0A] to-transparent pointer-events-none" />

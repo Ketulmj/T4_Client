@@ -14,7 +14,7 @@ const subjects = [
 ];
 
 const timeSlots = ['9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00'];
-const days = ['MON', 'TUE', 'WED', 'THU', 'FRI','SAT'];
+const days = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
 const fixedSchedule = {
   'THU-9:00': { name: 'English', color: 'from-violet-500/30 to-purple-500/30' },
@@ -66,14 +66,14 @@ function AnimatedTimetable() {
       <div className="grid grid-cols-7 gap-[2px] rounded-xl overflow-hidden shadow-2xl transform-style-3d bg-[#0A0A1A] p-2 holographic-bg grid-lines">
         {/* Empty top-left cell */}
         <div className="glass-effect rounded-lg p-2 text-xs"></div>
-        
+
         {/* Days header */}
         {days.map(day => (
           <div key={day} className="glass-effect rounded-lg text-center font-semibold p-2 text-xs holographic-text">
             {day}
           </div>
         ))}
-        
+
         {/* Time slots and cells */}
         {timeSlots.map(time => (
           <React.Fragment key={time}>
@@ -81,14 +81,14 @@ function AnimatedTimetable() {
             <div className="glass-effect rounded-lg text-center pr-2 p-2 text-xs font-medium holographic-text items-center flex justify-center">
               {time}
             </div>
-            
+
             {/* Day cells */}
             {days.map(day => {
               const cellKey = `${day}-${time}`;
               const event = fixedSchedule[cellKey];
               const randomPosition = generateRandomPosition();
               const isHovered = hoveredCell === cellKey;
-              
+
               return (
                 <div key={cellKey} className="relative min-h-[40px]">
                   <AnimatePresence>

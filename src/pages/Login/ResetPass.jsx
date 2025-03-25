@@ -1,28 +1,28 @@
 import { motion } from 'framer-motion'
 import { Mail, X, Send } from 'lucide-react'
 import { useState } from 'react';
-import {toast} from 'sonner'
+import { toast } from 'sonner'
 
-const ResetPass = ({setShowForgotPassword}) => {
+const ResetPass = ({ setShowForgotPassword }) => {
     const [forgotEmail, setForgotEmail] = useState('');
 
     const handleForgotPassword = (e) => {
         e.preventDefault();
         console.log('Forget');
-        fetch('http://localhost:3000/api/user/forgot/mail',{
-            method:'POST',
-            headers:{
-                'Content-Type':'application/json'
+        fetch('http://localhost:3000/api/user/forgot/mail', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
             },
-            body:JSON.stringify({email:forgotEmail})
+            body: JSON.stringify({ email: forgotEmail })
         })
-        .then(res=>res.json())
-        .then(({result})=>{
-            if(result){
-                setShowForgotPassword(false)
-                toast.success(result);
-            }
-        })
+            .then(res => res.json())
+            .then(({ result }) => {
+                if (result) {
+                    setShowForgotPassword(false)
+                    toast.success(result);
+                }
+            })
     }
     return (
 
@@ -31,12 +31,12 @@ const ResetPass = ({setShowForgotPassword}) => {
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: 300, opacity: 0 }}
             transition={{ type: "spring", bounce: 0.3 }}
-            className="fixed bottom-4 right-4 w-96 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl shadow-2xl overflow-hidden glow-border z-20"
+            className="fixed bottom-4 right-4 w-96 bg-white/5 backdrop-blur-md rounded-xl shadow-2xl overflow-hidden glow-border z-20 border border-[#4D7CFF]/20 hover-glow"
         >
             <div className="p-6">
                 <div className="flex justify-between items-center mb-4">
                     <h3 className="text-xl font-semibold text-white flex items-center gap-2">
-                        <Mail className="w-5 h-5" />
+                        <Mail className="w-5 h-5 text-[#4D7CFF]" />
                         Reset Password
                     </h3>
                     <button
@@ -65,7 +65,7 @@ const ResetPass = ({setShowForgotPassword}) => {
 
                     <button
                         type="submit"
-                        className="w-full bg-white text-black py-3 rounded-xl hover:bg-gray-100 transition-colors flex items-center justify-center group font-medium"
+                        className="w-full flex items-center justify-center group font-medium bg-[#4D7CFF] hover:bg-[#3D6AE8] text-white py-3 rounded-xl transition-all duration-200  group cursor-pointer "
                     >
                         Send Reset Link
                         <Send className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />

@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { School, Users, Building2, Share2 } from 'lucide-react';
 import { Helmet } from "react-helmet-async";
 import { toast } from 'sonner';
@@ -10,7 +10,7 @@ import OrganizationView from './OrganizationView';
 import ConfirmationDialog from './ConfirmationDialog';
 import ScheduleStudentView from './ScheduleStudentView';
 import ScheduleTeacherView from './ScheduleTeacherView';
-import WeeklyTimetableModal from './WeeklyTimetableModel'
+import WeeklyTimetableModal from './WeeklyTimetableModel';
 import ToastProvider from '../../components/Toaster';
 import { useUser } from '../../contexts/user.context';
 import { userFetcher } from '../../lib/userFetcher';

@@ -130,15 +130,6 @@ const Signup = () => {
         };
     }, [mousePosition]);
 
-    const handleMouseMove = (e) => {
-        const canvas = canvasRef.current;
-        const rect = canvas.getBoundingClientRect();
-        setMousePosition({
-            x: e.clientX - rect.left,
-            y: e.clientY - rect.top
-        });
-    };
-
     const showPassword = (e) => {
         e.preventDefault();
         passwordRef.current.type = passwordRef.current.type === "password" ? "text" : "password";
@@ -182,7 +173,7 @@ const Signup = () => {
 
     const handleDetailsSubmit = async (e) => {
         e.preventDefault();
-        
+
         if (!validateForm()) {
             return;
         }
@@ -194,7 +185,7 @@ const Signup = () => {
             password,
             role: role,
         };
-        
+
         data.role !== 'organization' ? data.orgId = orgId : data.orgType = orgType;
         if (data.role === 'student') data.class = currentClass;
 
@@ -260,7 +251,7 @@ const Signup = () => {
                         initial="hidden"
                         animate="visible"
                         variants={transitionVariants}
-                        className="max-w-md w-full mx-auto glass-effect p-8 rounded-2xl backdrop-blur-md shadow-md border border-[#4D7CFF]/20 hover-glow"
+                        className="max-w-xl w-full mx-auto glass-effect p-8 rounded-2xl backdrop-blur-md shadow-md border border-[#4D7CFF]/20 hover-glow"
                     >
                         <div className="flex items-center mb-8">
                             <Clock className="w-8 h-8 text-[#4D7CFF]" />
@@ -385,14 +376,14 @@ const Signup = () => {
                                         className="w-full px-4 py-3 rounded-xl bg-white/5 border border-[#4D7CFF]/20 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4D7CFF] focus:border-transparent shadow-md transition-all duration-200"
                                     />
                                     {passwordType === "password" ? (
-                                        <Lock 
-                                            className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-[#4D7CFF]/50 cursor-pointer hover:text-[#4D7CFF] transition-colors" 
-                                            onClick={showPassword} 
+                                        <Lock
+                                            className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-[#4D7CFF]/50 cursor-pointer hover:text-[#4D7CFF] transition-colors"
+                                            onClick={showPassword}
                                         />
                                     ) : (
-                                        <Unlock 
-                                            className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-[#4D7CFF]/50 cursor-pointer hover:text-[#4D7CFF] transition-colors" 
-                                            onClick={showPassword} 
+                                        <Unlock
+                                            className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-[#4D7CFF]/50 cursor-pointer hover:text-[#4D7CFF] transition-colors"
+                                            onClick={showPassword}
                                         />
                                     )}
                                 </div>
@@ -402,7 +393,7 @@ const Signup = () => {
                                 type="submit"
                                 disabled={isLoading}
                                 whileHover={{ scale: isLoading ? 1 : 1.02 }}
-                                className={`w-full bg-[#4D7CFF] hover:bg-[#3D6AE8] text-white py-3 rounded-xl transition-all duration-200 flex items-center justify-center group cursor-pointer font-medium cyber-border hover-glow ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
+                                className={`w-full bg-[#4D7CFF] hover:bg-[#3D6AE8] text-white py-3 rounded-xl transition-all duration-200 flex items-center justify-center group cursor-pointer font-medium ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
                             >
                                 {isLoading ? (
                                     <div className="flex items-center">
@@ -431,7 +422,7 @@ const Signup = () => {
                         </form>
                     </motion.div>
                 </div>
-               
+
             </div>
         </>
     );
