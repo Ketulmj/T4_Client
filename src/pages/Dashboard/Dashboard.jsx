@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { School, Users, Building2, Share2 } from 'lucide-react';
 import { Helmet } from "react-helmet-async";
 import { toast } from 'sonner';
 import { encode, decode } from 'js-base64';
 import { useNavigate } from 'react-router-dom';
-
+import logo from '../../public/logo.png'
 import Navbar from '../../components/Navbar';
 import OrganizationView from './OrganizationView';
 import ConfirmationDialog from './ConfirmationDialog';
@@ -71,7 +71,7 @@ const mockTeacherSchedule = {
     { "time": 720, "subject": "Mathematics", "class": "Class-12C", "duration": 45 },
     { "time": 780, "subject": "Physics", "class": "Class-Physics", "duration": 45 }
   ]
-}
+};
 
 const mockWeekSchedule = {
   "Monday": [
@@ -107,11 +107,9 @@ const convertToSimpleTime = (x) => {
   let mins = x % 60;
   let period = hours >= 12 ? "PM" : "AM";
 
-  hours = hours % 12 || 12; // Convert 0 to 12-hour format
-  console.log(x % 60);
-
+  hours = hours % 12 || 12;
   return `${hours}:${mins.toString().padStart(2, '0')} ${period}`;
-}
+};
 
 const ShareButton = ({ title, forX, user }) => (
   <button
@@ -124,17 +122,14 @@ const ShareButton = ({ title, forX, user }) => (
         style: { backgroundColor: "#16a34a", color: "white", fontSize: "1rem" },
       });
     }}
-    className="flex items-center space-x-2 text-indigo-400 hover:text-indigo-300 px-3 py-2 rounded-lg hover:bg-indigo-400/10 transition-colors cursor-pointer"
+    className="flex items-center space-x-2 text-[#4D7CFF] hover:text-[#6B8FFF] px-3 py-2 rounded-lg hover:bg-[#4D7CFF]/10 transition-colors cursor-pointer"
   >
     <Share2 className="w-4 h-4" />
     <span>{title}</span>
   </button>
 );
 
-const WeekNavigator = ({
-  selectedDay,
-  setSelectedDay,
-}) => (
+const WeekNavigator = ({ selectedDay, setSelectedDay }) => (
   <div className="animate-on-mount glass-effect rounded-xl p-6">
     <div className="flex flex-col w-max mx-auto sm:flex-row items-center justify-between gap-4">
       <div className="flex flex-wrap justify-center gap-2">
@@ -142,10 +137,11 @@ const WeekNavigator = ({
           <button
             key={day}
             onClick={() => setSelectedDay(day)}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 transform hover:-translate-y-1 ${selectedDay === day
-              ? 'bg-white text-black shadow-lg'
-              : 'glass-effect text-white hover:bg-white/15'
-              }`}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 transform hover:-translate-y-1 ${
+              selectedDay === day
+                ? 'bg-[#4D7CFF] text-white shadow-lg'
+                : 'glass-effect text-white hover:bg-[#4D7CFF]/15'
+            }`}
             style={{
               animation: `fadeIn 0.3s ease-out forwards ${index * 0.1}s`,
             }}
@@ -186,7 +182,12 @@ const Dashboard = () => {
     }
   }, []);
 
+  useEffect(() => {
+    localStorage.setItem('absentClasses', encode(JSON.stringify(absentClasses)))
+  }, [absentClasses]);
+
   const handleCloseModal = () => setIsModalOpen(false);
+  
   const handleConfirmAbsent = (e) => {
     setConfirmDialog({
       isOpen: false,
@@ -196,23 +197,19 @@ const Dashboard = () => {
       className: null,
       date: confirmDialog.date,
       deleteTableId: null
-    })
-    if (user.role == 'organization') {
+    });
+    if (user.role === 'organization') {
       console.log("TimeTable Delete : ", confirmDialog.deleteTableId);
-    }
-    else {
-      setAbsentClasses((prev) => [...prev, confirmDialog.scheduleKey])
+    } else {
+      setAbsentClasses((prev) => [...prev, confirmDialog.scheduleKey]);
     }
   };
-  useEffect(() => {
-    localStorage.setItem('absentClasses', encode(JSON.stringify(absentClasses)))
-  }, [absentClasses])
 
   const UserInfo = () => (
     <>
       <Helmet>
         <title>Dashboard | Time Fourthe</title>
-        <link rel="icon" type="image/png" href="/home-icon.png" />
+    <link rel="icon" type="image/png" href={logo} />
       </Helmet>
 
       <div className="animate-on-mount glass-effect rounded-xl p-6 transition-all duration-300">
@@ -221,11 +218,11 @@ const Dashboard = () => {
           <div className="flex items-center gap-x-1">
             <div className="p-4 glass-effect rounded-lg hover-scale">
               {user.role === "organization" ? (
-                <Building2 className="h-6 w-6 text-white transition-all duration-300 hover:text-zinc-200" />
+                <Building2 className="h-6 w-6 text-[#4D7CFF] transition-all duration-300 hover:text-[#6B8FFF]" />
               ) : user.role === "teacher" ? (
-                <Users className="h-6 w-6 text-white transition-all duration-300 hover:text-zinc-200" />
+                <Users className="h-6 w-6 text-[#4D7CFF] transition-all duration-300 hover:text-[#6B8FFF]" />
               ) : (
-                <School className="h-6 w-6 text-white transition-all duration-300 hover:text-zinc-200" />
+                <School className="h-6 w-6 text-[#4D7CFF] transition-all duration-300 hover:text-[#6B8FFF]" />
               )}
             </div>
             <div className="slide-in">
@@ -233,13 +230,12 @@ const Dashboard = () => {
               <p className="text-white/70 text-sm font-medium">ID: {user.userId}</p>
             </div>
           </div>
-          {
-            user.role == 'organization' &&
+          {user.role === 'organization' && (
             <div className="flex gap-x-2">
               <ShareButton title="Share for Students" forX="student" user={user} />
               <ShareButton title="Share for Teachers" forX="teacher" user={user} />
             </div>
-          }
+          )}
         </div>
       </div>
     </>
@@ -248,7 +244,7 @@ const Dashboard = () => {
   return (
     <>
       <Navbar role={user.role} />
-      <div className="min-h-screen bg-gradient-to-b from-black to-zinc-900 p-4 sm:p-6 md:p-8">
+      <div className="min-h-screen bg-[#0A0A0A] hexagon-bg p-4 sm:p-6 md:p-8">
         <div className="max-w-7xl mx-auto space-y-6">
           <UserInfo />
           {user.role === 'teacher' && (
@@ -304,10 +300,11 @@ const Dashboard = () => {
             onClose={() => setConfirmDialog({ isOpen: false, scheduleKey: null, isUnmarking: false })}
             onConfirm={handleConfirmAbsent}
             message={
-              user.role == 'organization' ? 'Are you sure you want to delete this timetable?' :
-                confirmDialog.isUnmarking
-                  ? "Are you sure you want to unmark this class as absent?"
-                  : "Are you sure you want to mark this class as absent?"
+              user.role === 'organization'
+                ? 'Are you sure you want to delete this timetable?'
+                : confirmDialog.isUnmarking
+                ? "Are you sure you want to unmark this class as absent?"
+                : "Are you sure you want to mark this class as absent?"
             }
           />
         </div>

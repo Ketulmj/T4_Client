@@ -1,39 +1,63 @@
-import React from 'react'
-import { Clock, GraduationCap } from 'lucide-react'
+import React from 'react';
+import { Clock, GraduationCap, BookOpen } from 'lucide-react';
+import { motion } from 'framer-motion';
+
 const ScheduleStudentView = ({ mockWeekSchedule, selectedDay, convertToSimpleTime }) => (
-    <div className="bg-zinc-800 rounded-xl border border-white/10">
-        <div className="p-4 border-b border-white/10 flex justify-between">
-            <h3 className="text-lg font-semibold text-white">Schedule for {selectedDay}</h3>
-            <h3 className="text-lg font-semibold text-white">Break at {2} PM</h3>
-        </div>
-        <div className="p-4 space-y-4">
-            {!mockWeekSchedule[selectedDay] && <p className='text-white font-bold'>No Scheduling</p>}
-            {mockWeekSchedule[selectedDay]?.map((schedule, index) => (
-                <div key={index} className="flex items-center gap-4 bg-zinc-900 p-4 rounded-lg border border-white/10 hover:bg-zinc-900/70 transition-colors">
-                    <div className="flex-shrink-0">
-                        <Clock className="h-5 w-5 text-white/70" />
-                    </div>
-                    <div className="flex-1">
-                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                            <div className="space-y-1">
-                                <div className="flex items-center gap-2">
-                                    <h4 className="text-white font-medium">{schedule.subject}</h4>
-                                    <span className="text-white/50">•</span>
-                                </div>
-                                <div className='flex items-center gap-2'>
-                                    <p className="text-white font-medium">{schedule.teacher}</p>
-                                    <strong className="text-white/50 text-sm">-</strong>
-                                    <p className="text-white/50 text-sm">{60} minutes</p>
-                                </div>
-                            </div>
-                            <div className="sm:text-right">
-                                <p className="text-white font-medium">{convertToSimpleTime(schedule.startTime)}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            ))}
-        </div>
+  <div className="glass-effect rounded-xl backdrop-blur-md border border-[#4D7CFF]/20 shadow-md hover-glow">
+    <div className="p-4 border-b border-[#4D7CFF]/20 flex justify-between items-center">
+      <div className="flex items-center gap-2">
+        <Clock className="w-6 h-6 text-[#4D7CFF]" />
+        <h3 className="text-xl font-bold text-white neon-glow">Schedule for {selectedDay}</h3>
+      </div>
+      <h3 className="text-[#4D7CFF] font-medium">Break at 2 PM</h3>
     </div>
+    <div className="p-4 space-y-4">
+      {!mockWeekSchedule[selectedDay] && 
+        <motion.p 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="text-white font-bold text-center py-4"
+        >
+          No Schedule Available
+        </motion.p>
+      }
+      {mockWeekSchedule[selectedDay]?.map((schedule, index) => (
+        <motion.div
+          key={index}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, delay: index * 0.1 }}
+          className="glass-effect p-4 rounded-xl border border-[#4D7CFF]/20 hover:border-[#4D7CFF]/40 transition-all duration-200 group"
+        >
+          <div className="flex items-center gap-4">
+            <div className="flex-shrink-0 p-2 rounded-lg bg-[#4D7CFF]/10 group-hover:bg-[#4D7CFF]/20 transition-colors">
+              <BookOpen className="h-5 w-5 text-[#4D7CFF]" />
+            </div>
+            <div className="flex-1">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <h4 className="text-white font-medium text-lg">{schedule.subject}</h4>
+                    <span className="text-[#4D7CFF]">•</span>
+                    <div className="flex items-center gap-1.5">
+                      <GraduationCap className="h-4 w-4 text-[#4D7CFF]" />
+                      <span className="text-white/70">{schedule.teacher}</span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <p className="text-white/50 text-sm">60 minutes</p>
+                  </div>
+                </div>
+                <div className="sm:text-right">
+                  <p className="text-[#4D7CFF] font-medium">{convertToSimpleTime(schedule.startTime)}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      ))}
+    </div>
+  </div>
 );
-export default ScheduleStudentView
+
+export default ScheduleStudentView;

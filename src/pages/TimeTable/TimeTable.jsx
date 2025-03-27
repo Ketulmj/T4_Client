@@ -10,6 +10,7 @@ import { userFetcher } from '../../lib/userFetcher';
 import { useUser } from "../../contexts/user.context";
 import { decode, encode } from "js-base64";
 import { useNavigate } from "react-router-dom";
+import logo from '../../public/logo.png'
 
 const TimeTableForm = () => {
 	const [user, setUser] = useUser()
@@ -95,7 +96,7 @@ const navigate=useNavigate()
 		<>
 			<Helmet>
 				<title>TimeTable | Time Fourthe</title>
-				<link rel="icon" type="image/png" href="/home-icon.png" />
+			  <link rel="icon" type="image/png" href={logo} />
 			</Helmet>
 			<Toaster
 				position="bottom-right"

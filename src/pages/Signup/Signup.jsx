@@ -8,6 +8,7 @@ import { decode } from 'js-base64';
 import { toast } from 'sonner';
 import ToastProvider from '../../components/Toaster';
 import { useUser } from '../../contexts/user.context';
+import logo from '../../public/logo.png'
 
 const Signup = () => {
     const { url } = useParams();
@@ -234,7 +235,7 @@ const Signup = () => {
         <>
             <Helmet>
                 <title>Signup | TimeFourthe</title>
-                <link rel="icon" type="image/png" href="/home-icon.png" />
+                <link rel="icon" type="image/png" href={logo} />
             </Helmet>
             <ToastProvider />
             <div className="min-h-screen bg-[#0A0A0A] flex relative overflow-hidden hexagon-bg">
@@ -253,16 +254,16 @@ const Signup = () => {
                         variants={transitionVariants}
                         className="max-w-xl w-full mx-auto glass-effect p-8 rounded-2xl backdrop-blur-md shadow-md border border-[#4D7CFF]/20 hover-glow"
                     >
-                        <div className="flex items-center mb-8">
-                            <Clock className="w-8 h-8 text-[#4D7CFF]" />
+                        <div className="flex items-center mb-6">
+                             <img src={logo} className="w-8 h-8" />
                             <span className="ml-2 text-xl font-bold text-white neon-glow">TimeFourthe</span>
                         </div>
 
                         <h1 className="text-white text-4xl font-bold mb-2 drop-shadow-lg">
-                            Join the future
+                            Join the TimeFourthe
                         </h1>
-                        <p className="text-gray-400 mb-8">
-                            Create your quantum-powered {capitalization()} account
+                        <p className="text-gray-400 mb-3">
+                            Create your {capitalization()} account
                         </p>
 
                         <form onSubmit={handleDetailsSubmit} className="space-y-4">

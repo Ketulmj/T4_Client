@@ -8,6 +8,7 @@ import { toast } from 'sonner';
 import ToastProvider from '../../components/Toaster';
 import { useUser } from '../../contexts/user.context';
 import ResetPass from './ResetPass';
+import logo from '../../public/logo.png'
 
 const Login = () => {
     const [showForgotPassword, setShowForgotPassword] = useState(false);
@@ -183,7 +184,7 @@ const Login = () => {
         <>
             <Helmet>
                 <title>Login | TimeFourthe</title>
-                <link rel="icon" type="image/png" href="/home-icon.png" />
+                  <link rel="icon" type="image/png" href={logo} />
             </Helmet>
             <ToastProvider />
             <div className="min-h-screen bg-[#0A0A0A] flex relative overflow-hidden hexagon-bg">
@@ -199,15 +200,15 @@ const Login = () => {
                         className="max-w-md w-full mx-auto glass-effect p-8 rounded-2xl backdrop-blur-md shadow-md border border-[#4D7CFF]/20 hover-glow"
                     >
                         <div className="flex items-center mb-8">
-                            <Clock className="w-8 h-8 text-[#4D7CFF]" />
+                            <img src={logo} className="w-8 h-8" />
                             <span className="ml-2 text-xl font-bold text-white neon-glow">TimeFourthe</span>
                         </div>
 
                         <h1 className="text-white text-4xl font-bold mb-2 drop-shadow-lg">
-                            Access the future
+                            Welcome back    
                         </h1>
                         <p className="text-gray-400 mb-8">
-                            Sign in to your quantum-powered account
+                            Sign in to your account
                         </p>
 
                         <form onSubmit={handleSubmit} className="space-y-4">
@@ -260,7 +261,7 @@ const Login = () => {
                                     </div>
                                 ) : (
                                     <>
-                                        Access Portal
+                                        Sign In
                                         <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                                     </>
                                 )}
@@ -271,13 +272,13 @@ const Login = () => {
                                     className="text-[#4D7CFF]/80 hover:text-[#4D7CFF] transition-colors text-sm cursor-pointer"
                                     onClick={() => setShowForgotPassword(true)}
                                 >
-                                    Reset quantum signature
+                                    Forgot Password?
                                 </div>
                             </div>
 
                             <div className="text-center mt-6">
                                 <p className="text-gray-400">
-                                    New to the quantum realm?{" "}
+                                    New to TimeFourthe?{" "}
                                     <Link
                                         to="/signup"
                                         className="text-[#4D7CFF] hover:text-[#3D6AE8] transition-colors cursor-pointer font-medium"
