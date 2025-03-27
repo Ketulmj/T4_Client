@@ -1,7 +1,7 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { Calendar, Layout, Menu, X, BookOpen, LogOut } from "lucide-react";
 import { useState } from "react";
-import logo from '../public/logo.webp'
+import logo from '../public/logo.png'
 
 const Navbar = ({ role }) => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -22,7 +22,7 @@ const Navbar = ({ role }) => {
                     {/* Logo and Brand */}
                     <div className="flex items-center mb-2">
                         <NavLink to="/login" className="flex items-center space-x-3">
-                            <img src={logo} className="w-21 h-23" />
+                            <img src={logo} className="w-10 h-10" />
                         </NavLink>
                     </div>
 
