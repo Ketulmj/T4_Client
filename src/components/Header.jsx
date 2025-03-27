@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Clock } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import logo from '../public/logo.png'
 
 function Header() {
   return (
@@ -9,49 +10,52 @@ function Header() {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.8 }}
-      className="fixed w-full glass-effect z-50 border-b border-[#4D7CFF]/20"
+      className="fixed w-full z-50 backdrop-blur-xs transition-all duration-300"
     >
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
         <motion.div
           whileHover={{ scale: 1.05 }}
           className="flex items-center"
         >
-          <Clock className="w-8 h-8 text-[#4D7CFF]" />
+          <img src={logo} className='w-8 h-8 mt-0.5' />
           <span className="ml-2 text-xl font-bold text-white">TimeFourthe</span>
         </motion.div>
-        
-        <div className="hidden md:flex items-center space-x-8">
-          {['Features', 'Templates', 'Pricing'].map((item, index) => (
-            <Link
-              key={item}
-              to={`/${item}`}
-              whileHover={{ scale: 1.1 }}
-              className="text-gray-300 hover:text-white transition-colors duration-200"
-              // initial={{ opacity: 0, y: -20 }}
-              // animate={{ opacity: 1, y: 0 }}
-              // transition={{ duration: 0.5, delay: index * 0.1 }}
-            >
-              {item}
-            </Link>
-          ))}
-        </div>
-        
+
         <div className="flex items-center space-x-4">
           <Link to='/login'>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            className="text-gray-300 hover:text-white transition-colors duration-200"
-          >
-            Login
-          </motion.button>
-          </Link>
-          <Link to='/signup'>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            className="cyber-border bg-[#4D7CFF] hover:bg-[#3D6AE8] px-4 py-2 rounded-lg transition-all duration-200 text-white hover-glow"
-          >
-            Get Started
-          </motion.button>
+            <button
+              class="cursor-pointer group relative bg-white hover:bg-zinc-300 text-black font-semibold text-sm px-6 py-3 rounded-full transition-all duration-200 ease-in-out shadow hover:shadow-lg"
+            >
+              <div class="relative flex items-center justify-center gap-2">
+                <span class="relative inline-block overflow-hidden">
+                  <span
+                    class="block transition-transform duration-300 group-hover:-translate-y-full"
+                  >
+                    Get Started
+                  </span>
+                  <span
+                    class="absolute inset-0 transition-transform duration-300 translate-y-full group-hover:translate-y-0"
+                  >
+                    Right Now
+                  </span>
+                </span>
+
+                <svg
+                  class="w-4 h-4 transition-transform duration-200 group-hover:rotate-45"
+                  viewBox="0 0 24 24"
+                >
+                  <circle fill="currentColor" r="11" cy="12" cx="12"></circle>
+                  <path
+                    stroke-linejoin="round"
+                    stroke-linecap="round"
+                    stroke-width="2"
+                    stroke="white"
+                    d="M7.5 16.5L16.5 7.5M16.5 7.5H10.5M16.5 7.5V13.5"
+                  ></path>
+                </svg>
+              </div>
+            </button>
+
           </Link>
         </div>
       </nav>
