@@ -6,7 +6,6 @@ import TimeTableForm from "./TimeTable/TimeTable"
 import WaitingApproval from "./WaitingApproval/WaitingApproval"
 import ResetPass from "./ResetPass/Resetpass"
 import AfterTimetable from "./AfterTimetable/AfterTimetable"
-import Pricing from "./Pricing/Pricing"
 import Home from "./Home/Home"
 
 export {
@@ -18,6 +17,5 @@ export {
     NotFound,
     Home,
     ResetPass,
-    AfterTimetable,
-    Pricing
+    AfterTimetable
 }

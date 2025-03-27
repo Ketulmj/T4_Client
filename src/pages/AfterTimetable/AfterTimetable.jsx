@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
-import { RefreshCw, Check } from 'lucide-react';
+import { RefreshCw, Check, Clock } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Helmet } from "react-helmet-async";
 import Navbar from '../../components/Navbar';
+import logo from '../../public/logo.png'
 
 const timeSlots = [
   "9:00 AM - 9:45 AM",
@@ -77,84 +80,102 @@ const AfterTimetable = () => {
 
   return (
     <>
-    <Navbar role={'organization'}/>
-    <div className="min-h-screen bg-black p-6">
-      <div className="max-w-[95%] mx-auto">
-        <div className="bg-zinc-900 rounded-xl overflow-hidden">
-          <div className="p-4 border-b border-white/10 flex justify-between items-center">
-            <h1 className="text-xl font-semibold text-white">Class X - A Weekly Schedule</h1>
-            <div className="flex gap-4">
-              <button
-                onClick={handleRegenerate}
-                disabled={isConfirmed}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-300 
-                  ${isConfirmed 
-                    ? 'bg-zinc-700 cursor-not-allowed' 
-                    : 'bg-zinc-800 hover:bg-zinc-700 active:scale-95'}`}
-              >
-                <RefreshCw className="w-4 h-4 text-white" />
-                <span className="text-white">Regenerate</span>
-              </button>
-              <button
-                onClick={handleConfirm}
-                disabled={isConfirmed}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-300 
-                  ${isConfirmed 
-                    ? 'bg-green-600 cursor-not-allowed' 
-                    : 'bg-zinc-800 hover:bg-zinc-700 active:scale-95'}`}
-              >
-                <Check className="w-4 h-4 text-white" />
-                <span className="text-white">{isConfirmed ? 'Confirmed' : 'Confirm'}</span>
-              </button>
+      <Helmet>
+      <title>TimeTable | Time Fourthe</title>
+  <link rel="icon" type="image/png" href={logo} />
+      </Helmet>
+      <Navbar role={'organization'}/>
+      <div className="min-h-screen bg-[#0A0A0A] p-6 relative overflow-hidden hexagon-bg">
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0A] via-transparent to-[#0A0A0A] pointer-events-none" />
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeInOut" }}
+          className="max-w-[95%] mx-auto relative z-10"
+        >
+          <div className="glass-effect rounded-xl overflow-hidden backdrop-blur-md border border-[#4D7CFF]/20 shadow-md hover-glow">
+            <div className="p-4 border-b border-[#4D7CFF]/20 flex justify-between items-center">
+              <div className="flex items-center space-x-2">
+                <Clock className="w-6 h-6 text-[#4D7CFF]" />
+                <h1 className="text-xl font-bold text-white neon-glow">Class X - A Weekly Schedule</h1>
+              </div>
+              <div className="flex gap-4">
+                <motion.button
+                  whileHover={{ scale: isConfirmed ? 1 : 1.02 }}
+                  onClick={handleRegenerate}
+                  disabled={isConfirmed}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-xl font-medium transition-all duration-300 
+                    ${isConfirmed 
+                      ? 'bg-[#4D7CFF]/20 cursor-not-allowed' 
+                      : 'bg-[#4D7CFF]/10 hover:bg-[#4D7CFF]/20 active:scale-95'} cyber-border`}
+                >
+                  <RefreshCw className="w-4 h-4 text-[#4D7CFF]" />
+                  <span className="text-[#4D7CFF]">Regenerate</span>
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: isConfirmed ? 1 : 1.02 }}
+                  onClick={handleConfirm}
+                  disabled={isConfirmed}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-xl font-medium transition-all duration-300 
+                    ${isConfirmed 
+                      ? 'bg-green-600/80 cursor-not-allowed' 
+                      : 'bg-[#4D7CFF] hover:bg-[#3D6AE8] active:scale-95'} cyber-border`}
+                >
+                  <Check className="w-4 h-4 text-white" />
+                  <span className="text-white">{isConfirmed ? 'Confirmed' : 'Confirm'}</span>
+                </motion.button>
+              </div>
             </div>
-          </div>
 
-          <div className="p-4 overflow-x-auto">
-            <div className="min-w-[900px]">
-              <table className="w-full border-collapse">
-                <thead>
-                  <tr>
-                    <th className="bg-zinc-800 p-4 text-white font-medium border-b border-r border-white/10 min-w-[150px] text-center">
-                      Time Slot
-                    </th>
-                    {days.map(day => (
-                      <th key={day} className="bg-zinc-800 p-4 text-white font-medium border-b border-r border-white/10 min-w-[150px] text-center">
-                        {day}
+            <div className="p-4 overflow-x-auto">
+              <div className="min-w-[900px]">
+                <table className="w-full border-collapse">
+                  <thead>
+                    <tr>
+                      <th className="bg-[#4D7CFF]/10 p-4 text-white font-medium border-b border-r border-[#4D7CFF]/20 min-w-[150px] text-center">
+                        Time Slot
                       </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {timeSlots.map((timeSlot, index) => (
-                    <tr key={index} className="group">
-                      <td className="bg-zinc-800/50 p-4 text-white border-r border-b border-white/10 font-medium text-center">
-                        {timeSlot}
-                      </td>
                       {days.map(day => (
-                        <td key={day} className="p-3 border-r border-b border-white/10 group-hover:bg-zinc-800/30 transition-colors duration-200 text-white">
-                          {mockSchedule[day][index].subject ? (
-                            <div className="space-y-2 transition-all duration-200 hover:translate-y-[-2px] flex flex-col items-center">
-                              <div className="text-white font-medium">
-                                {mockSchedule[day][index].subject}
-                              </div>
-                              <div className="text-white/70 text-sm">
-                                {mockSchedule[day][index].teacher}
-                              </div>
-                            </div>
-                          ):
-                          (<div className='space-y-2 transition-all duration-200 hover:translate-y-[-2px] flex flex-col items-center'>--</div>)
-                        }
-                        </td>
+                        <th key={day} className="bg-[#4D7CFF]/10 p-4 text-white font-medium border-b border-r border-[#4D7CFF]/20 min-w-[150px] text-center">
+                          {day}
+                        </th>
                       ))}
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {timeSlots.map((timeSlot, index) => (
+                      <tr key={index} className="group">
+                        <td className="bg-[#4D7CFF]/5 p-4 text-white border-r border-b border-[#4D7CFF]/20 font-medium text-center">
+                          {timeSlot}
+                        </td>
+                        {days.map(day => (
+                          <td key={day} className="p-3 border-r border-b border-[#4D7CFF]/20 group-hover:bg-[#4D7CFF]/5 transition-colors duration-200">
+                            {mockSchedule[day][index].subject ? (
+                              <motion.div
+                                whileHover={{ y: -2 }}
+                                className="space-y-2 flex flex-col items-center"
+                              >
+                                <div className="text-white font-medium">
+                                  {mockSchedule[day][index].subject}
+                                </div>
+                                <div className="text-[#4D7CFF] text-sm">
+                                  {mockSchedule[day][index].teacher}
+                                </div>
+                              </motion.div>
+                            ) : (
+                              <div className="space-y-2 flex flex-col items-center text-[#4D7CFF]/50">--</div>
+                            )}
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
-    </div>
     </>
   );
 }

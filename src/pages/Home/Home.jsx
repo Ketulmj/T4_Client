@@ -2,14 +2,35 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Clock, CalendarDays, Smartphone, Zap, CheckCircle, Calendar } from 'lucide-react';
 import Header from '../../components/Header';
+import { Helmet } from "react-helmet-async";
 import Footer from '../../components/Footer';
 import AnimatedTimetable from '../../components/AnimatedTimetable';
+import logo from '../../public/logo.png';
 
 function Home() {
     return (
         <div className="min-h-screen bg-[#0A0A0A] text-white hexagon-bg">
+            {/* SEO Optimization */}
+            <Helmet>
+                <title>Best Timetable Scheduling Software | TimeFourthe</title>
+                <meta name="description" content="TimeFourthe offers efficient timetable scheduling with custom-built algorithms, seamless sync, and conflict prevention. Optimize your scheduling experience now!" />
+                <meta name="keywords" content="timetable scheduling, schedule generator, class scheduler, optimized scheduling, conflict prevention, time management" />
+                <meta name="author" content="TimeFourthe" />
+                
+                {/* Open Graph for social media sharing */}
+                <meta property="og:title" content="Best Timetable Scheduling Software | TimeFourthe" />
+                <meta property="og:description" content="Create optimized schedules with TimeFourthe’s advanced timetable system. Experience seamless sync, conflict prevention, and time efficiency." />
+                <meta property="og:image" content={logo} />
+                <meta property="og:type" content="website" />
+                <meta property="og:url" content="https://yourwebsite.com" />
+
+                {/* Favicon */}
+                <link rel="icon" type="image/png" href={logo} />
+            </Helmet>
+
             <div className="fixed inset-0 bg-gradient-to-b from-[#0A0A0A] via-transparent to-[#0A0A0A] pointer-events-none"></div>
             <Header />
+
             <main className="relative">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-16 text-center relative">
                     <motion.h1
@@ -18,25 +39,18 @@ function Home() {
                         transition={{ duration: 0.8, delay: 0.2 }}
                         className="text-6xl md:text-8xl font-bold"
                     >
-                        Create perfect
-                        <br />
-                        <span className="text-[#4D7CFF] animate-float inline-block">timetables</span>
+                        Create Perfect <br />
+                        <span className="text-[#4D7CFF] animate-float inline-block">Timetables</span>
                     </motion.h1>
-
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.6 }}
-                        className="flex justify-center gap-4"
-                    >
-                    </motion.div>
                 </div>
 
+                {/* Timetable Animation */}
                 <div className="relative h-[600px]">
                     <AnimatedTimetable />
                 </div>
             </main>
 
+            {/* Features Section */}
             <section className="pb-20 relative overflow-hidden">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <motion.div
@@ -46,10 +60,11 @@ function Home() {
                         className="text-center mb-16"
                     >
                         <h2 className="text-4xl md:text-5xl font-bold mb-4 neon-glow">
-                            Quantum-powered features
+                            Advanced Scheduling Features
                         </h2>
                         <p className="text-xl text-gray-400">
-                            Experience scheduling capabilities that were once thought impossible.
+                        Optimize your scheduling with our advanced custom-built algorithm. 
+                        No more conflicts, just seamless planning.
                         </p>
                     </motion.div>
 
@@ -61,7 +76,10 @@ function Home() {
                 </div>
             </section>
 
-            <Footer />
+            {/* Footer */}
+            <div className="bg-[#161618] py-5 text-center text-gray-400 absolute w-full">
+                <p>&copy; {new Date().getFullYear()} TimeFourthe. All rights reserved.</p>
+            </div>
         </div>
     );
 }
@@ -69,33 +87,33 @@ function Home() {
 const features = [
     {
         icon: <Clock />,
-        title: "Quantum Scheduling",
-        description: "Self-generated algorithms calculate infinite scheduling possibilities in seconds"
+        title: "Intelligent Scheduling",
+        description: "Custom-built algorithms generate optimized schedules efficiently."
     },
     {
         icon: <CalendarDays />,
-        title: "Holographic Views",
-        description: "Experience your schedule in stunning 3D with interactive holographic projections"
+        title: "Enhanced Visualization",
+        description: "View and manage schedules with an intuitive interface."
     },
     {
         icon: <Smartphone />,
-        title: "Neural Sync",
-        description: "Seamlessly sync across all your devices with quantum entanglement technology"
+        title: "Seamless Sync",
+        description: "Effortlessly synchronize schedules across all your devices."
     },
     {
         icon: <Zap />,
-        title: "Time Optimization",
-        description: "Advanced temporal analytics ensure perfect time allocation for maximum productivity"
+        title: "Time Efficiency",
+        description: "Optimize time allocation for maximum productivity."
     },
     {
         icon: <CheckCircle />,
         title: "Conflict Prevention",
-        description: "Predictive AI prevents scheduling conflicts before they occur in any timeline"
+        description: "Proactively prevent scheduling conflicts with smart logic."
     },
     {
         icon: <Calendar />,
-        title: "Universal Integration",
-        description: "Connect with any scheduling system across the multiverse"
+        title: "System Integration",
+        description: "Easily connect with various scheduling platforms."
     }
 ];
 
