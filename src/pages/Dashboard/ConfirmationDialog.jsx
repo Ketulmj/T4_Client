@@ -22,14 +22,14 @@ const ConfirmationDialog = ({ isOpen, onClose, onConfirm, message }) => {
           <motion.button
             whileHover={{ scale: 1.02 }}
             onClick={onClose}
-            className="px-4 py-2 rounded-xl text-sm font-medium bg-[#4D7CFF]/10 text-[#4D7CFF] hover:bg-[#4D7CFF]/20 transition-all duration-200 cyber-border"
+            className="px-4 py-2 rounded-xl text-sm font-medium bg-[#4D7CFF]/10 text-[#4D7CFF] hover:bg-[#4D7CFF]/20 transition-all duration-200"
           >
             No
           </motion.button>
           <motion.button
             whileHover={{ scale: 1.02 }}
             onClick={onConfirm}
-            className="px-4 py-2 rounded-xl text-sm font-medium bg-red-500/20 text-red-300 hover:bg-red-500/30 transition-all duration-200 cyber-border"
+            className="px-4 py-2 rounded-xl text-sm font-medium bg-red-500/20 text-red-300 hover:bg-red-500/30 transition-all duration-200"
           >
             Yes
           </motion.button>
