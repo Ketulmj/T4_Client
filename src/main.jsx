@@ -32,13 +32,12 @@ createRoot(document.getElementById('root')).render(
                             <Signup />
                         </NoAuth>} />
                     <Route path="/dashboard" element={
-                        // <Auth>
+                        <Auth>
                         <Dashboard />
-                        // </Auth>} 
-                    } />
+                        </Auth>} 
+                    />
                     <Route path="/waiting-approval" element={<WaitingApproval />} />
-                    <Route path="/reset" element={<ResetPass />} />
-                    {/* <Route path="/reset-password?id" element={<ResetPass />} /> */}
+                    <Route path="/reset-password?id" element={<ResetPass />} />
                     <Route path="/:nothing" element={<NotFound />} />
                 </Routes>
                     </Mobile>

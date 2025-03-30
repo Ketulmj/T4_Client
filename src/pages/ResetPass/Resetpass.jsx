@@ -97,10 +97,10 @@ const ResetPassword = () => {
             </div>
             
             <h2 className="text-4xl font-bold text-white mb-2 tracking-wide drop-shadow-lg">
-              Reset Quantum Key
+              Reset Password
             </h2>
             <p className="text-gray-400 mb-8">
-              Enter your new quantum signature
+              Enter your new password
             </p>
 
             <form className="space-y-6" onSubmit={handleSubmit}>
@@ -154,7 +154,7 @@ const ResetPassword = () => {
                 type="submit"
                 disabled={isLoading}
                 whileHover={{ scale: isLoading ? 1 : 1.02 }}
-                className={`w-full bg-[#4D7CFF] hover:bg-[#3D6AE8] text-white py-3 rounded-xl transition-all duration-200 flex items-center justify-center group cursor-pointer font-medium cyber-border hover-glow ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
+                className={`w-full bg-[#4D7CFF] hover:bg-[#3D6AE8] text-white py-3 rounded-xl transition-all duration-200 flex items-center justify-center group cursor-pointer font-medium ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
               >
                 {isLoading ? (
                   <div className="flex items-center">
@@ -163,7 +163,7 @@ const ResetPassword = () => {
                   </div>
                 ) : (
                   <>
-                    Update Quantum Key
+                    Update Password
                     <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                   </>
                 )}
@@ -175,7 +175,7 @@ const ResetPassword = () => {
                 to="/login"
                 className="inline-flex items-center text-[#4D7CFF]/80 hover:text-[#4D7CFF] transition-colors group"
               >
-                Return to quantum portal
+                Return to Sign In
                 <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
               </Link>
             </div>
