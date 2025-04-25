@@ -1,10 +1,10 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { School, Users, Building2, Share2 } from 'lucide-react';
 import { Helmet } from "react-helmet-async";
 import { toast } from 'sonner';
 import { encode, decode } from 'js-base64';
 import { useNavigate } from 'react-router-dom';
-import logo from '../../public/logo.png'
+import logo from '../../public/logo.png';
 import Navbar from '../../components/Navbar';
 import OrganizationView from './OrganizationView';
 import ConfirmationDialog from './ConfirmationDialog';
@@ -12,103 +12,20 @@ import ScheduleStudentView from './ScheduleStudentView';
 import ScheduleTeacherView from './ScheduleTeacherView';
 import WeeklyTimetableModal from './WeeklyTimetableModel';
 import ToastProvider from '../../components/Toaster';
+import ttdata from '../../tmpdata/timetable-data.json'
 import { useUser } from '../../contexts/user.context';
 import { userFetcher } from '../../lib/userFetcher';
 
-const mockTimetables = [
-  {
-    id: 1,
-    className: "Class X",
-    division: "A",
-    createdAt: "2024-01-15",
-    totalSubjects: 6,
-    totalTeachers: 8
-  },
-  {
-    id: 2,
-    className: "Class XI",
-    division: "B",
-    createdAt: "2024-01-16",
-    totalSubjects: 7,
-    totalTeachers: 9
-  }
-];
-
-const mockTeacherSchedule = {
-  "Monday": [
-    { "time": 540, "subject": "Mathematics", "class": "Class-10", "duration": 45 },
-    { "time": 600, "subject": "Mathematics", "class": "Class-11B", "duration": 45 },
-    { "time": 660, "subject": "Mathematics", "class": "Class-9C", "duration": 45 },
-    { "time": 600, "subject": "Physics", "class": "Class-Physics", "duration": 45 }
-  ],
-  "Tuesday": [
-    { "time": 540, "subject": "Mathematics", "class": "Class-10", "duration": 45 },
-    { "time": 600, "subject": "Mathematics", "class": "Class-10B", "duration": 45 },
-    { "time": 840, "subject": "Mathematics", "class": "Class-11A", "duration": 45 },
-    { "time": 660, "subject": "Physics", "class": "Class-Physics", "duration": 45 }
-  ],
-  "Wednesday": [
-    { "time": 600, "subject": "Mathematics", "class": "Class-10", "duration": 45 },
-    { "time": 660, "subject": "Mathematics", "class": "Class-10A", "duration": 45 },
-    { "time": 780, "subject": "Mathematics", "class": "Class-12B", "duration": 45 },
-    { "time": 600, "subject": "Physics", "class": "Class-Physics", "duration": 45 }
-  ],
-  "Thursday": [
-    { "time": 540, "subject": "Mathematics", "class": "Class-10", "duration": 45 },
-    { "time": 660, "subject": "Mathematics", "class": "Class-10C", "duration": 45 },
-    { "time": 840, "subject": "Mathematics", "class": "Class-9B", "duration": 45 },
-    { "time": 780, "subject": "Physics", "class": "Class-Physics", "duration": 45 }
-  ],
-  "Friday": [
-    { "time": 540, "subject": "Mathematics", "class": "Class-10", "duration": 45 },
-    { "time": 600, "subject": "Mathematics", "class": "Class-12A", "duration": 45 },
-    { "time": 780, "subject": "Mathematics", "class": "Class-11C", "duration": 45 },
-    { "time": 600, "subject": "Physics", "class": "Class-Physics", "duration": 45 }
-  ],
-  "Saturday": [
-    { "time": 540, "subject": "Mathematics", "class": "Class-10", "duration": 45 },
-    { "time": 660, "subject": "Mathematics", "class": "Class-10B", "duration": 45 },
-    { "time": 720, "subject": "Mathematics", "class": "Class-12C", "duration": 45 },
-    { "time": 780, "subject": "Physics", "class": "Class-Physics", "duration": 45 }
-  ]
-};
-
-const mockWeekSchedule = {
-  "Monday": [
-    { "startTime": 600, "subject": "Physics", "teacher": "Frank_Physics" },
-    { "startTime": 660, "subject": "Chemistry", "teacher": "Henry_Chem" },
-    { "startTime": 720, "subject": "History", "teacher": "Eva_History" },
-    { "startTime": 780, "subject": "Science", "teacher": "Charlie_Sci" }
-  ],
-  "Tuesday": [
-    { "startTime": 600, "subject": "History", "teacher": "Eva_History" },
-    { "startTime": 660, "subject": "Physics", "teacher": "Frank_Physics" },
-    { "startTime": 720, "subject": "Biology", "teacher": "Grace_Biology" },
-    { "startTime": 780, "subject": "Science", "teacher": "Charlie_Sci" }
-  ],
-  "Wednesday": [
-    { "startTime": 600, "subject": "Physics", "teacher": "Frank_Physics" },
-    { "startTime": 660, "subject": "Science", "teacher": "Charlie_Sci" },
-    { "startTime": 720, "subject": "Biology", "teacher": "Grace_Biology" },
-    { "startTime": 780, "subject": "History", "teacher": "Eva_History" }
-  ],
-  "Thursday": [
-    { "startTime": 600, "subject": "History", "teacher": "Eva_History" },
-    { "startTime": 660, "subject": "Chemistry", "teacher": "Henry_Chem" },
-    { "startTime": 720, "subject": "Science", "teacher": "Charlie_Sci" },
-    { "startTime": 780, "subject": "Physics", "teacher": "Frank_Physics" }
-  ]
-};
+const mockTimetables=ttdata;
 
 const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-const convertToSimpleTime = (x) => {
-  let hours = Math.floor(x / 60);
-  let mins = x % 60;
-  let period = hours >= 12 ? "PM" : "AM";
-
-  hours = hours % 12 || 12;
-  return `${hours}:${mins.toString().padStart(2, '0')} ${period}`;
+const convertToSimpleTime = (minutes) => {
+  const hours = Math.floor(minutes / 60);
+  const mins = minutes % 60;
+  const period = hours >= 12 ? "PM" : "AM";
+  const displayHours = hours % 12 || 12;
+  return `${displayHours}:${mins.toString().padStart(2, '0')} ${period}`;
 };
 
 const ShareButton = ({ title, forX, user }) => (
@@ -130,14 +47,14 @@ const ShareButton = ({ title, forX, user }) => (
 );
 
 const WeekNavigator = ({ selectedDay, setSelectedDay }) => (
-  <div className="animate-on-mount glass-effect rounded-xl p-6">
-    <div className="flex flex-col w-max mx-auto sm:flex-row items-center justify-between gap-4">
+  <div className="animate-on-mount glass-effect rounded-xl p-4">
+    <div className="flex flex-col w-max mx-auto sm:flex-row items-center justify-between gap-3">
       <div className="flex flex-wrap justify-center gap-2">
         {days.map((day, index) => (
           <button
             key={day}
             onClick={() => setSelectedDay(day)}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 transform hover:-translate-y-1 ${
+            className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-300 transform hover:-translate-y-1 ${
               selectedDay === day
                 ? 'bg-[#4D7CFF] text-white shadow-lg'
                 : 'glass-effect text-white hover:bg-[#4D7CFF]/15'
@@ -175,20 +92,20 @@ const Dashboard = () => {
 
   useEffect(() => {
     userFetcher(user, setUser);
-    const isAbsentClassesExist = localStorage.getItem('absentClasses')
+    const isAbsentClassesExist = localStorage.getItem('absentClasses');
     if (isAbsentClassesExist) {
-      const storedAbsentClasses = JSON.parse(decode(isAbsentClassesExist))
-      if (storedAbsentClasses) setAbsentClasses(storedAbsentClasses)
-    }
+      const storedAbsentClasses = JSON.parse(decode(isAbsentClassesExist));
+      if (storedAbsentClasses) setAbsentClasses(storedAbsentClasses);
+    }    
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('absentClasses', encode(JSON.stringify(absentClasses)))
+    localStorage.setItem('absentClasses', encode(JSON.stringify(absentClasses)));
   }, [absentClasses]);
 
   const handleCloseModal = () => setIsModalOpen(false);
   
-  const handleConfirmAbsent = (e) => {
+  const handleConfirmAbsent = () => {
     setConfirmDialog({
       isOpen: false,
       scheduleKey: null,
@@ -198,6 +115,7 @@ const Dashboard = () => {
       date: confirmDialog.date,
       deleteTableId: null
     });
+    
     if (user.role === 'organization') {
       console.log("TimeTable Delete : ", confirmDialog.deleteTableId);
     } else {
@@ -209,25 +127,25 @@ const Dashboard = () => {
     <>
       <Helmet>
         <title>Dashboard | Time Fourthe</title>
-    <link rel="icon" type="image/png" href={logo} />
+        <link rel="icon" type="image/png" href={logo} />
       </Helmet>
 
-      <div className="animate-on-mount glass-effect rounded-xl p-6 transition-all duration-300">
         <ToastProvider />
-        <div className="flex justify-between items-center gap-4">
+      <div className="animate-on-mount glass-effect rounded-xl p-4 transition-all duration-300">
+        <div className="flex justify-between items-center gap-3">
           <div className="flex items-center gap-x-1">
-            <div className="p-4 glass-effect rounded-lg hover-scale">
+            <div className="p-3 glass-effect rounded-lg hover-scale">
               {user.role === "organization" ? (
-                <Building2 className="h-6 w-6 text-[#4D7CFF] transition-all duration-300 hover:text-[#6B8FFF]" />
+                <Building2 className="h-5 w-5 text-[#4D7CFF] transition-all duration-300 hover:text-[#6B8FFF]" />
               ) : user.role === "teacher" ? (
-                <Users className="h-6 w-6 text-[#4D7CFF] transition-all duration-300 hover:text-[#6B8FFF]" />
+                <Users className="h-5 w-5 text-[#4D7CFF] transition-all duration-300 hover:text-[#6B8FFF]" />
               ) : (
-                <School className="h-6 w-6 text-[#4D7CFF] transition-all duration-300 hover:text-[#6B8FFF]" />
+                <School className="h-5 w-5 text-[#4D7CFF] transition-all duration-300 hover:text-[#6B8FFF]" />
               )}
             </div>
             <div className="slide-in">
-              <h2 className="text-white text-xl font-semibold tracking-tight">{user.name}</h2>
-              <p className="text-white/70 text-sm font-medium">ID: {user.userId}</p>
+              <h2 className="text-white text-lg font-semibold tracking-tight">{user.name}</h2>
+              <p className="text-white/70 text-xs font-medium">ID: {user.userId}</p>
             </div>
           </div>
           {user.role === 'organization' && (
@@ -241,20 +159,30 @@ const Dashboard = () => {
     </>
   );
 
+  const getDaySchedule = (dayIndex) => {
+    const schedule = mockTimetables.generatedTimeTable[dayIndex] || [];
+    return schedule.map(slot => ({
+      time: slot.startTime,
+      subject: slot.subject.name,
+      teacher: slot.subject.teacher.name,
+      isLab: slot.subject.isLab
+    }));
+  };
+
   return (
     <>
       <Navbar role={user.role} />
-      <div className="min-h-screen bg-[#0A0A0A] hexagon-bg p-4 sm:p-6 md:p-8">
-        <div className="max-w-7xl mx-auto space-y-6">
+      <div className="h-[calc(100vh-64px)] bg-[#0A0A0A] hexagon-bg p-3 overflow-auto">
+        <div className="max-w-7xl mx-auto space-y-4">
           <UserInfo />
           {user.role === 'teacher' && (
-            <div className="space-y-6">
+            <div className="space-y-4">
               <WeekNavigator selectedDay={selectedDay} setSelectedDay={setSelectedDay} />
               <div className="animate-on-mount">
                 <ScheduleTeacherView
                   selectedDay={selectedDay}
                   convertToSimpleTime={convertToSimpleTime}
-                  mockTeacherSchedule={mockTeacherSchedule}
+                  schedule={getDaySchedule(days.indexOf(selectedDay))}
                   days={days}
                   absentClasses={absentClasses}
                   setAbsentClasses={setAbsentClasses}
@@ -264,12 +192,12 @@ const Dashboard = () => {
             </div>
           )}
           {user.role === 'student' && (
-            <div className="space-y-6">
+            <div className="space-y-4">
               <WeekNavigator selectedDay={selectedDay} setSelectedDay={setSelectedDay} />
               <div className="animate-on-mount">
                 <ScheduleStudentView
                   convertToSimpleTime={convertToSimpleTime}
-                  mockWeekSchedule={mockWeekSchedule}
+                  schedule={getDaySchedule(days.indexOf(selectedDay))}
                   selectedDay={selectedDay}
                 />
               </div>
@@ -292,7 +220,7 @@ const Dashboard = () => {
               onClose={handleCloseModal}
               isOpen={isModalOpen}
               days={days}
-              mockWeekSchedule={mockWeekSchedule}
+              schedule={mockTimetables.generatedTimeTable}
             />
           )}
           <ConfirmationDialog

@@ -1,8 +1,10 @@
 import React from 'react';
 import { Trash2, Clock, Users } from 'lucide-react';
 import { motion } from 'framer-motion';
+import ShowTimeTable from '../../components/showTimeTable';
 
 const OrganizationView = ({ mockTimetables, setSelectedTimetable, setIsModalOpen, setConfirmDialog, confirmDialog }) => {
+  
   const handleTimetableClick = (timetable) => {
     setSelectedTimetable(timetable);
     setIsModalOpen(true);
@@ -16,7 +18,6 @@ const OrganizationView = ({ mockTimetables, setSelectedTimetable, setIsModalOpen
       deleteTableId: timetableId
     });
   };
-
   return (
     <div className="glass-effect rounded-xl backdrop-blur-md border border-[#4D7CFF]/20 shadow-md hover-glow">
       <div className="p-4 border-b border-[#4D7CFF]/20 flex items-center gap-2">
@@ -26,7 +27,6 @@ const OrganizationView = ({ mockTimetables, setSelectedTimetable, setIsModalOpen
       <div className="p-4 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {mockTimetables.map((timetable, index) => (
           <motion.div
-            key={timetable.id}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: index * 0.1 }}
@@ -43,7 +43,6 @@ const OrganizationView = ({ mockTimetables, setSelectedTimetable, setIsModalOpen
             <div className="flex flex-col gap-2">
               <div>
                 <h4 className="text-white font-medium text-lg">{timetable.className} - {timetable.division}</h4>
-                <p className="text-[#4D7CFF] text-sm">Created on {timetable.createdAt}</p>
               </div>
               <div className="flex justify-between items-center pt-2 border-t border-[#4D7CFF]/20">
                 <div className="flex items-center gap-2 text-white/70">

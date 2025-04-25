@@ -7,8 +7,7 @@ const ResetPass = ({ setShowForgotPassword }) => {
     const [forgotEmail, setForgotEmail] = useState('');
 
     const handleForgotPassword = (e) => {
-        e.preventDefault();
-        console.log('Forget');
+        e.preventDefault(); 
         fetch('http://localhost:3000/api/user/forgot/mail', {
             method: 'POST',
             headers: {
@@ -17,11 +16,15 @@ const ResetPass = ({ setShowForgotPassword }) => {
             body: JSON.stringify({ email: forgotEmail })
         })
             .then(res => res.json())
-            .then(({ result }) => {
-                if (result) {
+            .then(({ result,status }) => {
+                if (status==200) {
                     setShowForgotPassword(false)
                     toast.success(result);
                 }
+                else toast.error(result);
+            })
+            .catch(err => {
+                console.log(err);
             })
     }
     return (
