@@ -175,14 +175,13 @@ const Dashboard = () => {
       <div className="h-[calc(100vh-64px)] bg-[#0A0A0A] hexagon-bg p-3 overflow-auto">
         <div className="max-w-7xl mx-auto space-y-4">
           <UserInfo />
-          {user.role === 'teacher' && (
+          {user.role === 'Teacher' && (
             <div className="space-y-4">
               <WeekNavigator selectedDay={selectedDay} setSelectedDay={setSelectedDay} />
               <div className="animate-on-mount">
                 <ScheduleTeacherView
                   selectedDay={selectedDay}
                   convertToSimpleTime={convertToSimpleTime}
-                  schedule={getDaySchedule(days.indexOf(selectedDay))}
                   days={days}
                   absentClasses={absentClasses}
                   setAbsentClasses={setAbsentClasses}
@@ -193,11 +192,10 @@ const Dashboard = () => {
           )}
           {user.role === 'student' && (
             <div className="space-y-4">
-              <WeekNavigator selectedDay={selectedDay} setSelectedDay={setSelectedDay} />
               <div className="animate-on-mount">
                 <ScheduleStudentView
                   convertToSimpleTime={convertToSimpleTime}
-                  schedule={getDaySchedule(days.indexOf(selectedDay))}
+                  mockWeekSchedule={mockTimetables}
                   selectedDay={selectedDay}
                 />
               </div>

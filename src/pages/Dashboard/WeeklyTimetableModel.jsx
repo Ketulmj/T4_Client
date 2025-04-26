@@ -34,7 +34,7 @@ const WeeklyTimetableModel = ({ timetable, onClose, isOpen, days, mockWeekSchedu
                 </div>
                 <div className="p-4 md:p-6 overflow-x-auto">
                     <div className="min-w-[900px]">
-                        <ShowTimeTable timetable={timetable.timetable}/>
+                        <ShowTimeTable timetableSchedule={timetable.timetable}/>
                     </div>
                 </div>
             </motion.div>
