@@ -12,7 +12,10 @@ const Navbar = ({ role }) => {
             method: 'GET',
             credentials: "include"
         })
-        navigate('/dashboard')
+        .then(res=>res.json())
+        .then(({status})=>{
+            status && navigate('/')
+        })
     };
 
     return (

@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import { toast } from 'sonner'
 import TimePicker from '../../components/TimePicker'
 
-const FirstPhase = ({ step, setStep, classname, setClassname, division, setDivision, startTime, setStartTime, hoursPerDay, setHoursPerDay, periodDuration, setPeriodDuration, specialHours, setSpecialHours, breakDuration, setBreakDuration, grades, setGrades }) => {
+const FirstPhase = ({ step, setStep, classname, setClassname, division, setDivision, startTime, setStartTime, hoursPerDay, setHoursPerDay, periodDuration, setPeriodDuration, specialHours, setSpecialHours, breakDuration, setBreakDuration, grades, setGrades,breakStartTime,setBreakStartTime }) => {
     const [isClassSelectOpen, setIsClassSelectOpen] = useState(false)
     const hoursArray = [4, 5, 6, 7, 8, 9];
     const durationArray = [30, 45, 60, 90];
@@ -13,13 +13,13 @@ const FirstPhase = ({ step, setStep, classname, setClassname, division, setDivis
     const selectRef = useRef()
     
     const handleNextStep = () => {
-        // if (!classname || !division || !startTime) {
-        //     toast.error('Please fill in all required fields', {
-        //         position: 'bottom-right',
-        //         className: 'bg-red-500'
-        //     });
-        //     return;
-        // }
+        if (!classname || !division || !startTime) {
+            toast.error('Please fill in all required fields', {
+                position: 'bottom-right',
+                className: 'bg-red-500'
+            });
+            return;
+        }
         setStep(2);
     };
 
@@ -84,7 +84,7 @@ const FirstPhase = ({ step, setStep, classname, setClassname, division, setDivis
                         <label htmlFor="startTime" className="block text-md font-medium text-white/70 mb-2 group-focus-within:text-white transition-colors duration-200">
                             Start Time
                         </label>
-                        <TimePicker value={startTime} onChange={setStartTime} />
+                        <input type='time' value={startTime} onChange={(e) => setStartTime(e.target.value)} className="w-full text-white"/>
                     </div>
     
                     <div className="flex-1">
@@ -154,7 +154,12 @@ const FirstPhase = ({ step, setStep, classname, setClassname, division, setDivis
                         ))}
                     </div>
                 </div>
-    
+                <div className="group flex-1">
+                        <label htmlFor="startTime" className="block text-md font-medium text-white/70 mb-2 group-focus-within:text-white transition-colors duration-200">
+                            Break Start Time
+                        </label>
+                        <input type='time' value={breakStartTime} onChange={(e) => setBreakStartTime(e.target.value)} className="w-full text-white"/>
+                </div>
                 {/* Break Duration */}
                 <div>
                     <label className="block text-md font-medium text-white/70 mb-2">Break Duration</label>

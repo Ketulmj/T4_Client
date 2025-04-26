@@ -25,6 +25,7 @@ const TimeTableForm = () => {
 	const [subjects, setSubjects] = useState([]);
 	const [grades, setGrades] = useState([]);
 	const [startTime, setStartTime] = useState("")
+	const [breakStartTime, setBreakStartTime] = useState("")
 	const [newSubject, setNewSubject] = useState("");
 	const [selectedTeacher, setSelectedTeacher] = useState("");
 	const [isTeacherPanelOpen, setIsTeacherPanelOpen] = useState(false);
@@ -51,22 +52,18 @@ const navigate=useNavigate()
 					}
 				})
 			// Teachers fetching
-			const teachers = localStorage.getItem('teachers');
-			if (!teachers) {
 				const OrgId = user.userId;
 				console.log(OrgId);
 				fetch(`http://localhost:3000/api/get/teachers?OrgId=${OrgId}`)
 					.then(res => res.json())
 					.then(data => {
 						if (data) {
+							console.log('Teachers : ',data);
 							setOrganizationTeachers(data);
 							localStorage.setItem('teachers', encode(JSON.stringify(data)))
 						}
 					});
-			}
-			else {
-				setOrganizationTeachers(JSON.parse(decode(teachers)))
-			}
+			
 		}
 	}, [user])
 
@@ -125,6 +122,7 @@ const navigate=useNavigate()
 							periodDuration={periodDuration} setPeriodDuration={setPeriodDuration}
 							specialHours={specialHours} setSpecialHours={setSpecialHours}
 							breakDuration={breakDuration} setBreakDuration={setBreakDuration}
+							breakStartTime={breakStartTime} setBreakStartTime={setBreakStartTime}
 						/>
 
 						{/* Step 2: Subject Creation and Display */}
