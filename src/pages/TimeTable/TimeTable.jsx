@@ -11,6 +11,7 @@ import { useUser } from "../../contexts/user.context";
 import { decode, encode } from "js-base64";
 import { useNavigate } from "react-router-dom";
 import logo from '../../public/logo.png'
+import TimetableDialog from './components/TimetableDialog'
 
 const TimeTableForm = () => {
 	const [user, setUser] = useUser()
@@ -31,6 +32,8 @@ const TimeTableForm = () => {
 	const [isLab, setIsLab] = useState(false)
 	const [isTeacherPanelOpen, setIsTeacherPanelOpen] = useState(false);
 	const [selectingSecondTeacher, setSelectingSecondTeacher] = useState(false);
+	const [timeTableShowDialog, setTimeTableShowDialog] = useState(false)
+	const [timeTableData, setTimeTableData] = useState()
 	const navigate = useNavigate()
 
 	useEffect(() => {
@@ -65,15 +68,12 @@ const TimeTableForm = () => {
 		}
 	}, [user])
 
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		if (subjects.length === 0) {
-			toast.error('Please add at least one subject', {
-				position: 'bottom-right',
-				className: 'bg-red-500'
-			});
-			return;
-		}
+
+
+	const timeTableConfirm = () => {
+		console.log('Confirm TimeTable')
+	}
+	const TimeTableGenerate = () => {
 		const data = {
 			orgId: user.userId,
 			year: new Date().getFullYear(),
@@ -97,14 +97,32 @@ const TimeTableForm = () => {
 			body: JSON.stringify(data)
 		})
 			.then(res => res.json())
-			.then(({ status, message, generateTT }) => {
+			.then(({ status, message, generatedTT }) => {
 				if (status == 400) toast.error(message)
 				else {
-					console.log('TT : ', generateTT);
+					setTimeTableData(generatedTT)
+					setTimeTableShowDialog(true)
 				}
 			})
-			.catch(err => console.log(error))
+			.catch(err => console.log(err))
+	}
+	const timeTableClose = () => {
+		console.log('Close TimeTable, Save to DB')
+	}
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		if (subjects.length === 0) {
+			toast.error('Please add at least one subject', {
+				position: 'bottom-right',
+				className: 'bg-red-500'
+			});
+			return;
+		}
+
+		TimeTableGenerate()
 	};
+
 
 
 	return (
@@ -127,6 +145,19 @@ const TimeTableForm = () => {
 			/>
 			<Navbar role={user.role} />
 			<div className="min-h-screen bg-black flex items-center justify-center py-4 px-4 sm:px-20 relative">
+
+
+				{/* ------------------------------------------------------------- */}
+				<TimetableDialog
+					onConfirm={timeTableConfirm}
+					onRegenerate={TimeTableGenerate}
+					onClose={timeTableClose}
+					isOpen={timeTableShowDialog}
+					timetableData={timeTableData}
+				/>
+
+
+
 				<div className="w-full bg-zinc-900 rounded-xl shadow-2xl shadow-white/5 p-4 sm:p-6 md:p-8 border border-white/10">
 					<div className="relative">
 						{/* Step 1: Basic Form */}
@@ -180,3 +211,295 @@ const TimeTableForm = () => {
 }
 
 export default TimeTableForm;
+
+
+
+const dataTT = {
+	"id": null,
+	"orgId": "ORG163705377487057",
+	"class": "Class X",
+	"division": "A",
+	"year": 2024,
+	"breakStartTime": 670,
+	"breakDuration": 0,
+	"periodDuration": 60,
+	"labDuration": 60,
+	"timetable": [
+		[
+			{
+				"startTime": 500,
+				"subject": {
+					"name": "Gujrati",
+					"isLab": false,
+					"teacher": {
+						"name": "Mike Johnson",
+						"teacherId": "TCH1003"
+					}
+				}
+			},
+			{
+				"startTime": 560,
+				"subject": {
+					"name": "Math",
+					"isLab": true,
+					"teacher": {
+						"name": "John Doe",
+						"teacherId": "TCH1001"
+					}
+				}
+			},
+			{
+				"startTime": 620,
+				"subject": {
+					"name": "Biology",
+					"isLab": true,
+					"teacher": {
+						"name": "Sarah Lee",
+						"teacherId": "TCH1004"
+					}
+				}
+			},
+			{
+				"startTime": 680,
+				"subject": {
+					"name": "Physics",
+					"isLab": false,
+					"teacher": {
+						"name": "Jane Smith",
+						"teacherId": "TCH1002"
+					}
+				}
+			}
+		],
+		[
+			{
+				"startTime": 500,
+				"subject": {
+					"name": "Gujrati",
+					"isLab": false,
+					"teacher": {
+						"name": "Mike Johnson",
+						"teacherId": "TCH1003"
+					}
+				}
+			},
+			{
+				"startTime": 560,
+				"subject": {
+					"name": "Sport",
+					"isLab": true,
+					"teacher": {
+						"name": "Sarah Lee",
+						"teacherId": "TCH1004"
+					}
+				}
+			},
+			{
+				"startTime": 620,
+				"subject": {
+					"name": "Math",
+					"isLab": true,
+					"teacher": {
+						"name": "John Doe",
+						"teacherId": "TCH1001"
+					}
+				}
+			},
+			{
+				"startTime": 680,
+				"subject": {
+					"name": "Physics",
+					"isLab": false,
+					"teacher": {
+						"name": "Jane Smith",
+						"teacherId": "TCH1002"
+					}
+				}
+			}
+		],
+		[
+			{
+				"startTime": 500,
+				"subject": {
+					"name": "Physics",
+					"isLab": false,
+					"teacher": {
+						"name": "Jane Smith",
+						"teacherId": "TCH1002"
+					}
+				}
+			},
+			{
+				"startTime": 560,
+				"subject": {
+					"name": "Sport",
+					"isLab": true,
+					"teacher": {
+						"name": "Sarah Lee",
+						"teacherId": "TCH1004"
+					}
+				}
+			},
+			{
+				"startTime": 620,
+				"subject": {
+					"name": "Chemistry",
+					"isLab": false,
+					"teacher": {
+						"name": "Mike Johnson",
+						"teacherId": "TCH1003"
+					}
+				}
+			},
+			{
+				"startTime": 680,
+				"subject": {
+					"name": "Math",
+					"isLab": true,
+					"teacher": {
+						"name": "John Doe",
+						"teacherId": "TCH1001"
+					}
+				}
+			}
+		],
+		[
+			{
+				"startTime": 500,
+				"subject": {
+					"name": "Sport",
+					"isLab": true,
+					"teacher": {
+						"name": "Sarah Lee",
+						"teacherId": "TCH1004"
+					}
+				}
+			},
+			{
+				"startTime": 560,
+				"subject": {
+					"name": "Gujrati",
+					"isLab": false,
+					"teacher": {
+						"name": "Mike Johnson",
+						"teacherId": "TCH1003"
+					}
+				}
+			},
+			{
+				"startTime": 620,
+				"subject": {
+					"name": "Physics",
+					"isLab": false,
+					"teacher": {
+						"name": "Jane Smith",
+						"teacherId": "TCH1002"
+					}
+				}
+			},
+			{
+				"startTime": 680,
+				"subject": {
+					"name": "Math",
+					"isLab": true,
+					"teacher": {
+						"name": "John Doe",
+						"teacherId": "TCH1001"
+					}
+				}
+			}
+		],
+		[
+			{
+				"startTime": 500,
+				"subject": {
+					"name": "Chemistry",
+					"isLab": false,
+					"teacher": {
+						"name": "Mike Johnson",
+						"teacherId": "TCH1003"
+					}
+				}
+			},
+			{
+				"startTime": 560,
+				"subject": {
+					"name": "Biology",
+					"isLab": true,
+					"teacher": {
+						"name": "Sarah Lee",
+						"teacherId": "TCH1004"
+					}
+				}
+			},
+			{
+				"startTime": 620,
+				"subject": {
+					"name": "Math",
+					"isLab": true,
+					"teacher": {
+						"name": "John Doe",
+						"teacherId": "TCH1001"
+					}
+				}
+			},
+			{
+				"startTime": 680,
+				"subject": {
+					"name": "Physics",
+					"isLab": false,
+					"teacher": {
+						"name": "Jane Smith",
+						"teacherId": "TCH1002"
+					}
+				}
+			}
+		],
+		[
+			{
+				"startTime": 500,
+				"subject": {
+					"name": "Math",
+					"isLab": true,
+					"teacher": {
+						"name": "John Doe",
+						"teacherId": "TCH1001"
+					}
+				}
+			},
+			{
+				"startTime": 560,
+				"subject": {
+					"name": "Physics",
+					"isLab": false,
+					"teacher": {
+						"name": "Jane Smith",
+						"teacherId": "TCH1002"
+					}
+				}
+			},
+			{
+				"startTime": 620,
+				"subject": {
+					"name": "Chemistry",
+					"isLab": false,
+					"teacher": {
+						"name": "Mike Johnson",
+						"teacherId": "TCH1003"
+					}
+				}
+			},
+			{
+				"startTime": 680,
+				"subject": {
+					"name": "Sport",
+					"isLab": true,
+					"teacher": {
+						"name": "Sarah Lee",
+						"teacherId": "TCH1004"
+					}
+				}
+			}
+		]
+	]
+}
