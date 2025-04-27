@@ -4,15 +4,22 @@ import { motion } from 'framer-motion'
 import { toast } from 'sonner'
 import TimePicker from '../../components/TimePicker'
 
-const FirstPhase = ({ step, setStep, classname, setClassname, division, setDivision, startTime, setStartTime, hoursPerDay, setHoursPerDay, periodDuration, setPeriodDuration, specialHours, setSpecialHours, breakDuration, setBreakDuration, grades, setGrades,breakStartTime,setBreakStartTime }) => {
+const FirstPhase = ({ step, setStep, classname, setClassname, division, setDivision, startTime, setStartTime, hoursPerDay, setHoursPerDay, periodDuration, setPeriodDuration, specialHours, setSpecialHours, breakDuration, setBreakDuration, grades, setGrades, breakStartTime, setBreakStartTime }) => {
     const [isClassSelectOpen, setIsClassSelectOpen] = useState(false)
     const hoursArray = [4, 5, 6, 7, 8, 9];
     const durationArray = [30, 45, 60, 90];
     const specialDurationArray = [1, 2, 3];
     const breakDurationsArray = [30, 45, 60];
     const selectRef = useRef()
-    
+
     const handleNextStep = () => {
+        if (!(startTime + periodDuration <= breakStartTime)) {
+            toast.error('Break Time is not valid', {
+                position: 'bottom-right',
+                className: 'bg-red-500'
+            });
+            return;
+        }
         if (!classname || !division || !startTime) {
             toast.error('Please fill in all required fields', {
                 position: 'bottom-right',
@@ -44,7 +51,7 @@ const FirstPhase = ({ step, setStep, classname, setClassname, division, setDivis
                             >{classname}
                                 <ChevronDown className={`h-4 w-4 transition-transform ${isClassSelectOpen ? 'rotate-180' : ''}`} />
                             </div>
-    
+
                             <div className={`absolute z-50 w-full max-h-72 overflow-scroll mt-2 bg-[#0d0d0d] rounded-xl border border-white/10 shadow-xl transition-all duration-300 origin-top ${isClassSelectOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}>
                                 {grades.map((className) => (
                                     <div
@@ -55,9 +62,9 @@ const FirstPhase = ({ step, setStep, classname, setClassname, division, setDivis
                                         }}
                                         className={`px-4 py-2 flex items-center space-x-2 cursor-pointer transition-colors
                                         ${grades.includes(className)
-                                            ? 'bg-white/10 text-white'
-                                            : 'text-gray-400 hover:bg-white/5 hover:text-white'
-                                        }`}
+                                                ? 'bg-white/10 text-white'
+                                                : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                                            }`}
                                     >
                                         <span className="text-sm">{className}</span>
                                     </div>
@@ -84,9 +91,12 @@ const FirstPhase = ({ step, setStep, classname, setClassname, division, setDivis
                         <label htmlFor="startTime" className="block text-md font-medium text-white/70 mb-2 group-focus-within:text-white transition-colors duration-200">
                             Start Time
                         </label>
-                        <input type='time' value={startTime} onChange={(e) => setStartTime(e.target.value)} className="w-full text-white"/>
+                        <input type='time' onChange={(e) => {
+                            const [hour, min] = e.target.value.split(':')
+                            setStartTime(Number(hour) * 60 + Number(min))
+                        }} className="w-full text-white" />
                     </div>
-    
+
                     <div className="flex-1">
                         <label className="block text-md font-medium text-white/70 mb-2">Hours Per Day</label>
                         <div className="relative p-1.5 bg-zinc-800 rounded-full flex shadow-inner w-full">
@@ -131,7 +141,7 @@ const FirstPhase = ({ step, setStep, classname, setClassname, division, setDivis
                         ))}
                     </div>
                 </div>
-    
+
                 {/* Special Subject/Lab Hours */}
                 <div>
                     <label className="block text-md font-medium text-white/70 mb-2">Special Subject / Lab Hours</label>
@@ -155,10 +165,13 @@ const FirstPhase = ({ step, setStep, classname, setClassname, division, setDivis
                     </div>
                 </div>
                 <div className="group flex-1">
-                        <label htmlFor="startTime" className="block text-md font-medium text-white/70 mb-2 group-focus-within:text-white transition-colors duration-200">
-                            Break Start Time
-                        </label>
-                        <input type='time' value={breakStartTime} onChange={(e) => setBreakStartTime(e.target.value)} className="w-full text-white"/>
+                    <label htmlFor="startTime" className="block text-md font-medium text-white/70 mb-2 group-focus-within:text-white transition-colors duration-200">
+                        Break Start Time
+                    </label>
+                    <input type='time' onChange={(e) => {
+                        const [hour, min] = e.target.value.split(':')
+                        setBreakStartTime(Number(hour) * 60 + Number(min))
+                    }} className="w-full text-white" />
                 </div>
                 {/* Break Duration */}
                 <div>
@@ -182,7 +195,7 @@ const FirstPhase = ({ step, setStep, classname, setClassname, division, setDivis
                         ))}
                     </div>
                 </div>
-    
+
                 <button
                     type="button"
                     onClick={handleNextStep}

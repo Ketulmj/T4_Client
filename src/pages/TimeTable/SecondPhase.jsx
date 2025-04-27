@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { PlusCircle, BookOpen, X, Users, ArrowLeft } from "lucide-react";
+import { PlusCircle, BookOpen, X, Delete, Check, Users, ArrowLeft } from "lucide-react";
 import { toast } from 'sonner';
 
 
@@ -17,6 +17,8 @@ const SecondPhase = ({
     setIsTeacherPanelOpen,
     organizationTeachers,
     handleSubmit,
+    isLab,
+    setIsLab,
     setStep
 }) => {
     const getSelectedTeacherName = () => {
@@ -42,11 +44,12 @@ const SecondPhase = ({
             return;
         }
 
-        const teacherName = organizationTeachers.find(t => t.userId === selectedTeacher)?.name || '';
+        const teacher = organizationTeachers.find(t => t.userId === selectedTeacher) || '';
 
-        setSubjects([...subjects, { name: newSubject, teacher: teacherName }]);
+        setSubjects([...subjects, { name: newSubject, teacher: { name: teacher.name, teacherId: teacher.userId }, isLab }]);
         setNewSubject("");
         setSelectedTeacher("");
+        setIsLab(false)
     };
 
     const handleRemoveSubject = (index) => {
@@ -72,7 +75,7 @@ const SecondPhase = ({
                 </button>
             </div>
 
-            <div className="flex gap-4">
+            <div className="flex gap-4 items-center">
                 <div className="flex-1">
                     <input
                         type="text"
@@ -81,6 +84,14 @@ const SecondPhase = ({
                         className="w-full bg-zinc-800 text-white rounded-lg border border-white/10 px-4 py-2.5 focus:outline-none focus:border-white/30"
                         placeholder="Enter subject name"
                     />
+                </div>
+                <div className='bg-zinc-800 text-white px-3 py-2.5 rounded-lg border border-white/10 hover:bg-zinc-700 transition-colors flex items-center gap-4 whitespace-nowrap'>
+                    <p className='text-white'>Is Lab?</p>
+                    <label className="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" checked={isLab} className="sr-only peer" onChange={(e) => setIsLab(!isLab)} />
+                        <div className="group peer ring-0 bg-rose-400  rounded-full outline-none duration-300 after:duration-300 w-17 h-8  shadow-md peer-checked:bg-emerald-500  peer-focus:outline-none  after:content-['✖️']  after:rounded-full after:absolute after:bg-gray-50 after:outline-none after:h-6 after:w-6 after:top-1 after:left-1 after:flex after:justify-center after:items-center peer-checked:after:translate-x-8 peer-checked:after:content-['✔️'] peer-hover:after:scale-95">
+                        </div>
+                    </label>
                 </div>
                 <button
                     onClick={() => setIsTeacherPanelOpen(true)}
@@ -105,20 +116,22 @@ const SecondPhase = ({
                             <tr className="border-b border-white/10">
                                 <th className="text-white/70 text-sm font-medium text-left py-3 px-4">Subject</th>
                                 <th className="text-white/70 text-sm font-medium text-left py-3 px-4">Teacher*</th>
+                                <th className="text-white/70 text-sm font-medium text-left py-3 px-4">Is Lab?</th>
                                 <th className="text-white/70 text-sm font-medium text-right py-3 px-4">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             {subjects.map((subject, index) => (
-                                <tr key={index} className="border-b border-white/10 last:border-none">
+                                <tr key={index} className="border-b border-white/10 last:border-none ">
                                     <td className="text-white py-3 px-4">{subject.name}</td>
-                                    <td className="text-white py-3 px-4">{subject.teacher}</td>
+                                    <td className="text-white py-3 px-4">{subject.teacher.name}</td>
+                                    <td className="text-white py-3 px-4">{subject.isLab ? <Check className='h-5 w-5' /> : <X className='h-5 w-5' />}</td>
                                     <td className="text-white py-3 px-4 text-right">
                                         <button
                                             onClick={() => handleRemoveSubject(index)}
                                             className="text-red-500 hover:text-red-400 transition-colors"
                                         >
-                                            <X className="h-5 w-5" />
+                                            <Delete className="h-5 w-5" />
                                         </button>
                                     </td>
                                 </tr>

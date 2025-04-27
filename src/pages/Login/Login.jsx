@@ -174,6 +174,8 @@ const Login = () => {
                 }, 500);
             }
         } catch (error) {
+            console.log(error);
+
             toast.error("Connection error. Please try again later.");
         } finally {
             setIsLoading(false);
@@ -184,7 +186,7 @@ const Login = () => {
         <>
             <Helmet>
                 <title>Login | TimeFourthe</title>
-                  <link rel="icon" type="image/png" href={logo} />
+                <link rel="icon" type="image/png" href={logo} />
             </Helmet>
             <ToastProvider />
             <div className="min-h-screen bg-[#0A0A0A] flex relative overflow-hidden hexagon-bg">
@@ -205,7 +207,7 @@ const Login = () => {
                         </div>
 
                         <h1 className="text-white text-4xl font-bold mb-2 drop-shadow-lg">
-                            Welcome back    
+                            Welcome back
                         </h1>
                         <p className="text-gray-400 mb-8">
                             Sign in to your account

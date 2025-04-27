@@ -28,12 +28,13 @@ const TimeTableForm = () => {
 	const [breakStartTime, setBreakStartTime] = useState("")
 	const [newSubject, setNewSubject] = useState("");
 	const [selectedTeacher, setSelectedTeacher] = useState("");
+	const [isLab, setIsLab] = useState(false)
 	const [isTeacherPanelOpen, setIsTeacherPanelOpen] = useState(false);
 	const [selectingSecondTeacher, setSelectingSecondTeacher] = useState(false);
-const navigate=useNavigate()
+	const navigate = useNavigate()
 
 	useEffect(() => {
-		if(user.role!='organization'){
+		if (user.role != 'organization') {
 			navigate('/dashboard')
 		}
 		userFetcher(user, setUser)
@@ -46,24 +47,21 @@ const navigate=useNavigate()
 				.then(res => res.json())
 				.then(data => {
 					if (data) {
-						console.log(data.orgClasses);
 						setGrades(data.orgClasses);
 						setClassname(data.orgClasses[0])
 					}
 				})
 			// Teachers fetching
-				const OrgId = user.userId;
-				console.log(OrgId);
-				fetch(`http://localhost:3000/api/get/teachers?OrgId=${OrgId}`)
-					.then(res => res.json())
-					.then(data => {
-						if (data) {
-							console.log('Teachers : ',data);
-							setOrganizationTeachers(data);
-							localStorage.setItem('teachers', encode(JSON.stringify(data)))
-						}
-					});
-			
+			const OrgId = user.userId;
+			fetch(`http://localhost:3000/api/get/teachers?OrgId=${OrgId}`)
+				.then(res => res.json())
+				.then(data => {
+					if (data) {
+						setOrganizationTeachers(data);
+						localStorage.setItem('teachers', encode(JSON.stringify(data)))
+					}
+				});
+
 		}
 	}, [user])
 
@@ -76,16 +74,36 @@ const navigate=useNavigate()
 			});
 			return;
 		}
-		console.log({
-			classname,
+		const data = {
+			orgId: user.userId,
+			year: new Date().getFullYear(),
+			class: classname,
 			division,
 			startTime,
 			hoursPerDay,
 			periodDuration,
-			specialHours,
+			labDuration: specialHours,
 			breakDuration,
+			breakStartTime,
 			subjects
-		});
+		};
+
+		fetch('http://localhost:3000/api/generate/timetable', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			credentials: "include",
+			body: JSON.stringify(data)
+		})
+			.then(res => res.json())
+			.then(({ status, message, generateTT }) => {
+				if (status == 400) toast.error(message)
+				else {
+					console.log('TT : ', generateTT);
+				}
+			})
+			.catch(err => console.log(error))
 	};
 
 
@@ -93,7 +111,7 @@ const navigate=useNavigate()
 		<>
 			<Helmet>
 				<title>TimeTable | Time Fourthe</title>
-			  <link rel="icon" type="image/png" href={logo} />
+				<link rel="icon" type="image/png" href={logo} />
 			</Helmet>
 			<Toaster
 				position="bottom-right"
@@ -124,7 +142,6 @@ const navigate=useNavigate()
 							breakDuration={breakDuration} setBreakDuration={setBreakDuration}
 							breakStartTime={breakStartTime} setBreakStartTime={setBreakStartTime}
 						/>
-
 						{/* Step 2: Subject Creation and Display */}
 						<AnimatePresence>
 							{step === 2 && (
@@ -132,10 +149,12 @@ const navigate=useNavigate()
 									newSubject={newSubject} setNewSubject={setNewSubject}
 									selectedTeacher={selectedTeacher} setSelectedTeacher={setSelectedTeacher}
 									subjects={subjects} setSubjects={setSubjects}
+									isLab={isLab} setIsLab={setIsLab}
 									setSelectingSecondTeacher={setSelectingSecondTeacher}
 									setIsTeacherPanelOpen={setIsTeacherPanelOpen}
 									organizationTeachers={organizationTeachers}
 									handleSubmit={handleSubmit}
+									setStep={setStep}
 								/>
 							)}
 						</AnimatePresence>

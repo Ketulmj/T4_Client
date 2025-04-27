@@ -2,7 +2,7 @@ import React from 'react'
 import { Navigate } from 'react-router-dom'
 import Cookie from 'js-cookie'
 
-const Auth = ({ children }) => Cookie.get('auth') ? children : <Navigate to='/login' />
+const Auth = ({ children }) => Cookie.get('auth') ? children : <Navigate to='/' />
 
 export default Auth
 
