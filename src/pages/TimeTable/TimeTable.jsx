@@ -23,7 +23,7 @@ const TimeTableForm = () => {
 	const [breakDuration, setBreakDuration] = useState(30);
 	const [classname, setClassname] = useState("");
 	const [division, setDivision] = useState("");
-	const [subjects, setSubjects] = useState([]);
+	const [subjects, setSubjects] = useState(new Set());
 	const [grades, setGrades] = useState([]);
 	const [startTime, setStartTime] = useState("")
 	const [breakStartTime, setBreakStartTime] = useState("")
@@ -34,6 +34,7 @@ const TimeTableForm = () => {
 	const [selectingSecondTeacher, setSelectingSecondTeacher] = useState(false);
 	const [timeTableShowDialog, setTimeTableShowDialog] = useState(false)
 	const [timeTableData, setTimeTableData] = useState()
+	const [scheduledTeachers, setScheduledTeachers] = useState()
 	const navigate = useNavigate()
 
 	useEffect(() => {
@@ -46,7 +47,7 @@ const TimeTableForm = () => {
 	useEffect(() => {
 		if (user.userId) {
 			// classes fetching
-			fetch(`http://localhost:3000/api/get/org/classes?OrgId=${user.OrgId}`)
+			fetch(`http://localhost:3000/api/get/org/classes?OrgId=${user.userId}`)
 				.then(res => res.json())
 				.then(data => {
 					if (data) {
@@ -55,8 +56,7 @@ const TimeTableForm = () => {
 					}
 				})
 			// Teachers fetching
-			const OrgId = user.userId;
-			fetch(`http://localhost:3000/api/get/teachers?OrgId=${OrgId}`)
+			fetch(`http://localhost:3000/api/get/teachers?OrgId=${user.userId}`)
 				.then(res => res.json())
 				.then(data => {
 					if (data) {
@@ -72,6 +72,19 @@ const TimeTableForm = () => {
 
 	const timeTableConfirm = () => {
 		console.log('Confirm TimeTable')
+		fetch('http://localhost:3000/api/upload/timetable', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			credentials: "include",
+			body: JSON.stringify({ timeTable: timeTableData, scheduledTeachers: scheduledTeachers })
+		})
+			.then(res => res.json())
+			.then(res => {
+				console.log(res);
+			})
+			.catch(err => console.log(err))
 	}
 	const TimeTableGenerate = () => {
 		const data = {
@@ -97,17 +110,18 @@ const TimeTableForm = () => {
 			body: JSON.stringify(data)
 		})
 			.then(res => res.json())
-			.then(({ status, message, generatedTT }) => {
+			.then(({ status, message, generatedTT, scheduledTeachers }) => {
 				if (status == 400) toast.error(message)
 				else {
 					setTimeTableData(generatedTT)
+					setScheduledTeachers(scheduledTeachers)
 					setTimeTableShowDialog(true)
 				}
 			})
 			.catch(err => console.log(err))
 	}
 	const timeTableClose = () => {
-		console.log('Close TimeTable, Save to DB')
+		setTimeTableShowDialog(false)
 	}
 
 	const handleSubmit = (e) => {

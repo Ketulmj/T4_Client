@@ -46,14 +46,29 @@ const SecondPhase = ({
 
         const teacher = organizationTeachers.find(t => t.userId === selectedTeacher) || '';
 
-        setSubjects([...subjects, { name: newSubject, teacher: { name: teacher.name, teacherId: teacher.userId }, isLab }]);
+        if (subjects.has(JSON.stringify({ name: newSubject, teacher: { name: teacher.name, teacherId: teacher.userId }, isLab }))) {
+            toast.error("Already Included")
+        }
+        else {
+            setSubjects(prev => {
+                const newSet = new Set(prev);
+                newSet.add(JSON.stringify({ name: newSubject, teacher: { name: teacher.name, teacherId: teacher.userId }, isLab }))
+                return newSet
+            })
+        }
         setNewSubject("");
         setSelectedTeacher("");
         setIsLab(false)
     };
 
-    const handleRemoveSubject = (index) => {
-        setSubjects(prev => prev.filter((_, i) => i !== index));
+    const handleRemoveSubject = (name, teacher, isLab) => {
+        console.log(name, teacher, isLab);
+
+        setSubjects(prev => {
+            const newSet = new Set(prev);
+            newSet.delete(JSON.stringify({ name, teacher, isLab }));
+            return newSet;
+        });
     };
 
     return (
@@ -89,7 +104,7 @@ const SecondPhase = ({
                     <p className='text-white'>Is Lab?</p>
                     <label className="relative inline-flex items-center cursor-pointer">
                         <input type="checkbox" checked={isLab} className="sr-only peer" onChange={(e) => setIsLab(!isLab)} />
-                        <div className="group peer ring-0 bg-rose-400  rounded-full outline-none duration-300 after:duration-300 w-17 h-8  shadow-md peer-checked:bg-emerald-500  peer-focus:outline-none  after:content-['✖️']  after:rounded-full after:absolute after:bg-gray-50 after:outline-none after:h-6 after:w-6 after:top-1 after:left-1 after:flex after:justify-center after:items-center peer-checked:after:translate-x-8 peer-checked:after:content-['✔️'] peer-hover:after:scale-95">
+                        <div className="group peer ring-0 bg-white rounded-full outline-none duration-300 after:duration-300 w-17 h-8  shadow-md peer-checked:bg-emerald-500  peer-focus:outline-none  after:content-['✖️']  after:rounded-full after:absolute after:bg-gray-50 after:outline-none after:h-6 after:w-6 after:top-1 after:left-1 after:flex after:justify-center after:items-center peer-checked:after:translate-x-8 peer-checked:after:content-['✔️'] peer-hover:after:scale-95">
                         </div>
                     </label>
                 </div>
@@ -109,7 +124,7 @@ const SecondPhase = ({
                 </button>
             </div>
 
-            {subjects.length > 0 && (
+            {Array.from(subjects).length > 0 && (
                 <div className="bg-zinc-800 rounded-lg border border-white/10 overflow-hidden mt-6">
                     <table className="w-full">
                         <thead>
@@ -121,14 +136,14 @@ const SecondPhase = ({
                             </tr>
                         </thead>
                         <tbody>
-                            {subjects.map((subject, index) => (
+                            {Array.from(subjects).map((subject, index) => (
                                 <tr key={index} className="border-b border-white/10 last:border-none ">
-                                    <td className="text-white py-3 px-4">{subject.name}</td>
-                                    <td className="text-white py-3 px-4">{subject.teacher.name}</td>
-                                    <td className="text-white py-3 px-4">{subject.isLab ? <Check className='h-5 w-5' /> : <X className='h-5 w-5' />}</td>
+                                    <td className="text-white py-3 px-4">{JSON.parse(subject).name}</td>
+                                    <td className="text-white py-3 px-4">{JSON.parse(subject).teacher.name}</td>
+                                    <td className="text-white py-3 px-4">{JSON.parse(subject).isLab ? <Check className='h-5 w-5' /> : <X className='h-5 w-5' />}</td>
                                     <td className="text-white py-3 px-4 text-right">
                                         <button
-                                            onClick={() => handleRemoveSubject(index)}
+                                            onClick={() => handleRemoveSubject(JSON.parse(subject).name, JSON.parse(subject).teacher, JSON.parse(subject).isLab)}
                                             className="text-red-500 hover:text-red-400 transition-colors"
                                         >
                                             <Delete className="h-5 w-5" />

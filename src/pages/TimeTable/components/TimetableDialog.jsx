@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { RefreshCcw, Check } from 'lucide-react';
+import { RefreshCcw, Check, Edit, Edit2, Edit3 } from 'lucide-react';
 import TimetableGrid from './TimetableGrid';
 
 const TimetableDialog = ({
@@ -52,7 +52,6 @@ const TimetableDialog = ({
                   </h2>
                   <p className="text-white/60">Academic Year {timetableData.year}</p>
                 </div>
-
                 <div className="flex items-center gap-2 text-sm font-medium">
                   <div className="bg-zinc-900 text-white px-3 py-1 rounded-full border border-white/10">
                     Period: {timetableData.periodDuration} mins
@@ -82,6 +81,13 @@ const TimetableDialog = ({
 
             {/* Footer with buttons */}
             <div className="p-6 border-t border-white/10 flex flex-col sm:flex-row justify-end gap-3 bg-black">
+              <button
+                onClick={onClose}
+                className="flex items-center justify-center gap-2 px-5 py-2.5 bg-zinc-900 border border-white/10 rounded-lg text-white font-medium hover:bg-zinc-800 transition-colors"
+              >
+                <Edit3 size={18} />
+                Modify
+              </button>
               <button
                 onClick={onRegenerate}
                 className="flex items-center justify-center gap-2 px-5 py-2.5 bg-zinc-900 border border-white/10 rounded-lg text-white font-medium hover:bg-zinc-800 transition-colors"
