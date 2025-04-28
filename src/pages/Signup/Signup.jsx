@@ -196,12 +196,9 @@ const Signup = () => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
+                credentials: "include",
                 body: JSON.stringify(data)
             });
-
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
 
             const { error, message, userData } = await response.json();
 
@@ -211,7 +208,7 @@ const Signup = () => {
                 setUser(userData);
                 toast.success(message);
                 setTimeout(() => {
-                    navigate(role === 'organization' ? '/waiting-approval' : '/timetable');
+                    navigate(role === 'organization' ? '/waiting-approval' : '/dashboard');
                 }, 500);
             }
         } catch (error) {
@@ -255,7 +252,7 @@ const Signup = () => {
                         className="max-w-xl w-full mx-auto glass-effect p-8 rounded-2xl backdrop-blur-md shadow-md border border-[#4D7CFF]/20 hover-glow"
                     >
                         <div className="flex items-center mb-6">
-                             <img src={logo} className="w-8 h-8" />
+                            <img src={logo} className="w-8 h-8" />
                             <span className="ml-2 text-xl font-bold text-white neon-glow">TimeFourthe</span>
                         </div>
 

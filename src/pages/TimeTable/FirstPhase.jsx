@@ -2,7 +2,6 @@ import { useRef, useState } from 'react'
 import { Clock, PlusCircle, ChevronDown } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { toast } from 'sonner'
-import TimePicker from '../../components/TimePicker'
 
 const FirstPhase = ({ step, setStep, classname, setClassname, division, setDivision, startTime, setStartTime, hoursPerDay, setHoursPerDay, periodDuration, setPeriodDuration, specialHours, setSpecialHours, breakDuration, setBreakDuration, grades, setGrades, breakStartTime, setBreakStartTime }) => {
     const [isClassSelectOpen, setIsClassSelectOpen] = useState(false)

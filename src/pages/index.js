@@ -5,7 +5,6 @@ import Signup from "./Signup/Signup"
 import TimeTableForm from "./TimeTable/TimeTable"
 import WaitingApproval from "./WaitingApproval/WaitingApproval"
 import ResetPass from "./ResetPass/Resetpass"
-import AfterTimetable from "./AfterTimetable/AfterTimetable"
 import Home from "./Home/Home"
 
 export {
@@ -17,5 +16,4 @@ export {
     NotFound,
     Home,
     ResetPass,
-    AfterTimetable
 }

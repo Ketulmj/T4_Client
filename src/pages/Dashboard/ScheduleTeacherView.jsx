@@ -133,10 +133,6 @@ const ScheduleTeacherView = ({
 
           AddAbsentSubjectToLocalStorage(message)
         }
-        else {
-          console.log("hello else");
-
-        }
       })
   };
 
