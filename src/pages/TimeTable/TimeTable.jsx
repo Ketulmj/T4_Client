@@ -81,12 +81,17 @@ const TimeTableForm = () => {
 			body: JSON.stringify({ timeTable: timeTableData, scheduledTeachers: scheduledTeachers })
 		})
 			.then(res => res.json())
-			.then(res => {
-				console.log(res);
+			.then(({ status, result }) => {
+				if (status) toast.success(result)
 			})
 			.catch(err => console.log(err))
 	}
 	const TimeTableGenerate = () => {
+		let subsData = [];
+		Array.from(subjects).map(item => {
+			subsData.push(JSON.parse(item))
+		})
+
 		const data = {
 			orgId: user.userId,
 			year: new Date().getFullYear(),
@@ -98,7 +103,7 @@ const TimeTableForm = () => {
 			labDuration: specialHours,
 			breakDuration,
 			breakStartTime,
-			subjects
+			subjects: subsData
 		};
 
 		fetch('http://localhost:3000/api/generate/timetable', {
@@ -111,7 +116,7 @@ const TimeTableForm = () => {
 		})
 			.then(res => res.json())
 			.then(({ status, message, generatedTT, scheduledTeachers }) => {
-				if (status == 400) toast.error(message)
+				if (status == 400) toast.error(message || "Server Error - Bad Request")
 				else {
 					setTimeTableData(generatedTT)
 					setScheduledTeachers(scheduledTeachers)
@@ -168,6 +173,8 @@ const TimeTableForm = () => {
 					onClose={timeTableClose}
 					isOpen={timeTableShowDialog}
 					timetableData={timeTableData}
+					footer={true}
+					cross={false}
 				/>
 
 
@@ -225,295 +232,3 @@ const TimeTableForm = () => {
 }
 
 export default TimeTableForm;
-
-
-
-const dataTT = {
-	"id": null,
-	"orgId": "ORG163705377487057",
-	"class": "Class X",
-	"division": "A",
-	"year": 2024,
-	"breakStartTime": 670,
-	"breakDuration": 0,
-	"periodDuration": 60,
-	"labDuration": 60,
-	"timetable": [
-		[
-			{
-				"startTime": 500,
-				"subject": {
-					"name": "Gujrati",
-					"isLab": false,
-					"teacher": {
-						"name": "Mike Johnson",
-						"teacherId": "TCH1003"
-					}
-				}
-			},
-			{
-				"startTime": 560,
-				"subject": {
-					"name": "Math",
-					"isLab": true,
-					"teacher": {
-						"name": "John Doe",
-						"teacherId": "TCH1001"
-					}
-				}
-			},
-			{
-				"startTime": 620,
-				"subject": {
-					"name": "Biology",
-					"isLab": true,
-					"teacher": {
-						"name": "Sarah Lee",
-						"teacherId": "TCH1004"
-					}
-				}
-			},
-			{
-				"startTime": 680,
-				"subject": {
-					"name": "Physics",
-					"isLab": false,
-					"teacher": {
-						"name": "Jane Smith",
-						"teacherId": "TCH1002"
-					}
-				}
-			}
-		],
-		[
-			{
-				"startTime": 500,
-				"subject": {
-					"name": "Gujrati",
-					"isLab": false,
-					"teacher": {
-						"name": "Mike Johnson",
-						"teacherId": "TCH1003"
-					}
-				}
-			},
-			{
-				"startTime": 560,
-				"subject": {
-					"name": "Sport",
-					"isLab": true,
-					"teacher": {
-						"name": "Sarah Lee",
-						"teacherId": "TCH1004"
-					}
-				}
-			},
-			{
-				"startTime": 620,
-				"subject": {
-					"name": "Math",
-					"isLab": true,
-					"teacher": {
-						"name": "John Doe",
-						"teacherId": "TCH1001"
-					}
-				}
-			},
-			{
-				"startTime": 680,
-				"subject": {
-					"name": "Physics",
-					"isLab": false,
-					"teacher": {
-						"name": "Jane Smith",
-						"teacherId": "TCH1002"
-					}
-				}
-			}
-		],
-		[
-			{
-				"startTime": 500,
-				"subject": {
-					"name": "Physics",
-					"isLab": false,
-					"teacher": {
-						"name": "Jane Smith",
-						"teacherId": "TCH1002"
-					}
-				}
-			},
-			{
-				"startTime": 560,
-				"subject": {
-					"name": "Sport",
-					"isLab": true,
-					"teacher": {
-						"name": "Sarah Lee",
-						"teacherId": "TCH1004"
-					}
-				}
-			},
-			{
-				"startTime": 620,
-				"subject": {
-					"name": "Chemistry",
-					"isLab": false,
-					"teacher": {
-						"name": "Mike Johnson",
-						"teacherId": "TCH1003"
-					}
-				}
-			},
-			{
-				"startTime": 680,
-				"subject": {
-					"name": "Math",
-					"isLab": true,
-					"teacher": {
-						"name": "John Doe",
-						"teacherId": "TCH1001"
-					}
-				}
-			}
-		],
-		[
-			{
-				"startTime": 500,
-				"subject": {
-					"name": "Sport",
-					"isLab": true,
-					"teacher": {
-						"name": "Sarah Lee",
-						"teacherId": "TCH1004"
-					}
-				}
-			},
-			{
-				"startTime": 560,
-				"subject": {
-					"name": "Gujrati",
-					"isLab": false,
-					"teacher": {
-						"name": "Mike Johnson",
-						"teacherId": "TCH1003"
-					}
-				}
-			},
-			{
-				"startTime": 620,
-				"subject": {
-					"name": "Physics",
-					"isLab": false,
-					"teacher": {
-						"name": "Jane Smith",
-						"teacherId": "TCH1002"
-					}
-				}
-			},
-			{
-				"startTime": 680,
-				"subject": {
-					"name": "Math",
-					"isLab": true,
-					"teacher": {
-						"name": "John Doe",
-						"teacherId": "TCH1001"
-					}
-				}
-			}
-		],
-		[
-			{
-				"startTime": 500,
-				"subject": {
-					"name": "Chemistry",
-					"isLab": false,
-					"teacher": {
-						"name": "Mike Johnson",
-						"teacherId": "TCH1003"
-					}
-				}
-			},
-			{
-				"startTime": 560,
-				"subject": {
-					"name": "Biology",
-					"isLab": true,
-					"teacher": {
-						"name": "Sarah Lee",
-						"teacherId": "TCH1004"
-					}
-				}
-			},
-			{
-				"startTime": 620,
-				"subject": {
-					"name": "Math",
-					"isLab": true,
-					"teacher": {
-						"name": "John Doe",
-						"teacherId": "TCH1001"
-					}
-				}
-			},
-			{
-				"startTime": 680,
-				"subject": {
-					"name": "Physics",
-					"isLab": false,
-					"teacher": {
-						"name": "Jane Smith",
-						"teacherId": "TCH1002"
-					}
-				}
-			}
-		],
-		[
-			{
-				"startTime": 500,
-				"subject": {
-					"name": "Math",
-					"isLab": true,
-					"teacher": {
-						"name": "John Doe",
-						"teacherId": "TCH1001"
-					}
-				}
-			},
-			{
-				"startTime": 560,
-				"subject": {
-					"name": "Physics",
-					"isLab": false,
-					"teacher": {
-						"name": "Jane Smith",
-						"teacherId": "TCH1002"
-					}
-				}
-			},
-			{
-				"startTime": 620,
-				"subject": {
-					"name": "Chemistry",
-					"isLab": false,
-					"teacher": {
-						"name": "Mike Johnson",
-						"teacherId": "TCH1003"
-					}
-				}
-			},
-			{
-				"startTime": 680,
-				"subject": {
-					"name": "Sport",
-					"isLab": true,
-					"teacher": {
-						"name": "Sarah Lee",
-						"teacherId": "TCH1004"
-					}
-				}
-			}
-		]
-	]
-}

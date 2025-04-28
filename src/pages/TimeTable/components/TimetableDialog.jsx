@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { RefreshCcw, Check, Edit, Edit2, Edit3 } from 'lucide-react';
+import { RefreshCcw, Check, Edit, Edit2, Edit3, X } from 'lucide-react';
 import TimetableGrid from './TimetableGrid';
 
 const TimetableDialog = ({
@@ -8,7 +8,9 @@ const TimetableDialog = ({
   isOpen,
   onClose,
   onConfirm,
-  onRegenerate
+  onRegenerate,
+  footer,
+  cross
 }) => {
   useEffect(() => {
     if (isOpen) {
@@ -29,14 +31,14 @@ const TimetableDialog = ({
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm"
+          className={`${footer && 'fixed inset-0 z-50'} flex items-center justify-start p-4 bg-black/90 backdrop-blur-sm w-full glass-effect`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
         >
           <motion.div
-            className="bg-black rounded-xl shadow-2xl max-w-7xl w-full max-h-[90vh] overflow-hidden flex flex-col border border-white/10"
+            className="bg-black rounded-xl shadow-2xl max-w-[100vw] w-full max-h-[90vh] overflow-hidden flex flex-col border border-white/10 glass-effect"
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
@@ -44,11 +46,14 @@ const TimetableDialog = ({
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
-            <div className="p-6 border-b border-white/10">
+            <div className="p-6 border-b border-white/10 glass-effect">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
+                  {
+                    cross && <X size={40} className='text-white absolute z-50 top-0 left-0' onClick={onClose} />
+                  }
                   <h2 className="text-2xl font-bold text-white">
-                    {timetableData.class} - {timetableData.division}
+                    {timetableData.class}
                   </h2>
                   <p className="text-white/60">Academic Year {timetableData.year}</p>
                 </div>
@@ -57,7 +62,7 @@ const TimetableDialog = ({
                     Period: {timetableData.periodDuration} mins
                   </div>
                   <div className="bg-zinc-900 text-white px-3 py-1 rounded-full border border-white/10">
-                    Lab: {timetableData.labDuration * 60} mins
+                    Lab: {timetableData.labDuration} mins
                   </div>
                   {timetableData.breakDuration > 0 && (
                     <div className="bg-zinc-900 text-white px-3 py-1 rounded-full border border-white/10">
@@ -69,7 +74,7 @@ const TimetableDialog = ({
             </div>
 
             {/* Timetable content */}
-            <div className="flex-1 overflow-auto p-6 bg-black">
+            <div className="flex-1 overflow-auto p-6 bg-black glass-effect">
               <TimetableGrid
                 timetable={timetableData.timetable}
                 breakStartTime={timetableData.breakStartTime}
@@ -79,31 +84,33 @@ const TimetableDialog = ({
               />
             </div>
 
-            {/* Footer with buttons */}
-            <div className="p-6 border-t border-white/10 flex flex-col sm:flex-row justify-end gap-3 bg-black">
-              <button
-                onClick={onClose}
-                className="flex items-center justify-center gap-2 px-5 py-2.5 bg-zinc-900 border border-white/10 rounded-lg text-white font-medium hover:bg-zinc-800 transition-colors"
-              >
-                <Edit3 size={18} />
-                Modify
-              </button>
-              <button
-                onClick={onRegenerate}
-                className="flex items-center justify-center gap-2 px-5 py-2.5 bg-zinc-900 border border-white/10 rounded-lg text-white font-medium hover:bg-zinc-800 transition-colors"
-              >
-                <RefreshCcw size={18} />
-                Regenerate
-              </button>
+            {
+              footer &&
+              <div className="p-6 border-t border-white/10 flex flex-col sm:flex-row justify-end gap-3 bg-black">
+                <button
+                  onClick={onClose}
+                  className="flex items-center justify-center gap-2 px-5 py-2.5 bg-zinc-900 border border-white/10 rounded-lg text-white font-medium hover:bg-zinc-800 transition-colors"
+                >
+                  <Edit3 size={18} />
+                  Modify
+                </button>
+                <button
+                  onClick={onRegenerate}
+                  className="flex items-center justify-center gap-2 px-5 py-2.5 bg-zinc-900 border border-white/10 rounded-lg text-white font-medium hover:bg-zinc-800 transition-colors"
+                >
+                  <RefreshCcw size={18} />
+                  Regenerate
+                </button>
 
-              <button
-                onClick={onConfirm}
-                className="flex items-center justify-center gap-2 px-5 py-2.5 bg-white text-black rounded-lg font-medium hover:bg-zinc-200 transition-colors"
-              >
-                <Check size={18} />
-                Confirm
-              </button>
-            </div>
+                <button
+                  onClick={onConfirm}
+                  className="flex items-center justify-center gap-2 px-5 py-2.5 bg-white text-black rounded-lg font-medium hover:bg-zinc-200 transition-colors"
+                >
+                  <Check size={18} />
+                  Confirm
+                </button>
+              </div>
+            }
           </motion.div>
         </motion.div>
       )}

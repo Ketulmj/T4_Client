@@ -10,7 +10,6 @@ const TimetableCell = ({
 }) => {
   const duration = subject.isLab ? labDuration : periodDuration;
   const endTime = startTime + duration;
-
   return (
     <div
       className={`p-3 rounded-lg border ${subject.isLab
@@ -18,7 +17,7 @@ const TimetableCell = ({
         : 'bg-white border-gray-200'
         } h-full flex flex-col`}
     >
-      <div className="flex justify-between items-start mb-1">
+      <div className="flex justify-between items-start mb-1 ">
         <h3 className={`font-medium ${subject.isLab ? 'text-indigo-700' : 'text-gray-800'}`}>
           {subject.name}
         </h3>

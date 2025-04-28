@@ -7,51 +7,50 @@ const getAllTimeSlots = (timetable, breakStartTime, breakDuration) => {
   const allTimes = new Set();
 
   // Add all class start times
-  
+
   timetable.forEach(day => {
     day.forEach(slot => {
       allTimes.add(slot.startTime);
     });
   });
-  
+
   // Add break start time if not already included
   allTimes.add(breakStartTime);
-  
+
   // Add break end time
   const breakEndTime = breakStartTime + breakDuration;
   allTimes.add(breakEndTime);
-  
+
   return [...allTimes].sort((a, b) => a - b);
 };
 
 const findClassForTimeSlot = (
-  dayIndex, 
-  timeSlot, 
-  timetable, 
-  breakStartTime, 
+  dayIndex,
+  timeSlot,
+  timetable,
+  breakStartTime,
   breakDuration
 ) => {
   // Check if this is a break time slot
   if (timeSlot === breakStartTime) {
     return { isBreak: true, classInfo: null };
   }
-  
+
   // Check if this is within break time (but not the start)
   if (timeSlot > breakStartTime && timeSlot < (breakStartTime + breakDuration)) {
     return { isBreak: true, classInfo: null };
   }
-  
+
   const daySchedule = timetable[dayIndex] || [];
-  
+
   // Find class that starts at this time slot
   const classInfo = daySchedule.find((slot) => slot.startTime === timeSlot);
-  
+
   return { isBreak: false, classInfo: classInfo || null };
 };
 
 const ShowTimeTable = ({ timetableSchedule }) => {
-    const ClassData=timetableSchedule
-    
+  const ClassData = timetableSchedule
   const { timetable, breakStartTime, breakDuration, periodDuration, labDuration } = ClassData;
   const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
   const timeSlots = getAllTimeSlots(timetable, breakStartTime, breakDuration);
@@ -75,10 +74,10 @@ const ShowTimeTable = ({ timetableSchedule }) => {
           {timeSlots.map((timeSlot, index) => {
             const isBreakStart = timeSlot === breakStartTime;
             const isWithinBreak = timeSlot >= breakStartTime && timeSlot < (breakStartTime + breakDuration);
-            
+
             return (
-              <tr 
-                key={timeSlot} 
+              <tr
+                key={timeSlot}
                 className={`group ${isWithinBreak ? 'break-row' : ''}`}
               >
                 <td className={`${isWithinBreak ? 'bg-amber-500/20' : 'bg-[#4D7CFF]/5'} p-2 text-white border-r border-b border-[#4D7CFF]/20 font-medium text-center text-sm`}>
@@ -96,13 +95,12 @@ const ShowTimeTable = ({ timetableSchedule }) => {
                   const { isBreak, classInfo } = findClassForTimeSlot(dayIndex, timeSlot, timetable, breakStartTime, breakDuration);
 
                   return (
-                    <td 
-                      key={`${day}-${timeSlot}`} 
-                      className={`p-2 border-r border-b border-[#4D7CFF]/20 ${
-                        isBreak 
-                          ? 'bg-amber-500/10 text-amber-300' 
+                    <td
+                      key={`${day}-${timeSlot}`}
+                      className={`p-2 border-r border-b border-[#4D7CFF]/20 ${isBreak
+                          ? 'bg-amber-500/10 text-amber-300'
                           : 'group-hover:bg-[#4D7CFF]/5'
-                      } transition-colors duration-200`}
+                        } transition-colors duration-200`}
                     >
                       {isBreak ? (
                         <motion.div
@@ -139,7 +137,7 @@ const ShowTimeTable = ({ timetableSchedule }) => {
                               classInfo.startTime,
                               calculateEndTime(
                                 classInfo.startTime,
-                                classInfo.subject.isLab?labDuration:periodDuration
+                                classInfo.subject.isLab ? labDuration : periodDuration
                               )
                             )}
                           </div>

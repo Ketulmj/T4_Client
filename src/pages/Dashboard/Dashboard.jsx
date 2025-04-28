@@ -2,21 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { School, Users, Building2, Share2 } from 'lucide-react';
 import { Helmet } from "react-helmet-async";
 import { toast } from 'sonner';
-import { encode, decode } from 'js-base64';
+import { encode } from 'js-base64';
 import { useNavigate } from 'react-router-dom';
 import logo from '../../public/logo.png';
 import Navbar from '../../components/Navbar';
 import OrganizationView from './OrganizationView';
-import ConfirmationDialog from './ConfirmationDialog';
 import ScheduleStudentView from './ScheduleStudentView';
 import ScheduleTeacherView from './ScheduleTeacherView';
 import WeeklyTimetableModal from './WeeklyTimetableModel';
 import ToastProvider from '../../components/Toaster';
-// import ttdata from '../../tmpdata/timetable-data.json'
 import { useUser } from '../../contexts/user.context';
 import { userFetcher } from '../../lib/userFetcher';
-
-const mockTimetables = [];
 
 const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
@@ -91,16 +87,9 @@ const Dashboard = () => {
 
   useEffect(() => {
     userFetcher(user, setUser);
-    const isAbsentClassesExist = localStorage.getItem('absentClasses');
-    if (isAbsentClassesExist) {
-      const storedAbsentClasses = JSON.parse(decode(isAbsentClassesExist));
-      if (storedAbsentClasses) setAbsentClasses(storedAbsentClasses);
-    }
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem('absentClasses', encode(JSON.stringify(absentClasses)));
-  }, [absentClasses]);
+
 
   const handleCloseModal = () => setIsModalOpen(false);
 
@@ -109,16 +98,11 @@ const Dashboard = () => {
       isOpen: false,
       scheduleKey: null,
       isUnmarking: false,
-      subject: null,
-      className: null,
-      date: confirmDialog.date,
       deleteTableId: null
     });
 
     if (user.role === 'organization') {
       console.log("TimeTable Delete : ", confirmDialog.deleteTableId);
-    } else {
-      setAbsentClasses((prev) => [...prev, confirmDialog.scheduleKey]);
     }
   };
 
@@ -143,7 +127,15 @@ const Dashboard = () => {
               )}
             </div>
             <div className="slide-in">
-              <h2 className="text-white text-lg font-semibold tracking-tight">{user.name}</h2>
+              <div className='flex text-white text-lg font-semibold tracking-tight'>
+                <p>{user.name}</p>
+                {user.role == "student" &&
+                  <>
+                    <pre> | </pre>
+                    <p>{user.className}</p>
+                  </>
+                }
+              </div>
               <p className="text-white/70 text-xs font-medium">ID: {user.userId}</p>
             </div>
           </div>
@@ -158,27 +150,20 @@ const Dashboard = () => {
     </>
   );
 
-  const getDaySchedule = (dayIndex) => {
-    const schedule = mockTimetables.generatedTimeTable[dayIndex] || [];
-    return schedule.map(slot => ({
-      time: slot.startTime,
-      subject: slot.subject.name,
-      teacher: slot.subject.teacher.name,
-      isLab: slot.subject.isLab
-    }));
-  };
-
   return (
     <>
       <Navbar role={user.role} />
       <div className="h-[calc(100vh-64px)] bg-[#0A0A0A] hexagon-bg p-3 overflow-auto">
-        <div className="max-w-7xl mx-auto space-y-4">
+        <div className="max-w-[80vw] mx-auto space-y-4">
           <UserInfo />
-          {user.role === 'Teacher' && (
+          {user.role === 'teacher' && (
             <div className="space-y-4">
               <WeekNavigator selectedDay={selectedDay} setSelectedDay={setSelectedDay} />
               <div className="animate-on-mount">
                 <ScheduleTeacherView
+                  teacherId={user.userId}
+                  teacherName={user.name}
+                  orgId={user.orgId}
                   selectedDay={selectedDay}
                   convertToSimpleTime={convertToSimpleTime}
                   days={days}
@@ -193,9 +178,8 @@ const Dashboard = () => {
             <div className="space-y-4">
               <div className="animate-on-mount">
                 <ScheduleStudentView
-                  convertToSimpleTime={convertToSimpleTime}
-                  mockWeekSchedule={mockTimetables}
-                  selectedDay={selectedDay}
+                  orgId={user.orgId}
+                  className={user.className}
                 />
               </div>
             </div>
@@ -204,10 +188,10 @@ const Dashboard = () => {
             <div className="animate-on-mount">
               <OrganizationView
                 confirmDialog={confirmDialog}
-                mockTimetables={mockTimetables}
                 setConfirmDialog={setConfirmDialog}
                 setIsModalOpen={setIsModalOpen}
                 setSelectedTimetable={setSelectedTimetable}
+                orgId={user.userId}
               />
             </div>
           )}
@@ -220,18 +204,6 @@ const Dashboard = () => {
               schedule={mockTimetables.generatedTimeTable}
             />
           )}
-          <ConfirmationDialog
-            isOpen={confirmDialog.isOpen}
-            onClose={() => setConfirmDialog({ isOpen: false, scheduleKey: null, isUnmarking: false })}
-            onConfirm={handleConfirmAbsent}
-            message={
-              user.role === 'organization'
-                ? 'Are you sure you want to delete this timetable?'
-                : confirmDialog.isUnmarking
-                  ? "Are you sure you want to unmark this class as absent?"
-                  : "Are you sure you want to mark this class as absent?"
-            }
-          />
         </div>
       </div>
     </>

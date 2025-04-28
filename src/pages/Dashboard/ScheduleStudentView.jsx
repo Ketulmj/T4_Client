@@ -1,22 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Clock, GraduationCap, BookOpen } from 'lucide-react';
-import { motion } from 'framer-motion';
-import ShowTimeTable from '../../components/showTimeTable'
+import { useEffect } from 'react';
+import TimetableDialog from '../TimeTable/components/TimetableDialog'
 
-const ScheduleStudentView = ({ mockWeekSchedule, selectedDay, convertToSimpleTime }) => (
-  <div className="glass-effect rounded-xl backdrop-blur-md border border-[#4D7CFF]/20 shadow-md hover-glow">
-    <div className="p-4 border-b border-[#4D7CFF]/20 flex justify-between items-center">
-      <div className="flex items-center gap-2">
-        <Clock className="w-6 h-6 text-[#4D7CFF]" />
-        <h3 className="text-xl font-bold text-white neon-glow">Schedule for {mockWeekSchedule[0].className}</h3>
-      </div>
-      <h3 className="text-[#4D7CFF] font-medium">Break at 2 PM</h3>
-    </div>
-    <div className="p-4 space-y-4">
-     
-        <ShowTimeTable timetableSchedule={mockWeekSchedule[0]}/>
-    </div>
-  </div>
-);
+const ScheduleStudentView = ({ orgId, className }) => {
+  const [timeTable, setTimeTable] = useState()
+  useEffect(() => {
+    fetch(`http://localhost:3000/api/get/timetable?class=${className}&orgId=${orgId}`)
+      .then(res => res.json())
+      .then(({ timetable }) => { console.log(timetable); setTimeTable(timetable) })
+  }, [])
+
+  return <>
+    {
+      timeTable ?
+        <TimetableDialog
+          isOpen={true}
+          timetableData={timeTable}
+          footer={false}
+          cross={false}
+        />
+        :
+        <div className='flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm w-full glass-effect text-white text-lg font-semibold tracking-tight'>
+          There is no timetable for your class yet
+        </div>
+    }
+  </>
+}
 
 export default ScheduleStudentView;

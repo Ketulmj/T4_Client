@@ -27,7 +27,7 @@ const TimetableGrid = ({
   const daysCount = timetable.length;
 
   return (
-    <div className="w-full overflow-x-auto">
+    <div className="w-full overflow-x-auto ">
       <div className="min-w-[800px]">
         {/* Header Row with Day Names */}
         <div
@@ -54,7 +54,7 @@ const TimetableGrid = ({
                   daysCount={daysCount}
                 />
                 <div
-                  className="grid grid-cols-7 mb-2"
+                  className="grid grid-cols-7 mb-2 "
                   style={{ gridTemplateColumns: `90px repeat(${daysCount}, 1fr)` }}
                 >
                   <div className="p-2 flex items-center justify-center">
@@ -64,7 +64,7 @@ const TimetableGrid = ({
                   </div>
 
                   {timetable.map((day, dayIndex) => (
-                    <div key={`cell-${dayIndex}-${periodIndex}`} className="p-1">
+                    <div key={`cell-${dayIndex}-${periodIndex}`} className="p-1 ">
                       <TimetableCell
                         startTime={day[periodIndex].startTime}
                         subject={day[periodIndex].subject}
