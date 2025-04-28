@@ -22,7 +22,6 @@ const TimeTableForm = () => {
 	const [hoursPerDay, setHoursPerDay] = useState(6);
 	const [breakDuration, setBreakDuration] = useState(30);
 	const [classname, setClassname] = useState("");
-	const [division, setDivision] = useState("");
 	const [subjects, setSubjects] = useState(new Set());
 	const [grades, setGrades] = useState([]);
 	const [startTime, setStartTime] = useState("")
@@ -100,7 +99,7 @@ const TimeTableForm = () => {
 			startTime,
 			hoursPerDay,
 			periodDuration,
-			labDuration: specialHours,
+			labDuration: specialHours * 60,
 			breakDuration,
 			breakStartTime,
 			subjects: subsData
@@ -163,7 +162,7 @@ const TimeTableForm = () => {
 				}}
 			/>
 			<Navbar role={user.role} />
-			<div className="min-h-screen bg-black flex items-center justify-center py-4 px-4 sm:px-20 relative">
+			<div className="h-[93.1vh] bg-black flex items-start justify-center py-4 px-4 sm:px-20 relative pt-20">
 
 
 				{/* ------------------------------------------------------------- */}
@@ -186,13 +185,13 @@ const TimeTableForm = () => {
 							step={step} setStep={setStep}
 							grades={grades} setGrades={setGrades}
 							classname={classname} setClassname={setClassname}
-							division={division} setDivision={setDivision}
 							startTime={startTime} setStartTime={setStartTime}
 							hoursPerDay={hoursPerDay} setHoursPerDay={setHoursPerDay}
 							periodDuration={periodDuration} setPeriodDuration={setPeriodDuration}
 							specialHours={specialHours} setSpecialHours={setSpecialHours}
 							breakDuration={breakDuration} setBreakDuration={setBreakDuration}
 							breakStartTime={breakStartTime} setBreakStartTime={setBreakStartTime}
+							orgId={user.userId}
 						/>
 						{/* Step 2: Subject Creation and Display */}
 						<AnimatePresence>
@@ -202,7 +201,6 @@ const TimeTableForm = () => {
 									selectedTeacher={selectedTeacher} setSelectedTeacher={setSelectedTeacher}
 									subjects={subjects} setSubjects={setSubjects}
 									isLab={isLab} setIsLab={setIsLab}
-									setSelectingSecondTeacher={setSelectingSecondTeacher}
 									setIsTeacherPanelOpen={setIsTeacherPanelOpen}
 									organizationTeachers={organizationTeachers}
 									handleSubmit={handleSubmit}

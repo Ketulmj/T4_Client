@@ -46,16 +46,20 @@ const TimetableDialog = ({
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
-            <div className="p-6 border-b border-white/10 glass-effect">
+            <div className="relative p-6 border-b border-white/10 glass-effect">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                  {
-                    cross && <X size={40} className='text-white absolute z-50 top-0 left-0' onClick={onClose} />
-                  }
-                  <h2 className="text-2xl font-bold text-white">
+                  {cross && (
+                    <X
+                      size={32}
+                      className="text-white absolute top-2 left-2 cursor-pointer z-50"
+                      onClick={onClose}
+                    />
+                  )}
+                  <h2 className={`text-2xl font-bold text-white ${cross && 'ml-7'}`}>
                     {timetableData.class}
                   </h2>
-                  <p className="text-white/60">Academic Year {timetableData.year}</p>
+                  <p className={`text-white/60 ${cross && 'ml-7'}`}>Academic Year {timetableData.year}</p>
                 </div>
                 <div className="flex items-center gap-2 text-sm font-medium">
                   <div className="bg-zinc-900 text-white px-3 py-1 rounded-full border border-white/10">

@@ -1,15 +1,23 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Clock, PlusCircle, ChevronDown } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { toast } from 'sonner'
 
-const FirstPhase = ({ step, setStep, classname, setClassname, division, setDivision, startTime, setStartTime, hoursPerDay, setHoursPerDay, periodDuration, setPeriodDuration, specialHours, setSpecialHours, breakDuration, setBreakDuration, grades, setGrades, breakStartTime, setBreakStartTime }) => {
+const FirstPhase = ({ step, setStep, classname, setClassname, startTime, setStartTime, hoursPerDay, setHoursPerDay, periodDuration, setPeriodDuration, specialHours, setSpecialHours, breakDuration, setBreakDuration, grades, setGrades, breakStartTime, setBreakStartTime, orgId }) => {
     const [isClassSelectOpen, setIsClassSelectOpen] = useState(false)
     const hoursArray = [4, 5, 6, 7, 8, 9];
     const durationArray = [30, 45, 60, 90];
     const specialDurationArray = [1, 2, 3];
     const breakDurationsArray = [30, 45, 60];
+    const [alreadyCreatedTT, setAlreadyCreatedTT] = useState()
     const selectRef = useRef()
+
+    useEffect(() => {
+        fetch(`http://localhost:3000/api/get/timetable-metadata?OrgId=${orgId}`)
+            .then(res => res.json())
+            .then(res => setAlreadyCreatedTT(res.timetables.map(t => t.value).map(t => t.className)))
+    }, [])
+
 
     const handleNextStep = () => {
         if (!(startTime + periodDuration <= breakStartTime)) {
@@ -19,8 +27,15 @@ const FirstPhase = ({ step, setStep, classname, setClassname, division, setDivis
             });
             return;
         }
-        if (!classname || !division || !startTime) {
+        if (!classname || !startTime) {
             toast.error('Please fill in all required fields', {
+                position: 'bottom-right',
+                className: 'bg-red-500'
+            });
+            return;
+        }
+        if (alreadyCreatedTT.includes(classname)) {
+            toast.error(`Timetable already exist for ${classname}`, {
                 position: 'bottom-right',
                 className: 'bg-red-500'
             });
@@ -71,46 +86,45 @@ const FirstPhase = ({ step, setStep, classname, setClassname, division, setDivis
                             </div>
                         </div>
                     </div>
-                    <div className="group flex-1">
-                        <label htmlFor="division" className="block text-md font-medium text-white/70 mb-2 group-focus-within:text-white transition-colors duration-200">
-                            Division
-                        </label>
-                        <input
-                            type="text"
-                            id="division"
-                            value={division}
-                            onChange={(e) => setDivision(e.target.value)}
-                            className="w-full px-4 py-2 bg-zinc-800 border border-white/10 rounded-lg text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent transition-all duration-200"
-                            required
-                        />
-                    </div>
                 </div>
-                <div className="flex flex-col sm:flex-row gap-4 sm:gap-x-8">
-                    <div className="group flex-1">
-                        <label htmlFor="startTime" className="block text-md font-medium text-white/70 mb-2 group-focus-within:text-white transition-colors duration-200">
+                <div className="flex flex-row items-end gap-6">
+                    <div className="flex flex-col flex-1">
+                        <label
+                            htmlFor="startTime"
+                            className="block text-md font-medium text-white/70 mb-2"
+                        >
                             Start Time
                         </label>
-                        <input type='time' onChange={(e) => {
-                            const [hour, min] = e.target.value.split(':')
-                            setStartTime(Number(hour) * 60 + Number(min))
-                        }} className="w-full text-white" />
+                        <input
+                            type="time"
+                            onChange={(e) => {
+                                const [hour, min] = e.target.value.split(":");
+                                setStartTime(Number(hour) * 60 + Number(min));
+                            }}
+                            className="bg-[#1e1e1e] text-white placeholder-gray-400 border border-gray-600 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-white"
+                        />
                     </div>
 
-                    <div className="flex-1">
-                        <label className="block text-md font-medium text-white/70 mb-2">Hours Per Day</label>
+                    <div className="flex flex-col flex-6">
+                        <label className="block text-md font-medium text-white/70 mb-2">
+                            Hours Per Day
+                        </label>
                         <div className="relative p-1.5 bg-zinc-800 rounded-full flex shadow-inner w-full">
                             <div
-                                className="absolute top-0 left-0 h-[calc(100%)] w-[calc(16.66%)] bg-white rounded-full transition-all duration-300"
+                                className="absolute top-0 left-0 h-full w-[calc(16.66%)] bg-white rounded-full transition-all duration-300"
                                 style={{
                                     left: `calc(${(hoursArray.indexOf(hoursPerDay) / hoursArray.length) * 100}%)`,
                                 }}
                             ></div>
-                            {hoursArray.map(hours => (
+                            {hoursArray.map((hours) => (
                                 <button
                                     type="button"
                                     key={hours}
                                     onClick={() => setHoursPerDay(hours)}
-                                    className={`flex-1 py-2 px-2 sm:px-4 rounded-full text-sm sm:text-md font-medium relative z-10 transition-colors duration-300 cursor-pointer ${hoursPerDay === hours ? 'text-black' : 'text-white/70 hover:text-white'}`}
+                                    className={`flex-1 py-2 px-2 sm:px-4 rounded-full text-sm sm:text-md font-medium relative z-10 transition-colors duration-300 cursor-pointer ${hoursPerDay === hours
+                                        ? "text-black"
+                                        : "text-white/70 hover:text-white"
+                                        }`}
                                 >
                                     {hours}h
                                 </button>
@@ -118,6 +132,7 @@ const FirstPhase = ({ step, setStep, classname, setClassname, division, setDivis
                         </div>
                     </div>
                 </div>
+
                 {/* Period Duration */}
                 <div>
                     <label className="block text-md font-medium text-white/70 mb-2">Period Duration</label>
@@ -163,35 +178,44 @@ const FirstPhase = ({ step, setStep, classname, setClassname, division, setDivis
                         ))}
                     </div>
                 </div>
-                <div className="group flex-1">
-                    <label htmlFor="startTime" className="block text-md font-medium text-white/70 mb-2 group-focus-within:text-white transition-colors duration-200">
-                        Break Start Time
-                    </label>
-                    <input type='time' onChange={(e) => {
-                        const [hour, min] = e.target.value.split(':')
-                        setBreakStartTime(Number(hour) * 60 + Number(min))
-                    }} className="w-full text-white" />
-                </div>
-                {/* Break Duration */}
-                <div>
-                    <label className="block text-md font-medium text-white/70 mb-2">Break Duration</label>
-                    <div className="relative p-1.5 bg-zinc-800 rounded-full flex shadow-inner w-full">
-                        <div
-                            className="absolute top-0 left-0 h-[calc(100%)] w-[calc(33.33%)] bg-white rounded-full transition-all duration-300"
-                            style={{
-                                left: `calc(${(breakDurationsArray.indexOf(breakDuration) / breakDurationsArray.length) * 100}%)`,
+                <div className="flex flex-row items-end gap-6">
+                    <div className="flex flex-col flex-1">
+                        <label
+                            htmlFor="startTime"
+                            className="block text-md font-medium text-white/70 mb-2"
+                        >
+                            Breack Start Time
+                        </label>
+                        <input
+                            type="time"
+                            onChange={(e) => {
+                                const [hour, min] = e.target.value.split(":");
+                                setBreakStartTime(Number(hour) * 60 + Number(min));
                             }}
-                        ></div>
-                        {breakDurationsArray.map(item => (
-                            <button
-                                type="button"
-                                key={item}
-                                onClick={() => setBreakDuration(item)}
-                                className={`flex-1 py-2 px-2 sm:px-4 rounded-full text-sm sm:text-md font-medium relative z-10 transition-colors duration-300 cursor-pointer ${breakDuration === item ? 'text-black' : 'text-white/70 hover:text-white'}`}
-                            >
-                                {item} mins
-                            </button>
-                        ))}
+                            className="bg-[#1e1e1e] text-white placeholder-gray-400 border border-gray-600 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-white"
+                        />
+                    </div>
+                    {/* Break Duration */}
+                    <div className='flex flex-col flex-2 justify-center'>
+                        <label className="block text-md font-medium text-white/70 mb-2">Break Duration</label>
+                        <div className="relative p-1.5 bg-zinc-800 rounded-full flex shadow-inner w-full">
+                            <div
+                                className="absolute top-0 left-0 h-[calc(100%)] w-[calc(33.33%)] bg-white rounded-full transition-all duration-300"
+                                style={{
+                                    left: `calc(${(breakDurationsArray.indexOf(breakDuration) / breakDurationsArray.length) * 100}%)`,
+                                }}
+                            ></div>
+                            {breakDurationsArray.map(item => (
+                                <button
+                                    type="button"
+                                    key={item}
+                                    onClick={() => setBreakDuration(item)}
+                                    className={`flex-1 py-2 px-2 sm:px-4 rounded-full text-sm sm:text-md font-medium relative z-10 transition-colors duration-300 cursor-pointer ${breakDuration === item ? 'text-black' : 'text-white/70 hover:text-white'}`}
+                                >
+                                    {item} mins
+                                </button>
+                            ))}
+                        </div>
                     </div>
                 </div>
 
