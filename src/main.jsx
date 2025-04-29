@@ -29,7 +29,8 @@ createRoot(document.getElementById('root')).render(
                         <Route path="/signup/:url" element={
                             //<NoAuth>
                                 <Signup />
-                            //</NoAuth>} />
+                            //</NoAuth>
+                        } />
                         <Route path="/dashboard" element={
                             //<Auth>
                                 <Dashboard />
