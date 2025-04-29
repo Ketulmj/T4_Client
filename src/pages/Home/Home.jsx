@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Clock, CalendarDays, Smartphone, Zap, CheckCircle, Calendar } from 'lucide-react';
 import Header from '../../components/Header';
@@ -13,73 +13,63 @@ function Home() {
             {/* SEO Optimization */}
             <Helmet>
                 <title>Best Timetable Scheduling Software | TimeFourthe</title>
-                <meta name="description" content="TimeFourthe offers efficient timetable scheduling with custom-built algorithms, seamless sync, and conflict prevention. Optimize your scheduling experience now!" />
-                <meta name="keywords" content="timetable scheduling, schedule generator, class scheduler, optimized scheduling, conflict prevention, time management" />
-                <meta name="author" content="TimeFourthe" />
-                
-                {/* Open Graph for social media sharing */}
-                <meta property="og:title" content="Best Timetable Scheduling Software | TimeFourthe" />
-                <meta property="og:description" content="Create optimized schedules with TimeFourthe’s advanced timetable system. Experience seamless sync, conflict prevention, and time efficiency." />
-                <meta property="og:image" content={logo} />
-                <meta property="og:type" content="website" />
-                <meta property="og:url" content="https://yourwebsite.com" />
-
-                {/* Favicon */}
                 <link rel="icon" type="image/png" href={logo} />
             </Helmet>
+            <div>
+                <div className="fixed inset-0 bg-gradient-to-b from-[#0A0A0A] via-transparent to-[#0A0A0A] pointer-events-none"></div>
+                <Header />
 
-            <div className="fixed inset-0 bg-gradient-to-b from-[#0A0A0A] via-transparent to-[#0A0A0A] pointer-events-none"></div>
-            <Header />
-
-            <main className="relative">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-16 text-center relative">
-                    <motion.h1
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.2 }}
-                        className="text-6xl md:text-8xl font-bold"
-                    >
-                        Create Perfect <br />
-                        <span className="text-[#4D7CFF] animate-float inline-block">Timetables</span>
-                    </motion.h1>
-                </div>
-
-                {/* Timetable Animation */}
-                <div className="relative h-[600px]">
-                    <AnimatedTimetable />
-                </div>
-            </main>
-
-            {/* Features Section */}
-            <section className="pb-20 relative overflow-hidden">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
-                        className="text-center mb-16"
-                    >
-                        <h2 className="text-4xl md:text-5xl font-bold mb-4 neon-glow">
-                            Advanced Scheduling Features
-                        </h2>
-                        <p className="text-xl text-gray-400">
-                        Optimize your scheduling with our advanced custom-built algorithm. 
-                        No more conflicts, just seamless planning.
-                        </p>
-                    </motion.div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {features.map((feature, index) => (
-                            <FeatureCard key={index} {...feature} index={index} />
-                        ))}
+                <main className="relative">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-16 text-center relative">
+                        <motion.h1
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8, delay: 0.2 }}
+                            className="text-6xl md:text-8xl font-bold"
+                        >
+                            Create Perfect <br />
+                            <span className="text-[#4D7CFF] animate-float inline-block">Timetables</span>
+                        </motion.h1>
                     </div>
-                </div>
-            </section>
 
-            {/* Footer */}
-            <div className="bg-[#161618] py-5 text-center text-gray-400 absolute w-full">
-                <p>&copy; {new Date().getFullYear()} TimeFourthe. All rights reserved.</p>
+                    {/* Timetable Animation */}
+                    <div className="relative h-[600px]">
+                        <AnimatedTimetable />
+                    </div>
+                </main>
+
+                {/* Features Section */}
+                <section className="pb-20 relative overflow-hidden">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8 }}
+                            className="text-center mb-16"
+                        >
+                            <h2 className="text-4xl md:text-5xl font-bold mb-4 neon-glow">
+                                Advanced Scheduling Features
+                            </h2>
+                            <p className="text-xl text-gray-400">
+                                Optimize your scheduling with our advanced custom-built algorithm.
+                                No more conflicts, just seamless planning.
+                            </p>
+                        </motion.div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            {features.map((feature, index) => (
+                                <FeatureCard key={index} {...feature} index={index} />
+                            ))}
+                        </div>
+                    </div>
+                </section>
+
+                {/* Footer */}
+                <div className="bg-[#161618] py-5 text-center text-gray-400 absolute w-full">
+                    <p>&copy; {new Date().getFullYear()} TimeFourthe. All rights reserved.</p>
+                </div>
             </div>
+
         </div>
     );
 }

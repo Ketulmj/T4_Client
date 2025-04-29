@@ -59,7 +59,7 @@ const TimetableGrid = ({
                 >
                   <div className="p-2 flex items-center justify-center">
                     <div className="text-sm font-medium text-gray-500">
-                      {timetable[0][periodIndex].startTime}
+                      {minutesToTimeString(timetable[0][periodIndex].startTime)}
                     </div>
                   </div>
 

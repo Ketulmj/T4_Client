@@ -37,7 +37,7 @@ createRoot(document.getElementById('root')).render(
                         }
                         />
                         <Route path="/waiting-approval" element={<WaitingApproval />} />
-                        <Route path="/reset-password?id" element={<ResetPass />} />
+                        <Route path="/reset-password" element={<ResetPass />} />
                         <Route path="/:nothing" element={<NotFound />} />
                     </Routes>
                 </Mobile>

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { RefreshCcw, Check, Edit, Edit2, Edit3, X } from 'lucide-react';
+import { RefreshCcw, Check, Edit, Edit2, Edit3, X, ArrowRight } from 'lucide-react';
 import TimetableGrid from './TimetableGrid';
 
 const TimetableDialog = ({
@@ -10,7 +10,9 @@ const TimetableDialog = ({
   onConfirm,
   onRegenerate,
   footer,
-  cross
+  cross,
+  setIsLoading,
+  isLoading
 }) => {
   useEffect(() => {
     if (isOpen) {
@@ -106,13 +108,25 @@ const TimetableDialog = ({
                   Regenerate
                 </button>
 
-                <button
+                <motion.button
+                  type="submit"
+                  disabled={isLoading}
+                  whileHover={{ scale: isLoading ? 1 : 1.02 }}
                   onClick={onConfirm}
-                  className="flex items-center justify-center gap-2 px-5 py-2.5 bg-white text-black rounded-lg font-medium hover:bg-zinc-200 transition-colors"
+                  className={`bg-white px-5 py-2.5 rounded-xl transition-all duration-200 flex items-center justify-center group cursor-pointer font-medium ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
                 >
-                  <Check size={18} />
-                  Confirm
-                </button>
+                  {isLoading ? (
+                    <div className="flex items-center">
+                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                      Generating ...
+                    </div>
+                  ) : (
+                    <>
+                      Confirm
+                      <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                    </>
+                  )}
+                </motion.button>
               </div>
             }
           </motion.div>

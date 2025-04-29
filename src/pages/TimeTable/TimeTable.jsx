@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Toaster, toast } from 'sonner';
+import { toast } from 'sonner';
 import { AnimatePresence } from "framer-motion";
 import Navbar from "../../components/Navbar";
 import FirstPhase from "./FirstPhase";
@@ -11,6 +11,7 @@ import { useUser } from "../../contexts/user.context";
 import { decode, encode } from "js-base64";
 import { useNavigate } from "react-router-dom";
 import logo from '../../public/logo.png'
+import ToastProvider from '../../components/Toaster';
 import TimetableDialog from './components/TimetableDialog'
 
 const TimeTableForm = () => {
@@ -34,6 +35,7 @@ const TimeTableForm = () => {
 	const [timeTableShowDialog, setTimeTableShowDialog] = useState(false)
 	const [timeTableData, setTimeTableData] = useState()
 	const [scheduledTeachers, setScheduledTeachers] = useState()
+	const [isLoading, setIsLoading] = useState(false);
 	const navigate = useNavigate()
 
 	useEffect(() => {
@@ -71,6 +73,7 @@ const TimeTableForm = () => {
 
 	const timeTableConfirm = () => {
 		console.log('Confirm TimeTable')
+		setIsLoading(true)
 		fetch('http://localhost:3000/api/upload/timetable', {
 			method: 'POST',
 			headers: {
@@ -81,7 +84,12 @@ const TimeTableForm = () => {
 		})
 			.then(res => res.json())
 			.then(({ status, result }) => {
-				if (status) toast.success(result)
+				if (status) {
+					toast.success(result);
+					setTimeTableShowDialog(false);
+					navigate('/dashboard');
+					setIsLoading(false)
+				}
 			})
 			.catch(err => console.log(err))
 	}
@@ -95,7 +103,6 @@ const TimeTableForm = () => {
 			orgId: user.userId,
 			year: new Date().getFullYear(),
 			class: classname,
-			division,
 			startTime,
 			hoursPerDay,
 			periodDuration,
@@ -149,18 +156,7 @@ const TimeTableForm = () => {
 				<title>TimeTable | Time Fourthe</title>
 				<link rel="icon" type="image/png" href={logo} />
 			</Helmet>
-			<Toaster
-				position="bottom-right"
-				toastOptions={{
-					style: {
-						fontSize: '1rem',
-						background: 'rgb(239 68 68)',
-						color: 'white',
-						border: 'none'
-					},
-					className: 'bg-red-500'
-				}}
-			/>
+			<ToastProvider />
 			<Navbar role={user.role} />
 			<div className="h-[93.1vh] bg-black flex items-start justify-center py-4 px-4 sm:px-20 relative pt-20">
 
@@ -174,6 +170,8 @@ const TimeTableForm = () => {
 					timetableData={timeTableData}
 					footer={true}
 					cross={false}
+					setIsLoading={setIsLoading}
+					isLoading={isLoading}
 				/>
 
 
