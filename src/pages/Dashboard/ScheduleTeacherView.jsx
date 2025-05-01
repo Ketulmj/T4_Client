@@ -80,15 +80,13 @@ const ScheduleTeacherView = ({
   }, [selectedDay, currentDate.currentDay, days]);
 
 
-  const AddAbsentSubjectToLocalStorage = (message) => {
-    toast.success(message)
+  const AddAbsentSubjectToLocalStorage = () => {
     const isAbsentExixts = localStorage.getItem('absentClasses')
     let abscls = []
     if (isAbsentExixts) {
       abscls = JSON.parse(decode(isAbsentExixts))
     }
     localStorage.setItem('absentClasses', encode(JSON.stringify([...abscls, absentDayKey])))
-    setAbsentClasses([...absentClasses, absentDayKey])
     setAbsentDayKey(null)
   }
 
@@ -96,6 +94,33 @@ const ScheduleTeacherView = ({
     if (isDayInPast) {
       return; // Don't allow marking absent for past days
     }
+    toast.success("Mail sending to students")
+
+    const data = {
+      class: confirmBox.fetchMails.className,
+      date: confirmBox.doMail.date,
+      name: confirmBox.doMail.teacher,
+      subjectName: confirmBox.doMail.subject,
+      orgId: confirmBox.fetchMails.orgId
+    }
+    setConfirmBox(_ => (
+      {
+        isOpen: false,
+        doMail: {
+          subject: null,
+          teacher: null,
+          date: null
+        },
+        fetchMails: {
+          className: null,
+          division: null,
+          orgId
+        }
+      }
+    ))
+
+
+    setAbsentClasses([...absentClasses, absentDayKey])
 
     fetch('http://localhost:3000/api/user/teacher/absent', {
       method: 'POST',
@@ -103,35 +128,12 @@ const ScheduleTeacherView = ({
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-        class: confirmBox.fetchMails.className,
-        date: confirmBox.doMail.date,
-        name: confirmBox.doMail.teacher,
-        subjectName: confirmBox.doMail.subject,
-        orgId: confirmBox.fetchMails.orgId
-      })
+      body: JSON.stringify(data)
     })
       .then(res => res.json())
-      .then(({ status, message }) => {
+      .then(({ status }) => {
         if (status == 200) {
-
-          setConfirmBox(_ => (
-            {
-              isOpen: false,
-              doMail: {
-                subject: null,
-                teacher: null,
-                date: null
-              },
-              fetchMails: {
-                className: null,
-                division: null,
-                orgId
-              }
-            }
-          ))
-
-          AddAbsentSubjectToLocalStorage(message)
+          AddAbsentSubjectToLocalStorage()
         }
       })
   };
