@@ -28,7 +28,7 @@ const ShareButton = ({ title, forX, user }) => (
   <button
     onClick={() => {
       const data = { orgId: user.userId, role: forX };
-      const encodedURL = `https://timefourthe.vercel.app/signup/${encode(JSON.stringify(data))}`;
+      const encodedURL = `http://localhost:3000/signup/${encode(JSON.stringify(data))}`;
       navigator.clipboard.writeText(encodedURL);
       toast.success(`Link Copied 🎉`, {
         duration: 5000,
