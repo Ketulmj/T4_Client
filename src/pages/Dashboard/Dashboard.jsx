@@ -28,7 +28,7 @@ const ShareButton = ({ title, forX, user }) => (
   <button
     onClick={() => {
       const data = { orgId: user.userId, role: forX };
-      const encodedURL = `http://localhost:3000/signup/${encode(JSON.stringify(data))}`;
+      const encodedURL = `http://localhost:5173/signup/${encode(JSON.stringify(data))}`;
       navigator.clipboard.writeText(encodedURL);
       toast.success(`Link Copied 🎉`, {
         duration: 5000,
@@ -152,7 +152,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <Navbar role={user.role} />
+      <Navbar role={user?.role} />
       <div className="h-[calc(100vh-64px)] bg-[#0A0A0A] hexagon-bg p-3 overflow-auto">
         <div className="max-w-[80vw] mx-auto space-y-4">
           <UserInfo />

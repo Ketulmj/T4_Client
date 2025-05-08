@@ -3,10 +3,6 @@ import { motion } from 'framer-motion';
 import { PlusCircle, BookOpen, X, Delete, Check, Users, ArrowLeft } from "lucide-react";
 import { toast } from 'sonner';
 
-
-
-
-
 const SecondPhase = ({
     newSubject,
     setNewSubject,

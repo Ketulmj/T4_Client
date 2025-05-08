@@ -45,7 +45,7 @@ const ScheduleTeacherView = ({
       .then(res => res.json())
       .then(({ schedule }) => {
         setSchedules(schedule)
-        setSubjectsOfTheDay(schedule.filter(period => period.day == days.indexOf(selectedDay)))
+        setSubjectsOfTheDay(schedule?.filter(period => period.day == days.indexOf(selectedDay)))
 
         const isAbsentClassesExist = localStorage.getItem('absentClasses');
         if (isAbsentClassesExist) {
@@ -181,7 +181,7 @@ const ScheduleTeacherView = ({
       </div>
       <div className="p-4 space-y-4">
         {
-          subjectsOfTheDay.length <= 0 ?
+          (subjectsOfTheDay?.length || 0) <= 0 ?
             <p className='text-white text-center font-bold'>There are no scheduled classes for any subject on {selectedDay}</p>
             :
             subjectsOfTheDay.map((schedule, index) => {

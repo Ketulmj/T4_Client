@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
-import { Clock, PlusCircle, ChevronDown } from 'lucide-react'
+import { PlusCircle, ChevronDown } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { toast } from 'sonner'
 
-const FirstPhase = ({ step, setStep, classname, setClassname, startTime, setStartTime, hoursPerDay, setHoursPerDay, periodDuration, setPeriodDuration, specialHours, setSpecialHours, breakDuration, setBreakDuration, grades, setGrades, breakStartTime, setBreakStartTime, orgId }) => {
+const FirstPhase = ({ step, setStep, classname, setClassname, startTime, setStartTime, hoursPerDay, setHoursPerDay, periodDuration, setPeriodDuration, specialHours, setSpecialHours, breakDuration, setBreakDuration, grades, breakStartTime, setBreakStartTime, orgId }) => {
     const [isClassSelectOpen, setIsClassSelectOpen] = useState(false)
     const hoursArray = [4, 5, 6, 7, 8, 9];
     const durationArray = [30, 45, 60, 90];
