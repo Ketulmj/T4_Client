@@ -58,8 +58,7 @@ const SecondPhase = ({
     };
 
     const handleRemoveSubject = (name, teacher, isLab) => {
-        console.log(name, teacher, isLab);
-
+        // console.log(name, teacher, isLab);
         setSubjects(prev => {
             const newSet = new Set(prev);
             newSet.delete(JSON.stringify({ name, teacher, isLab }));

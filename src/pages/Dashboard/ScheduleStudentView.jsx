@@ -8,7 +8,7 @@ const ScheduleStudentView = ({ orgId, className }) => {
   useEffect(() => {
     fetch(`http://localhost:3000/api/get/timetable?class=${className}&orgId=${orgId}`)
       .then(res => res.json())
-      .then(({ timetable }) => { console.log(timetable); setTimeTable(timetable) })
+      .then(({ timetable }) => { setTimeTable(timetable) })
   }, [])
 
   return <>

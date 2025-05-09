@@ -1,5 +1,5 @@
 export const userFetcher = (user, setUser) => {
-    if (!user.userId) {
+    if (user != {}) {
         fetch('http://localhost:3000/api/user/get',
             {
                 method: 'GET',

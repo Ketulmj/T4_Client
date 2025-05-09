@@ -1,6 +1,4 @@
-import React from 'react';
 import { minutesToTimeString } from '../../../lib/timeUtils';
-
 
 const BreakRow = ({
   breakStartTime,

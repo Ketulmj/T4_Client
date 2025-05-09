@@ -3,7 +3,6 @@ import { School, Users, Building2, Share2 } from 'lucide-react';
 import { Helmet } from "react-helmet-async";
 import { toast } from 'sonner';
 import { encode } from 'js-base64';
-import { useNavigate } from 'react-router-dom';
 import logo from '../../public/logo.png';
 import Navbar from '../../components/Navbar';
 import OrganizationView from './OrganizationView';
@@ -67,7 +66,6 @@ const WeekNavigator = ({ selectedDay, setSelectedDay }) => (
 );
 
 const Dashboard = () => {
-  const navigate = useNavigate();
   const [user, setUser] = useUser();
   const [selectedDay, setSelectedDay] = useState(() => {
     const today = new Date();
@@ -88,8 +86,6 @@ const Dashboard = () => {
   useEffect(() => {
     userFetcher(user, setUser);
   }, []);
-
-
 
   const handleCloseModal = () => setIsModalOpen(false);
 
@@ -118,7 +114,7 @@ const Dashboard = () => {
         <div className="flex justify-between items-center gap-3">
           <div className="flex items-center gap-x-1">
             <div className="p-3 glass-effect rounded-lg hover-scale">
-              {user.role === "organization" ? (
+              {user && user.role === "organization" ? (
                 <Building2 className="h-5 w-5 text-[#4D7CFF] transition-all duration-300 hover:text-[#6B8FFF]" />
               ) : user.role === "teacher" ? (
                 <Users className="h-5 w-5 text-[#4D7CFF] transition-all duration-300 hover:text-[#6B8FFF]" />
@@ -139,7 +135,7 @@ const Dashboard = () => {
               <p className="text-white/70 text-xs font-medium">ID: {user.userId}</p>
             </div>
           </div>
-          {user.role === 'organization' && (
+          {user && user.role === 'organization' && (
             <div className="flex gap-x-2">
               <ShareButton title="Share for Students" forX="student" user={user} />
               <ShareButton title="Share for Teachers" forX="teacher" user={user} />
@@ -156,7 +152,7 @@ const Dashboard = () => {
       <div className="h-[calc(100vh-64px)] bg-[#0A0A0A] hexagon-bg p-3 overflow-auto">
         <div className="max-w-[80vw] mx-auto space-y-4">
           <UserInfo />
-          {user.role === 'teacher' && (
+          {user && user.role === 'teacher' && (
             <div className="space-y-4">
               <WeekNavigator selectedDay={selectedDay} setSelectedDay={setSelectedDay} />
               <div className="animate-on-mount">
@@ -174,7 +170,7 @@ const Dashboard = () => {
               </div>
             </div>
           )}
-          {user.role === 'student' && (
+          {user && user.role === 'student' && (
             <div className="space-y-4">
               <div className="animate-on-mount">
                 <ScheduleStudentView
@@ -184,7 +180,7 @@ const Dashboard = () => {
               </div>
             </div>
           )}
-          {user.role === "organization" && (
+          {user && user.role === "organization" && (
             <div className="animate-on-mount">
               <OrganizationView
                 confirmDialog={confirmDialog}
@@ -211,3 +207,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+

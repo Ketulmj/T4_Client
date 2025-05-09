@@ -65,14 +65,10 @@ const TimeTableForm = () => {
 						localStorage.setItem('teachers', encode(JSON.stringify(data)))
 					}
 				});
-
 		}
 	}, [user])
 
-
-
 	const timeTableConfirm = () => {
-		console.log('Confirm TimeTable')
 		setIsLoading(true)
 		fetch('http://localhost:3000/api/upload/timetable', {
 			method: 'POST',
@@ -80,7 +76,7 @@ const TimeTableForm = () => {
 				'Content-Type': 'application/json'
 			},
 			credentials: "include",
-			body: JSON.stringify({ timeTable: timeTableData, scheduledTeachers: scheduledTeachers })
+			body: JSON.stringify({ TimeTable: timeTableData, ScheduledTeachers: scheduledTeachers })
 		})
 			.then(res => res.json())
 			.then(({ status, result }) => {
@@ -93,6 +89,7 @@ const TimeTableForm = () => {
 			})
 			.catch(err => console.log(err))
 	}
+	
 	const TimeTableGenerate = () => {
 		let subsData = [];
 		Array.from(subjects).map(item => {
@@ -111,7 +108,6 @@ const TimeTableForm = () => {
 			breakStartTime,
 			subjects: subsData
 		};
-
 		fetch('http://localhost:3000/api/generate/timetable', {
 			method: 'POST',
 			headers: {
@@ -144,11 +140,8 @@ const TimeTableForm = () => {
 			});
 			return;
 		}
-
 		TimeTableGenerate()
 	};
-
-
 
 	return (
 		<>
@@ -160,8 +153,6 @@ const TimeTableForm = () => {
 			<Navbar role={user.role} />
 			<div className="bg-black flex items-start justify-center py-4 px-4 sm:px-20 relative pt-20">
 
-
-				{/* ------------------------------------------------------------- */}
 				<TimetableDialog
 					onConfirm={timeTableConfirm}
 					onRegenerate={TimeTableGenerate}
@@ -173,8 +164,6 @@ const TimeTableForm = () => {
 					setIsLoading={setIsLoading}
 					isLoading={isLoading}
 				/>
-
-
 
 				<div className="w-full bg-zinc-900 rounded-xl shadow-2xl shadow-white/5 p-4 sm:p-6 md:p-8 border border-white/10">
 					<div className="relative">

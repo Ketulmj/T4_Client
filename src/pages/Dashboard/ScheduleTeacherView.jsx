@@ -45,7 +45,7 @@ const ScheduleTeacherView = ({
       .then(res => res.json())
       .then(({ schedule }) => {
         setSchedules(schedule)
-        setSubjectsOfTheDay(schedule?.filter(period => period.day == days.indexOf(selectedDay)))
+        setSubjectsOfTheDay(schedule?.filter(period => period.Day == days.indexOf(selectedDay)))
 
         const isAbsentClassesExist = localStorage.getItem('absentClasses');
         if (isAbsentClassesExist) {
@@ -56,7 +56,7 @@ const ScheduleTeacherView = ({
   }, [])
 
   useEffect(() => {
-    setSubjectsOfTheDay(schedules?.filter(period => period.day == days.indexOf(selectedDay)))
+    setSubjectsOfTheDay(schedules?.filter(period => period.Day == days.indexOf(selectedDay)))
   }, [selectedDay])
 
   // Format selected date for display
@@ -118,7 +118,6 @@ const ScheduleTeacherView = ({
         }
       }
     ))
-
 
     setAbsentClasses([...absentClasses, absentDayKey])
 
@@ -199,14 +198,14 @@ const ScheduleTeacherView = ({
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                       <div className="space-y-1">
                         <div className="flex items-center gap-2">
-                          <h4 className="text-white font-medium">{schedule.subject}</h4>
+                          <h4 className="text-white font-medium">{schedule.Subject}</h4>
                           <span className="text-white/50">•</span>
                           <div className="flex items-center gap-1.5 text-white/70">
                             <GraduationCap className="h-4 w-4" />
-                            <span>{schedule.className}</span>
+                            <span>{schedule.ClassName}</span>
                           </div>
                         </div>
-                        <p className="text-white/50 text-sm">{schedule.duration} min</p>
+                        <p className="text-white/50 text-sm">{schedule.Duration} min</p>
                       </div>
                       <div className="flex items-center gap-4">
                         <button
@@ -215,13 +214,12 @@ const ScheduleTeacherView = ({
                             setConfirmBox({
                               isOpen: true,
                               doMail: {
-                                subject: schedule.subject,
+                                subject: schedule.Subject,
                                 teacher: teacherName,
                                 date: selectedDate
                               },
                               fetchMails: {
-                                className: schedule.className,
-                                division: schedule.division,
+                                className: schedule.ClassName,
                                 orgId
                               }
                             })
@@ -237,7 +235,7 @@ const ScheduleTeacherView = ({
                           <UserX className="h-4 w-4" />
                           {isAbsent ? 'Marked Absent' : 'Mark Absent'}
                         </button>
-                        <p className="text-white font-medium">{convertToSimpleTime(schedule.startTime)}</p>
+                        <p className="text-white font-medium">{convertToSimpleTime(schedule.StartTime)}</p>
                       </div>
                     </div>
                   </div>

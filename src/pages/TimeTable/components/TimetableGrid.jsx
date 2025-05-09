@@ -16,7 +16,7 @@ const TimetableGrid = ({
     if (!timetable || timetable.length === 0 || timetable[0].length === 0) return -1;
 
     for (let i = 0; i < timetable[0].length; i++) {
-      if (timetable[0][i].startTime > breakStartTime) {
+      if (timetable[0][i].StartTime > breakStartTime) {
         return i;
       }
     }
@@ -58,16 +58,16 @@ const TimetableGrid = ({
                   style={{ gridTemplateColumns: `90px repeat(${daysCount}, 1fr)` }}
                 >
                   <div className="p-2 flex items-center justify-center">
-                    <div className="text-sm font-medium text-gray-500">
-                      {minutesToTimeString(timetable[0][periodIndex].startTime)}
+                    <div className="text-sm font-medium text-gray-200">
+                      {minutesToTimeString(timetable[0][periodIndex].StartTime)}
                     </div>
                   </div>
 
                   {timetable.map((day, dayIndex) => (
                     <div key={`cell-${dayIndex}-${periodIndex}`} className="p-1 ">
                       <TimetableCell
-                        startTime={day[periodIndex].startTime}
-                        subject={day[periodIndex].subject}
+                        startTime={day[periodIndex].StartTime}
+                        subject={day[periodIndex].Subject}
                         periodDuration={periodDuration}
                         labDuration={labDuration}
                       />
@@ -86,15 +86,15 @@ const TimetableGrid = ({
             >
               <div className="p-2 flex items-center justify-center">
                 <div className="text-sm font-medium text-gray-200">
-                  {minutesToTimeString(timetable[0][periodIndex].startTime)}
+                  {minutesToTimeString(timetable[0][periodIndex].StartTime)}
                 </div>
               </div>
 
               {timetable.map((day, dayIndex) => (
                 <div key={`cell-${dayIndex}-${periodIndex}`} className="p-1">
                   <TimetableCell
-                    startTime={day[periodIndex].startTime}
-                    subject={day[periodIndex].subject}
+                    startTime={day[periodIndex].StartTime}
+                    subject={day[periodIndex].Subject}
                     periodDuration={periodDuration}
                     labDuration={labDuration}
                   />

@@ -40,7 +40,7 @@ const Signup = () => {
             setOrgId(orgId);
 
             if (role === 'student') {
-                fetch(`http://localhost:3000/api/get/org/classes?orgId=${orgId}`)
+                fetch(`http://localhost:3000/api/get/org/classes?OrgId=${orgId}`)
                     .then(res => res.json())
                     .then(({ orgClasses }) => {
                         setGrades(orgClasses);

@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { RefreshCcw, Check, Edit, Edit2, Edit3, X, ArrowRight } from 'lucide-react';
+import { RefreshCcw, Edit3, X, ArrowRight } from 'lucide-react';
 import TimetableGrid from './TimetableGrid';
 
 const TimetableDialog = ({
@@ -11,7 +11,6 @@ const TimetableDialog = ({
   onRegenerate,
   footer,
   cross,
-  setIsLoading,
   isLoading
 }) => {
   useEffect(() => {
@@ -59,20 +58,20 @@ const TimetableDialog = ({
                     />
                   )}
                   <h2 className={`text-2xl font-bold text-white ${cross && 'ml-7'}`}>
-                    {timetableData.class}
+                    {timetableData.Class}
                   </h2>
-                  <p className={`text-white/60 ${cross && 'ml-7'}`}>Academic Year {timetableData.year}</p>
+                  <p className={`text-white/60 ${cross && 'ml-7'}`}>Academic Year {timetableData.Year}</p>
                 </div>
                 <div className="flex items-center gap-2 text-sm font-medium">
                   <div className="bg-zinc-900 text-white px-3 py-1 rounded-full border border-white/10">
-                    Period: {timetableData.periodDuration} mins
+                    Period: {timetableData.PeriodDuration} mins
                   </div>
                   <div className="bg-zinc-900 text-white px-3 py-1 rounded-full border border-white/10">
-                    Lab: {timetableData.labDuration} mins
+                    Lab: {timetableData.LabDuration} mins
                   </div>
-                  {timetableData.breakDuration > 0 && (
+                  {timetableData.BreakDuration > 0 && (
                     <div className="bg-zinc-900 text-white px-3 py-1 rounded-full border border-white/10">
-                      Break: {timetableData.breakDuration} mins
+                      Break: {timetableData.BreakDuration} mins
                     </div>
                   )}
                 </div>
@@ -82,11 +81,11 @@ const TimetableDialog = ({
             {/* Timetable content */}
             <div className="flex-1 overflow-auto p-6 bg-black glass-effect">
               <TimetableGrid
-                timetable={timetableData.timetable}
-                breakStartTime={timetableData.breakStartTime}
-                breakDuration={timetableData.breakDuration}
-                periodDuration={timetableData.periodDuration}
-                labDuration={timetableData.labDuration}
+                timetable={timetableData.Timetable}
+                breakStartTime={timetableData.BreakStartTime}
+                breakDuration={timetableData.BreakDuration}
+                periodDuration={timetableData.PeriodDuration}
+                labDuration={timetableData.LabDuration}
               />
             </div>
 

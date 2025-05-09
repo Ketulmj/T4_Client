@@ -15,7 +15,7 @@ const FirstPhase = ({ step, setStep, classname, setClassname, startTime, setStar
     useEffect(() => {
         fetch(`http://localhost:3000/api/get/timetable-metadata?OrgId=${orgId}`)
             .then(res => res.json())
-            .then(res => setAlreadyCreatedTT(res.timetables.map(t => t.value).map(t => t.className)))
+            .then(res => setAlreadyCreatedTT(res.timetables.map(t => t.className)))
     }, [])
 
 
@@ -67,7 +67,7 @@ const FirstPhase = ({ step, setStep, classname, setClassname, startTime, setStar
                             </div>
 
                             <div className={`absolute z-50 w-full max-h-72 overflow-scroll mt-2 bg-[#0d0d0d] rounded-xl border border-white/10 shadow-xl transition-all duration-300 origin-top ${isClassSelectOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}>
-                                {grades.map((className) => (
+                                {grades?.map((className) => (
                                     <div
                                         key={className}
                                         onClick={() => {
