@@ -3,6 +3,8 @@ import { Trash2, Clock, Users } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useEffect } from 'react';
 import TimetableDialog from '../TimeTable/components/TimetableDialog';
+import ToastProvider from '../../components/Toaster';
+import { toast } from 'sonner';
 
 const OrganizationView = ({ setConfirmDialog, orgId }) => {
 
@@ -19,7 +21,18 @@ const OrganizationView = ({ setConfirmDialog, orgId }) => {
 
   const handleDelete = (e, timetableId) => {
     e.stopPropagation();
-    console.log(timetableId);
+    // console.log(timetableId);
+    fetch(`http://localhost:3000/api/delete/timetable?id=${timetableId}`)
+    .then(res => res.json())
+    .then(({error, result}) => {
+      if (error) {
+        toast.error(error);
+      }
+      else {
+        toast.sucess(result);
+        setTtMetaData(ttMetaData.filter((timetable) => timetable.id !== timetableId));
+      }
+    })
 
     setConfirmDialog({
       isOpen: true,
@@ -36,7 +49,9 @@ const OrganizationView = ({ setConfirmDialog, orgId }) => {
   }, [])
 
   return (
-    <div className="glass-effect rounded-xl backdrop-blur-md border border-[#4D7CFF]/20 shadow-md hover-glow">
+    <>
+      <ToastProvider />
+      <div className="glass-effect rounded-xl backdrop-blur-md border border-[#4D7CFF]/20 shadow-md hover-glow">
       {
         showTT &&
         <div className='fixed z-10 w-full -top-20'>
@@ -99,6 +114,7 @@ const OrganizationView = ({ setConfirmDialog, orgId }) => {
         </>
       }
     </div>
+    </>
   );
 };
 

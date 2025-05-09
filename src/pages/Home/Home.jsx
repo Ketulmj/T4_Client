@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { Clock, CalendarDays, Smartphone, Zap, CheckCircle, Calendar } from 'lucide-react';
 import Header from '../../components/Header';
 import { Helmet } from "react-helmet-async";
-import Footer from '../../components/Footer';
 import AnimatedTimetable from '../../components/AnimatedTimetable';
 import logo from '../../public/logo.png';
 

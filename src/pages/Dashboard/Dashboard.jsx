@@ -29,10 +29,7 @@ const ShareButton = ({ title, forX, user }) => (
       const data = { orgId: user.userId, role: forX };
       const encodedURL = `http://localhost:5173/signup/${encode(JSON.stringify(data))}`;
       navigator.clipboard.writeText(encodedURL);
-      toast.success(`Link Copied 🎉`, {
-        duration: 5000,
-        style: { backgroundColor: "#16a34a", color: "white", fontSize: "1rem" },
-      });
+      toast.success("Link Copied 🎉");
     }}
     className="flex items-center space-x-2 text-[#4D7CFF] hover:text-[#6B8FFF] px-3 py-2 rounded-lg hover:bg-[#4D7CFF]/10 transition-colors cursor-pointer"
   >

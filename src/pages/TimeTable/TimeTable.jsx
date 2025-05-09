@@ -8,7 +8,7 @@ import TeacherPanel from "./TeacherPanel";
 import { Helmet } from "react-helmet-async";
 import { userFetcher } from '../../lib/userFetcher';
 import { useUser } from "../../contexts/user.context";
-import { decode, encode } from "js-base64";
+import { encode } from "js-base64";
 import { useNavigate } from "react-router-dom";
 import logo from '../../public/logo.png'
 import ToastProvider from '../../components/Toaster';
@@ -134,10 +134,7 @@ const TimeTableForm = () => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		if (subjects.length === 0) {
-			toast.error('Please add at least one subject', {
-				position: 'bottom-right',
-				className: 'bg-red-500'
-			});
+			toast.error('Please add at least two subjects');
 			return;
 		}
 		TimeTableGenerate()

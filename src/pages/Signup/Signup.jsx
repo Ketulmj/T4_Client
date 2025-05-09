@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-import { LogIn, ArrowRight, Lock, Unlock, ChevronDown, Clock } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowRight, Lock, Unlock, ChevronDown } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Helmet } from "react-helmet-async";
 import { useParams, useNavigate } from 'react-router-dom';

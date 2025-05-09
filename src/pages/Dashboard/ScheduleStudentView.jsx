@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { Clock, GraduationCap, BookOpen } from 'lucide-react';
+import { useState } from 'react';
 import { useEffect } from 'react';
 import TimetableDialog from '../TimeTable/components/TimetableDialog'
 

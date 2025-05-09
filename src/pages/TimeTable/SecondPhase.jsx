@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { PlusCircle, BookOpen, X, Delete, Check, Users, ArrowLeft } from "lucide-react";
 import { toast } from 'sonner';
+import ToastProvider from '../../components/Toaster';
 
 const SecondPhase = ({
     newSubject,
@@ -67,6 +68,8 @@ const SecondPhase = ({
     };
 
     return (
+        <>
+        <ToastProvider />
         <motion.div
             className="w-full absolute top-0 left-0"
             initial={{ x: 800, opacity: 0 }}
@@ -159,6 +162,7 @@ const SecondPhase = ({
                 Submit
             </button>
         </motion.div>
+        </>
     );
 };
 
