@@ -15,7 +15,6 @@ const ScheduleTeacherView = ({
   convertToSimpleTime,
 }) => {
 
-
   const [schedules, setSchedules] = useState([])
   const [absentDayKey, setAbsentDayKey] = useState()
   const [subjectsOfTheDay, setSubjectsOfTheDay] = useState([])
@@ -198,7 +197,7 @@ const ScheduleTeacherView = ({
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                       <div className="space-y-1">
                         <div className="flex items-center gap-2">
-                          <h4 className="text-white font-medium">{schedule.Subject}</h4>
+                          <h4 className="text-white font-medium">{schedule.Subject.Name}</h4>
                           <span className="text-white/50">•</span>
                           <div className="flex items-center gap-1.5 text-white/70">
                             <GraduationCap className="h-4 w-4" />
@@ -214,7 +213,7 @@ const ScheduleTeacherView = ({
                             setConfirmBox({
                               isOpen: true,
                               doMail: {
-                                subject: schedule.Subject,
+                                subject: schedule.Subject.Name,
                                 teacher: teacherName,
                                 date: selectedDate
                               },

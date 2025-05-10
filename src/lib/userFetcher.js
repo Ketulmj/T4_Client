@@ -1,5 +1,5 @@
 export const userFetcher = (user, setUser) => {
-    if (user != {}) {
+    if (user.UserId == null) {
         fetch('http://localhost:3000/api/user/get',
             {
                 method: 'GET',
@@ -7,6 +7,6 @@ export const userFetcher = (user, setUser) => {
             }
         )
             .then(res => res.json())
-            .then(({ user }) => setUser(user))
+            .then(({ user }) => { setUser(user); console.log(user)})
     };
 }

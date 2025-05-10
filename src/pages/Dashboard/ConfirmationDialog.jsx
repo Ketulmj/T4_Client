@@ -3,7 +3,6 @@ import { AlertTriangle } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const ConfirmationDialog = ({ onClose, onConfirm, message }) => {
-
   return (
     <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50">
       <motion.div

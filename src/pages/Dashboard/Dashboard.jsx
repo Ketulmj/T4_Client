@@ -86,19 +86,6 @@ const Dashboard = () => {
 
   const handleCloseModal = () => setIsModalOpen(false);
 
-  const handleConfirmAbsent = () => {
-    setConfirmDialog({
-      isOpen: false,
-      scheduleKey: null,
-      isUnmarking: false,
-      deleteTableId: null
-    });
-
-    if (user.role === 'organization') {
-      console.log("TimeTable Delete : ", confirmDialog.deleteTableId);
-    }
-  };
-
   const UserInfo = () => (
     <>
       <Helmet>
