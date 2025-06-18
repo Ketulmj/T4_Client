@@ -6,8 +6,8 @@ import { userFetcher } from "../lib/userFetcher";
 const Auth = ({ children }) => {
   const [user, setUser] = useUser();
   useEffect(() => {
-    if (user.UserId == null) {
-      userFetcher(user, setUser);
+    if (!user?.UserId) {
+      await userFetcher(user, setUser);
     }
   }, []);
   return user?.UserId ? children : <Navigate to="/login" replace />;
