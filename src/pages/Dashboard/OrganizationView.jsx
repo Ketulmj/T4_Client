@@ -13,7 +13,7 @@ const OrganizationView = ({ setConfirmDialog, orgId }) => {
   const [isLoading, setIsLoading] = useState(false)
 
   const handleTimetableClick = (className) => {
-    fetch(`http://localhost:3000/api/get/timetable?class=${className}&orgId=${orgId}`)
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/get/timetable?class=${className}&orgId=${orgId}`)
       .then(res => res.json())
       .then(({ timetable }) => { setTimeTable(timetable); setShowTT(!showTT) })
   };
@@ -27,7 +27,7 @@ const OrganizationView = ({ setConfirmDialog, orgId }) => {
       deleteTableId: timetableId
     });
 
-    fetch(`http://localhost:3000/api/delete/timetable?id=${timetableId}`)
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/delete/timetable?id=${timetableId}`)
       .then(res => res.json())
       .then(({ error, result }) => {
         if (error) {
@@ -48,7 +48,7 @@ const OrganizationView = ({ setConfirmDialog, orgId }) => {
 
   useEffect(() => {
     setIsLoading(true)
-    fetch(`http://localhost:3000/api/get/timetable-metadata?OrgId=${orgId}`)
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/get/timetable-metadata?OrgId=${orgId}`)
       .then(res => res.json())
       .then(({ timetables }) => { setTtMetaData(timetables); setIsLoading(false) })
   }, [])

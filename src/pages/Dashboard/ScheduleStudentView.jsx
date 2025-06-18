@@ -5,7 +5,7 @@ import TimetableDialog from '../TimeTable/components/TimetableDialog'
 const ScheduleStudentView = ({ orgId, className }) => {
   const [timeTable, setTimeTable] = useState()
   useEffect(() => {
-    fetch(`http://localhost:3000/api/get/timetable?class=${className}&orgId=${orgId}`)
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/get/timetable?class=${className}&orgId=${orgId}`)
       .then(res => res.json())
       .then(({ timetable }) => { setTimeTable(timetable) })
   }, [])

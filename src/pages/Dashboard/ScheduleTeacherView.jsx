@@ -40,7 +40,7 @@ const ScheduleTeacherView = ({
   }, []);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/api/get/schedule?TeacherId=${teacherId}`)
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/get/schedule?TeacherId=${teacherId}`)
       .then(res => res.json())
       .then(({ schedule }) => {
         setSchedules(schedule)
@@ -120,7 +120,7 @@ const ScheduleTeacherView = ({
 
     setAbsentClasses([...absentClasses, absentDayKey])
 
-    fetch('http://localhost:3000/api/user/teacher/absent', {
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/user/teacher/absent`, {
       method: 'POST',
       credentials: "include",
       headers: {

@@ -8,7 +8,7 @@ const ResetPass = ({ setShowForgotPassword }) => {
 
     const handleForgotPassword = (e) => {
         e.preventDefault(); 
-        fetch('http://localhost:3000/api/user/forgot/mail', {
+        fetch(`${import.meta.env.VITE_BACKEND_URL}/api/user/forgot/mail`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

@@ -13,7 +13,7 @@ const FirstPhase = ({ step, setStep, classname, setClassname, startTime, setStar
     const selectRef = useRef()
 
     useEffect(() => {
-        fetch(`http://localhost:3000/api/get/timetable-metadata?OrgId=${orgId}`)
+        fetch(`${import.meta.env.VITE_BACKEND_URL}/api/get/timetable-metadata?OrgId=${orgId}`)
             .then(res => res.json())
             .then(res => setAlreadyCreatedTT(res.timetables.map(t => t.className)))
     }, [])

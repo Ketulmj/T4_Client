@@ -48,7 +48,7 @@ const TimeTableForm = () => {
 	useEffect(() => {
 		if (user.userId) {
 			// classes fetching
-			fetch(`http://localhost:3000/api/get/org/classes?OrgId=${user.userId}`)
+			fetch(`${import.meta.env.VITE_BACKEND_URL}/api/get/org/classes?OrgId=${user.userId}`)
 				.then(res => res.json())
 				.then(data => {
 					if (data) {
@@ -57,7 +57,7 @@ const TimeTableForm = () => {
 					}
 				})
 			// Teachers fetching
-			fetch(`http://localhost:3000/api/get/teachers?OrgId=${user.userId}`)
+			fetch(`${import.meta.env.VITE_BACKEND_URL}/api/get/teachers?OrgId=${user.userId}`)
 				.then(res => res.json())
 				.then(data => {
 					if (data) {
@@ -70,7 +70,7 @@ const TimeTableForm = () => {
 
 	const timeTableConfirm = () => {
 		setIsLoading(true)
-		fetch('http://localhost:3000/api/upload/timetable', {
+		fetch(`${import.meta.env.VITE_BACKEND_URL}/api/upload/timetable`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
@@ -108,7 +108,7 @@ const TimeTableForm = () => {
 			breakStartTime,
 			subjects: subsData
 		};
-		fetch('http://localhost:3000/api/generate/timetable', {
+		fetch(`${import.meta.env.VITE_BACKEND_URL}/api/generate/timetable`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'

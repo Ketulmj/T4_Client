@@ -1,6 +1,6 @@
 export const userFetcher = (user, setUser) => {
     if (user.UserId == null) {
-        fetch('http://localhost:3000/api/user/get',
+        fetch(`${import.meta.env.VITE_BACKEND_URL}/api/user/get`,
             {
                 method: 'GET',
                 credentials: "include",

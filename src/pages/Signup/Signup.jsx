@@ -40,7 +40,7 @@ const Signup = () => {
             setOrgId(orgId);
 
             if (role === 'student') {
-                fetch(`http://localhost:3000/api/get/org/classes?OrgId=${orgId}`)
+                fetch(`${import.meta.env.VITE_BACKEND_URL}/api/get/org/classes?OrgId=${orgId}`)
                     .then(res => res.json())
                     .then(({ orgClasses }) => {
                         setGrades(orgClasses);
@@ -191,7 +191,7 @@ const Signup = () => {
         if (data.role === 'student') data.class = currentClass;
 
         try {
-            const response = await fetch('http://localhost:3000/api/user/signup', {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/user/signup`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

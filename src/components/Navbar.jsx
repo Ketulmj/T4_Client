@@ -8,7 +8,7 @@ const Navbar = ({ role }) => {
     const navigate = useNavigate()
 
     const handleLogout = () => {
-        fetch('http://localhost:3000/api/user/logout', {
+        fetch(`${import.meta.env.VITE_BACKEND_URL}/api/user/logout`, {
             method: 'GET',
             credentials: "include"
         })
