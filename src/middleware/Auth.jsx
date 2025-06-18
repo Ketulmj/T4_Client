@@ -13,7 +13,7 @@ const Auth = ({ children }) => {
     }
     fetchUser();
   }, []);
-  return user?.UserId ? children : <Navigate to="/login" replace />;
+  return user?.UserId ? children : <Navigate to="/login" />;
 };
 
 export default Auth;
