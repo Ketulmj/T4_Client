@@ -11,6 +11,14 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+/* force position for Sonner toasts */
+[data-sonner-toaster] {
+  position: fixed !important;
+  bottom: 1.5rem !important;
+  right: 1.5rem !important;
+  top: auto !important;
+  left: auto !important;
+}
 
 @keyframes float {
   0% {
