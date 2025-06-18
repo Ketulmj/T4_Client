@@ -13,7 +13,7 @@ const NoAuth = ({ children }) => {
     }
     fetchUser();
   }, []);
-  return !user?.UserId ? children : <Navigate to="/dashboard" replace />;
+  return !user?.UserId ? children : <Navigate to="/dashboard" />;
 };
 
 export default NoAuth;
