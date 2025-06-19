@@ -7,13 +7,13 @@ const NoAuth = ({ children }) => {
   const [user, setUser] = useUser();
   useEffect(() => {
     const fetchUser = async () => {
-      if (!user?.UserId) {
+      if (!user?.userId) {
         await userFetcher(user, setUser);
       }
     }
     fetchUser();
   }, []);
-  return !user?.UserId ? children : <Navigate to="/dashboard" />;
+  return !user?.userId ? children : <Navigate to="/dashboard" />;
 };
 
 export default NoAuth;
