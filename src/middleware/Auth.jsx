@@ -7,13 +7,13 @@ const Auth = ({ children }) => {
   const [user, setUser] = useUser();
   useEffect(() => {
     const fetchUser = async () => {
-      if (!user?.UserId) {
+      if (!user?.userId) {
         await userFetcher(user, setUser);
       }
     }
     fetchUser();
   }, []);
-  return user?.UserId ? children : <Navigate to="/login" />;
+  return user?.userId ? children : <Navigate to="/login" />;
 };
 
 export default Auth;
