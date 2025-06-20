@@ -84,6 +84,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchUser = async () => {
       await userFetcher(user, setUser);
+      console.log(user);
       setLoading(false);
     };
     fetchUser();
