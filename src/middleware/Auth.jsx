@@ -5,10 +5,6 @@ import { userFetcher } from "../lib/userFetcher";
 
 const Auth = ({ children }) => {
   const [user, setUser] = useUser();
-  const token = localStorage.getItem('auth')
-  if(token) {
-    return children;
-  }
   useEffect(() => {
     const fetchUser = async () => {
       if (!user?.userId) {
