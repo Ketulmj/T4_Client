@@ -17,19 +17,19 @@ createRoot(document.getElementById('root')).render(
                         <Route path="/" element={<Home />} />
                         <Route path="/timetable" element={<TimeTableForm />} />
                         <Route path="/login" element={
-                        //    <NoAuth>
+                            <NoAuth>
                                 <Login />
-                            // </NoAuth>
+                            </NoAuth>
                         } />
                         <Route path="/signup" element={
-                        //    <NoAuth>
+                            <NoAuth>
                                 <Signup />
-                            // </NoAuth>
+                            </NoAuth>
                         } />
                         <Route path="/signup/:url" element={
-                            // <NoAuth>
+                            <NoAuth>
                                 <Signup />
-                            // </NoAuth>
+                            </NoAuth>
                         } />
                         <Route path="/dashboard" element={
                             <Auth>
