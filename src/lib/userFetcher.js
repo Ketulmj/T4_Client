@@ -12,6 +12,7 @@ export const userFetcher = async (user, setUser) => {
         });
         const data = await res.json();
         if (data?.user) {
+          console.log(data);
           setUser(data.user);
         }
       } catch (err) {
