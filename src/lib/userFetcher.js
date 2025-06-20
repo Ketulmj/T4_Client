@@ -1,6 +1,7 @@
 export const userFetcher = async (user, setUser) => {
   if (!user?.userId) {
-    const token = localStorage.getItem("auth");
+    const token = localStorage.getItem('auth');
+    console.log(token);
     if (token) {
       try {
         const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/user/get`, {
