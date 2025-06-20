@@ -7,9 +7,9 @@ const NoAuth = ({ children }) => {
   const [user, setUser] = useUser();
   useEffect(() => {
     // const fetchUser = async () => {
-      // if (!user?.userId) {
-    userFetcher(user, setUser);
-      // }
+      if (!user?.userId) {
+        userFetcher(user, setUser);
+      }
     // }
     // fetchUser();
   }, []);
