@@ -163,7 +163,6 @@ const Login = () => {
             }
 
             const { error, message, redirectUrl, userData } = await response.json();
-            console.log(error, message, redirectUrl, userData);
             if (error) {
                 toast.error(message);
             } else {
