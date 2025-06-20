@@ -83,8 +83,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      await userFetcher(user, setUser);
-      console.log(user);
+      await userFetcher(setUser);
       setLoading(false);
     };
     fetchUser();
@@ -138,7 +137,7 @@ const Dashboard = () => {
   
   if (loading) {
     return (
-      <div className="h-screen flex items-center justify-center bg-[#0A0A0A] text-white text-lg font-medium">
+      <div className="h-screen flex items-center justify-center bg-[#0A0A0A] text-white text-lg font-medium backdrop-blur-sm">
         Loading...
       </div>
     );
