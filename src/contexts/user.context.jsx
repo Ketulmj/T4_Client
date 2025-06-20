@@ -14,7 +14,7 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   useEffect(() => {
     const fetchUser = async () => {
-      await userFetcher(user, setUser);
+      await userFetcher(setUser);
     };
     fetchUser();
   }, []);
