@@ -79,10 +79,12 @@ const Dashboard = () => {
     className: null,
     date: null
   });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUser = async () => {
       await userFetcher(user, setUser);
+      setLoading(false);
     };
     fetchUser();
   }, []);
@@ -132,7 +134,15 @@ const Dashboard = () => {
       </div>
     </>
   );
-
+  
+  if (loading) {
+    return (
+      <div className="h-screen flex items-center justify-center bg-[#0A0A0A] text-white text-lg font-medium">
+        Loading...
+      </div>
+    );
+  }
+  
   return (
     <>
       <Navbar role={user?.role} />
