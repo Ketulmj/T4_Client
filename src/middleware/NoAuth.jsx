@@ -5,13 +5,13 @@ import { userFetcher } from "../lib/userFetcher";
 
 const NoAuth = ({ children }) => {
   const [user, setUser] = useUser();
+
   useEffect(() => {
-    // const fetchUser = async () => {
-      if (!user?.userId) {
-        userFetcher(user, setUser);
-      }
-    // }
-    // fetchUser();
+    const fetchUser = async () => {
+      await userFetcher(user, setUser);
+      setLoading(false);
+    };
+    fetchUser();
   }, []);
   return !user?.userId ? children : <Navigate to="/dashboard" />;
 };
