@@ -81,7 +81,10 @@ const Dashboard = () => {
   });
 
   useEffect(() => {
-    userFetcher(user, setUser);
+    const fetchUser = async () => {
+      await userFetcher(user, setUser);
+    };
+    fetchUser();
   }, []);
 
   const handleCloseModal = () => setIsModalOpen(false);
