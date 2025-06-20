@@ -1,12 +1,27 @@
-import { useContext, createContext, useState } from "react";
+// export const UserProvider = ({ children }) => {
+//     const [user, setUser] = useState({})
+//     return <userContext.Provider value={[user, setUser]}>
+//         {children}
+//     </userContext.Provider>
+// }
+// 
+import { createContext, useContext, useState, useEffect } from "react";
+import { userFetcher } from "../lib/userFetcher";
 
-const userContext = createContext();
+const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-    const [user, setUser] = useState({})
-    return <userContext.Provider value={[user, setUser]}>
-        {children}
-    </userContext.Provider>
-}
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    const fetchUser = async () => {
+      await userFetcher(user, setUser);
+    };
+    fetchUser();
+  }, []);
 
-export const useUser = () => useContext(userContext)
+  return (
+    <UserContext.Provider value={{ user, setUser }}>
+      {children}
+    </UserContext.Provider>
+  );
+};
