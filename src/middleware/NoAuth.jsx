@@ -9,7 +9,6 @@ const NoAuth = ({ children }) => {
   useEffect(() => {
     const fetchUser = async () => {
       await userFetcher(user, setUser);
-      setLoading(false);
     };
     fetchUser();
   }, []);
