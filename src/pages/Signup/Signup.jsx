@@ -200,11 +200,12 @@ const Signup = () => {
                 body: JSON.stringify(data)
             });
 
-            const { error, message, userData } = await response.json();
+            const { error, message, userData, token } = await response.json();
 
             if (error) {
                 toast.error(message);
             } else {
+                localStorage.setItem('auth', token);
                 setUser(userData);
                 toast.success(message);
                 setTimeout(() => {
