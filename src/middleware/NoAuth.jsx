@@ -1,18 +1,7 @@
-import { useEffect } from "react";
 import { Navigate } from "react-router-dom";
-import { useUser } from "../contexts/user.context";
-import { userFetcher } from "../lib/userFetcher";
 
 const NoAuth = ({ children }) => {
-  const [user, setUser] = useUser();
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      await userFetcher(user, setUser);
-    };
-    fetchUser();
-  }, []);
-  return !user?.userId ? children : <Navigate to="/dashboard" />;
+  return localStorage.getItem('auth') ? <Navigate to="/dashboard" /> : children;
 };
 
 export default NoAuth;
