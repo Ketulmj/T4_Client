@@ -8,14 +8,15 @@ const Navbar = ({ role }) => {
     const navigate = useNavigate()
 
     const handleLogout = () => {
-        fetch(`${import.meta.env.VITE_BACKEND_URL}/api/user/logout`, {
-            method: 'GET',
-            credentials: "include"
-        })
-        .then(res=>res.json())
-        .then(({status})=>{
-            status && navigate('/')
-        })
+        // fetch(`${import.meta.env.VITE_BACKEND_URL}/api/user/logout`, {
+        //     method: 'GET',
+        //     credentials: "include"
+        // })
+        // .then(res=>res.json())
+        // .then(({status})=>{
+        //     status && navigate('/')
+        // })
+        localStorage.removeItem('auth');
     };
 
     return (
