@@ -162,10 +162,11 @@ const Login = () => {
                 throw new Error('Network response was not ok');
             }
 
-            const { error, message, redirectUrl, userData } = await response.json();
+            const { error, message, redirectUrl, userData, token } = await response.json();
             if (error) {
                 toast.error(message);
             } else {
+                localStorage.setItem('auth', token);
                 setUser(userData);
                 toast.success(message);
                 setTimeout(() => {
