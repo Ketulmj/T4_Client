@@ -89,8 +89,14 @@ const Dashboard = () => {
     fetchUser();
   }, []);
 
+  if (loading) {
+    return (
+      <div className="h-screen flex items-center justify-center bg-[#0A0A0A] text-white text-lg font-medium backdrop-blur-sm">
+        Loading...
+      </div>
+    );
+  }
   const handleCloseModal = () => setIsModalOpen(false);
-
   const UserInfo = () => (
     <>
       <Helmet>
@@ -134,14 +140,6 @@ const Dashboard = () => {
       </div>
     </>
   );
-  
-  if (loading) {
-    return (
-      <div className="h-screen flex items-center justify-center bg-[#0A0A0A] text-white text-lg font-medium backdrop-blur-sm">
-        Loading...
-      </div>
-    );
-  }
   
   return (
     <>
