@@ -143,7 +143,7 @@ const Dashboard = () => {
   
   return (
     <>
-      <Navbar role={user?.role} />
+      {user && <Navbar role={user?.role} />}
       <div className="h-[calc(100vh-64px)] bg-[#0A0A0A] hexagon-bg p-3 overflow-auto">
         <div className="max-w-[80vw] mx-auto space-y-4">
           <UserInfo />
