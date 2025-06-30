@@ -99,7 +99,7 @@ const Dashboard = () => {
   if (!user) {
     return (
       <div className="h-screen flex items-center justify-center bg-[#0A0A0A] text-white text-lg font-medium backdrop-blur-sm">
-        Loading...
+        Unauthorized
       </div>
     );
   }
