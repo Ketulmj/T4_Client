@@ -79,23 +79,31 @@ const Dashboard = () => {
     className: null,
     date: null
   });
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      await userFetcher(setUser);
-      setLoading(false);
-    };
-    fetchUser();
-  }, []);
-
-  if (loading) {
+  
+  // const [loading, setLoading] = useState(true);
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     await userFetcher(setUser);
+  //     setLoading(false);
+  //   };
+  //   fetchUser();
+  // }, []);
+  
+  // if (loading) {
+  //   return (
+  //     <div className="h-screen flex items-center justify-center bg-[#0A0A0A] text-white text-lg font-medium backdrop-blur-sm">
+  //       Loading...
+  //     </div>
+  //   );
+  // }
+  if (!user) {
     return (
       <div className="h-screen flex items-center justify-center bg-[#0A0A0A] text-white text-lg font-medium backdrop-blur-sm">
         Loading...
       </div>
     );
   }
+    
   const handleCloseModal = () => setIsModalOpen(false);
   const UserInfo = () => (
     <>
