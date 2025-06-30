@@ -63,7 +63,7 @@ const WeekNavigator = ({ selectedDay, setSelectedDay }) => (
 );
 
 const Dashboard = () => {
-  const [user, setUser] = useUser();
+  const [user, setUser, loading] = useUser();
   const [selectedDay, setSelectedDay] = useState(() => {
     const today = new Date();
     return days[today.getDay() === 0 ? 6 : today.getDay() - 1];
@@ -89,13 +89,13 @@ const Dashboard = () => {
   //   fetchUser();
   // }, []);
   
-  // if (loading) {
-  //   return (
-  //     <div className="h-screen flex items-center justify-center bg-[#0A0A0A] text-white text-lg font-medium backdrop-blur-sm">
-  //       Loading...
-  //     </div>
-  //   );
-  // }
+  if (loading) {
+    return (
+      <div className="h-screen flex items-center justify-center bg-[#0A0A0A] text-white text-lg font-medium backdrop-blur-sm">
+        Loading...
+      </div>
+    );
+  }
   if (!user) {
     return (
       <div className="h-screen flex items-center justify-center bg-[#0A0A0A] text-white text-lg font-medium backdrop-blur-sm">
