@@ -4,7 +4,7 @@ import { userFetcher } from "../lib/userFetcher";
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(null);
   useEffect(() => {
     const fetchUser = async () => {
       await userFetcher(setUser);
