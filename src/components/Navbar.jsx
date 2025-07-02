@@ -17,6 +17,7 @@ const Navbar = ({ role }) => {
         //     status && navigate('/')
         // })
         localStorage.removeItem('auth');
+        navigate('/');
     };
 
     return (
