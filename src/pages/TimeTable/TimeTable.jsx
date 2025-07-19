@@ -39,14 +39,15 @@ const TimeTableForm = () => {
 	const navigate = useNavigate()
 
 	useEffect(() => {
-		if (user.role != 'organization') {
+		if (user && user.role !== 'organization') {
 			navigate('/dashboard')
+		} else {
+			userFetcher(setUser)
 		}
-		userFetcher(user, setUser)
 	}, [])
 
 	useEffect(() => {
-		if (user.userId) {
+		if (user && user.userId) {
 			// classes fetching
 			fetch(`${import.meta.env.VITE_BACKEND_URL}/api/get/org/classes?OrgId=${user.userId}`)
 				.then(res => res.json())
@@ -89,7 +90,7 @@ const TimeTableForm = () => {
 			})
 			.catch(err => console.log(err))
 	}
-	
+
 	const TimeTableGenerate = () => {
 		let subsData = [];
 		Array.from(subjects).map(item => {

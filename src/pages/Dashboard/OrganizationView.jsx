@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { useEffect } from 'react';
 import TimetableDialog from '../TimeTable/components/TimetableDialog';
 import ToastProvider from '../../components/Toaster';
+import ConfirmationDialog from './ConfirmationDialog'
 import { toast } from 'sonner';
 
 const OrganizationView = ({ setConfirmDialog, orgId }) => {
@@ -11,39 +12,48 @@ const OrganizationView = ({ setConfirmDialog, orgId }) => {
   const [showTT, setShowTT] = useState(false)
   const [ttMetaData, setTtMetaData] = useState([])
   const [isLoading, setIsLoading] = useState(false)
+  const [confirmBox, setConfirmBox] = useState({
+    isOpen: false,
+    isUnmarking: false,
+    timetableId: null
+  })
 
   const handleTimetableClick = (className) => {
+    setIsLoading(true)
     fetch(`${import.meta.env.VITE_BACKEND_URL}/api/get/timetable?class=${className}&orgId=${orgId}`)
       .then(res => res.json())
-      .then(({ timetable }) => { setTimeTable(timetable); setShowTT(!showTT) })
+      .then(({ timetable }) => {
+        setTimeTable(timetable)
+        setShowTT(!showTT)
+      })
+    setIsLoading(false)
   };
 
-  const handleDelete = (e, timetableId) => {
-    e.stopPropagation();
+  const handleDelete = async (e) => {
     e.preventDefault();
-    setConfirmDialog({
-      isOpen: true,
+    const timetableId = confirmBox.timetableId;
+    setConfirmBox({
+      isOpen: false,
       isUnmarking: false,
-      deleteTableId: timetableId
+      timetableId: null
     });
 
-    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/delete/timetable?id=${timetableId}`)
-      .then(res => res.json())
-      .then(({ error, result }) => {
-        if (error) {
-          toast.error(error);
-        }
-        else {
-          toast.success(result);
-          setTtMetaData(ttMetaData.filter((timetable) => timetable.id !== timetableId));
-        }
-      })
-
-    setConfirmDialog({
-      isOpen: true,
-      isUnmarking: true,
-      deleteTableId: timetableId
-    });
+    try {
+      setIsLoading(true);
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/delete/timetable?id=${timetableId}`);
+      const { error, result } = await res.json();
+      
+      if (result) {
+        toast.success(result);
+        setTtMetaData(ttMetaData.filter((timetable) => timetable.id !== timetableId));
+      } else {
+        toast.error(error);
+      }
+      setIsLoading(false);
+    } catch (err) {
+      setIsLoading(false);
+      toast.error("Something went wrong!");
+    }
   };
 
   useEffect(() => {
@@ -56,6 +66,22 @@ const OrganizationView = ({ setConfirmDialog, orgId }) => {
   return (
     <>
       <ToastProvider />
+      <>{
+        confirmBox.isOpen &&
+        <ConfirmationDialog
+          onClose={() => {
+            setConfirmBox(_ => (
+              {
+                isOpen: false,
+                isUnmarking: false,
+                timetableId: null
+              }
+            ))
+          }}
+          onConfirm={handleDelete}
+          message={"Are you sure ?"}
+        />
+      }</>
       <div className="glass-effect rounded-xl backdrop-blur-md border border-[#4D7CFF]/20 shadow-md hover-glow">
         {
           showTT &&
@@ -91,7 +117,15 @@ const OrganizationView = ({ setConfirmDialog, orgId }) => {
                     >
                       <motion.button
                         whileHover={{ scale: 1.1 }}
-                        onClick={(e) => handleDelete(e, timetable.id)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setConfirmBox({
+                            isUnmarking: false,
+                            isOpen: true,
+                            timetableId: timetable.id
+                          })
+                        }
+                        }
                         className="absolute top-3 right-3 p-2 rounded-lg bg-[#4D7CFF]/10 opacity-0 group-hover:opacity-100 hover:bg-red-500/20 transition-all duration-200"
                       >
                         <Trash2 className="w-4 h-4 text-red-400" />
