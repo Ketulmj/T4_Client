@@ -90,12 +90,9 @@ const Dashboard = () => {
   // }, []);
   
   if (loading) {
-    return (
-      <div className="h-screen flex items-center justify-center bg-[#0A0A0A] text-white text-lg font-medium backdrop-blur-sm">
-        Loading...
-      </div>
-    );
+    return <Loader />;
   }
+  
   if (!user) {
     return (
       <div className="h-screen flex items-center justify-center bg-[#0A0A0A] text-white text-lg font-medium backdrop-blur-sm">
@@ -152,7 +149,7 @@ const Dashboard = () => {
   return (
     <>
       {user && <Navbar role={user?.role} />}
-      <div className="h-[calc(100vh-64px)] bg-[#0A0A0A] hexagon-bg p-3 overflow-auto">
+      <div className="h-[calc(100vh-64px)] bg-[#000000] p-3 overflow-auto">
         <div className="max-w-[80vw] mx-auto space-y-4">
           <UserInfo />
           {user && user.role === 'teacher' && (
@@ -186,8 +183,6 @@ const Dashboard = () => {
           {user && user.role === "organization" && (
             <div className="animate-on-mount">
               <OrganizationView
-                confirmDialog={confirmDialog}
-                setConfirmDialog={setConfirmDialog}
                 setIsModalOpen={setIsModalOpen}
                 setSelectedTimetable={setSelectedTimetable}
                 orgId={user.userId}

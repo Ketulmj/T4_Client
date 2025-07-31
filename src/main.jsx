@@ -15,7 +15,11 @@ createRoot(document.getElementById('root')).render(
                 <Mobile>
                     <Routes>
                         <Route path="/" element={<Home />} />
-                        <Route path="/timetable" element={<TimeTableForm />} />
+                        <Route path="/timetable" element={
+                            <Auth>
+                                <TimeTableForm />
+                            </Auth>
+                        } />
                         <Route path="/login" element={
                             <NoAuth>
                                 <Login />

@@ -149,7 +149,7 @@ const TimeTableForm = () => {
 			</Helmet>
 			<ToastProvider />
 			<Navbar role={user.role} />
-			<div className="bg-black flex items-start justify-center py-4 px-4 sm:px-20 relative pt-20">
+			<div className="bg-black flex items-start justify-center p-4 sm:px-20 relative pt-10">
 
 				<TimetableDialog
 					onConfirm={timeTableConfirm}
